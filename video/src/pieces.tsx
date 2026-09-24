@@ -110,12 +110,12 @@ function Label({ p, children, dark = true, from = 4, style }: { p: Palette; chil
 /** Big statement on a dark, moving background. */
 export function Title({ p, label, phrase, total }: { p: Palette; label?: string; phrase: string; total: number }) {
   const f = useCurrentFrame();
-  const { pad, textMax, portrait } = useLayout();
+  const { pad, textMax, portrait, height } = useLayout();
   return (
     <AbsoluteFill style={{ background: p.ink, justifyContent: 'flex-end', opacity: leave(f, total) }}>
       <Backdrop p={p} total={total} />
       <Audio src={staticFile('sfx/whoosh-fast.mp3')} volume={0.18} />
-      <div style={{ padding: `0 ${pad}px ${portrait ? pad * 2.2 : 150}px`, position: 'relative' }}>
+      <div style={{ padding: `0 ${pad}px ${portrait ? Math.round(height * 0.2) : 150}px`, position: 'relative' }}>
         {label && <Label p={p} from={6} style={{ marginBottom: 22 }}>{label}</Label>}
         <Words from={10} style={text(portrait ? T.displayLg : T.displayXl, { color: p.light, maxWidth: Math.min(1500, textMax) })}>{phrase}</Words>
       </div>
@@ -130,7 +130,7 @@ export function Title({ p, label, phrase, total }: { p: Palette; label?: string;
  */
 export function Cover({ p, image, label, phrase, total }: { p: Palette; image: string; label?: string; phrase: string; total: number }) {
   const f = useCurrentFrame();
-  const { pad, textMax, portrait } = useLayout();
+  const { pad, textMax, portrait, height } = useLayout();
   const scale = interpolate(f, [0, total], [1.0, 1.08], clamp);
   return (
     <AbsoluteFill style={{ background: p.ink, justifyContent: 'flex-end', opacity: enter(f, 0, 10) * leave(f, total) }}>
@@ -138,7 +138,7 @@ export function Cover({ p, image, label, phrase, total }: { p: Palette; image: s
       <Img src={staticFile(image)} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top', transform: `scale(${scale})` }} />
       <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(180deg, ${p.ink}33 0%, ${p.ink}66 45%, ${p.ink}f2 100%)` }} />
       <Progress p={p} total={total} />
-      <div style={{ padding: `0 ${pad}px ${portrait ? pad * 2.2 : 130}px`, position: 'relative' }}>
+      <div style={{ padding: `0 ${pad}px ${portrait ? Math.round(height * 0.2) : 130}px`, position: 'relative' }}>
         {label && <Label p={p} from={6} style={{ marginBottom: 22, textShadow: p.shadowText }}>{label}</Label>}
         <Words from={10} style={text(portrait ? T.displayLg : T.displayXl, { color: p.light, maxWidth: Math.min(1500, textMax), textShadow: p.shadowText })}>{phrase}</Words>
       </div>
