@@ -57,7 +57,9 @@ export function Feed(p: FeedProps) {
       {/* The device. */}
       <div style={{ width: phoneW, height: phoneH, borderRadius: radius, background: '#0b0f0b', padding: bezel, boxShadow: '0 60px 140px -30px rgba(0,0,0,.8), 0 0 0 2px rgba(255,255,255,.08), inset 0 0 0 2px rgba(255,255,255,.05)', transform: `scale(${0.86 + 0.14 * pop}) rotateY(${-tilt}deg) rotateX(${tilt * 0.35}deg)`, opacity: pop, position: 'relative' }}>
         <div style={{ position: 'relative', width: '100%', height: '100%', borderRadius: radius - bezel, overflow: 'hidden', background: '#000' }}>
-          <OffthreadVideo src={staticFile(p.clip)} startFrom={frames(p.from)} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          {/* The screen is taller than 9:16: a blurred copy fills it, the clip itself sits whole on top. */}
+          <OffthreadVideo src={staticFile(p.clip)} startFrom={frames(p.from)} muted style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', filter: 'blur(28px) brightness(0.6)', transform: 'scale(1.1)' }} />
+          <OffthreadVideo src={staticFile(p.clip)} startFrom={frames(p.from)} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain' }} />
           {/* Dynamic island. */}
           <div style={{ position: 'absolute', top: 18, left: '50%', transform: 'translateX(-50%)', width: phoneW * 0.32, height: 34, borderRadius: 20, background: '#000' }} />
           {/* Top tabs. */}
