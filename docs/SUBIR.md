@@ -80,7 +80,11 @@ index, a Dane Delattre) con este mensaje:
 > Your startup's first chief of staff: every evening it asks your team and your other
 > agents what happened, verifies it, and hands you a one-minute video of the day.
 
-Actualizaciones después: `plow-agents image push ghcr.io/…:v2 --promote dailyrecap`.
+**Admitido el 24/9 a las 16:51 UTC** (`deployable_at` en el índice): el bot instaló la imagen en
+un Plow limpio, renderizó y entregó un recap real y reportó 185.373 tokens bajo su cuenta. El
+1-click deploy y «Text this agent» están activos. Las versiones nuevas las promueve Rodrigo sin
+admin: `plow-agents image promote dailyrecap ghcr.io/rodrigoarias12/dailyrecap@sha256:<digest>`
+(aplica a instalaciones nuevas; las que ya corren conservan su imagen).
 
 ## E. El video demo (≥ 60 s)
 
