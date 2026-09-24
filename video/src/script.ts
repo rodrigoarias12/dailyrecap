@@ -45,7 +45,8 @@ export type Scene =
   /** Brand, URL and the call to action, on the accent color. */
   | { type: 'closing'; cta: string; seconds: number; voice?: string };
 
-export type Narration = { file: string; at: number; seconds: number; text: string };
+/** One spoken line. `words` carries the engine's word timings (seconds from the clip's start) for captions. */
+export type Narration = { file: string; at: number; seconds: number; text: string; words?: { w: string; s: number; e: number }[] };
 
 export type Script = {
   brand: Brand;

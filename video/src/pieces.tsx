@@ -337,6 +337,40 @@ export function Agenda({ p, label, items, total }: { p: Palette; label: string; 
   );
 }
 
+/**
+ * Captions that light up with the voice, the way short-form video does it: the spoken
+ * sentence at the bottom, the word being said on an accent chip, what was said in light,
+ * what is coming dimmed. Word times come from the voice engine, so they are never guessed.
+ */
+export function Captions({ p, lines }: { p: Palette; lines: { at: number; words: { w: string; s: number; e: number }[] }[] }) {
+  const f = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const { pad, portrait } = useLayout();
+  const t = f / fps;
+  const line = lines.find((l) => t >= l.at - 0.2 && t <= l.at + (l.words[l.words.length - 1]?.e ?? 0) + 0.6);
+  if (!line) return null;
+  const idx = line.words.findIndex((w) => t < line.at + w.e);
+  const cur = idx === -1 ? line.words.length - 1 : idx;
+  // A window of words around the current one, so a long sentence never overflows two lines.
+  const span = portrait ? 5 : 8;
+  const from = Math.max(0, Math.min(cur - Math.floor(span / 2), line.words.length - span));
+  const shown = line.words.slice(from, from + span);
+  const alpha = interpolate(t, [line.at - 0.2, line.at], [0, 1], clamp);
+  return (
+    <div style={{ position: 'absolute', left: pad, right: pad, bottom: portrait ? pad * 1.2 : 44, display: 'flex', justifyContent: 'center', opacity: alpha, pointerEvents: 'none' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '6px 10px', padding: '14px 22px', borderRadius: 16, background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(6px)', maxWidth: '100%' }}>
+        {shown.map((w, i) => {
+          const k = from + i;
+          const active = k === cur, past = k < cur;
+          return (
+            <span key={k} style={text(T.title, { color: active ? p.ink : past ? p.light : p.lightMid, fontSize: portrait ? 40 : 36, fontWeight: 600, padding: '4px 10px', borderRadius: 10, background: active ? p.accent : 'transparent', transform: active ? 'scale(1.06)' : 'none', transition: 'none' })}>{w.w}</span>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 /** Brand, URL, CTA on the accent color. Ink text on accent: the accent is never text. */
 export function Closing({ p, cta, total, credit }: { p: Palette; cta: string; total: number; credit: boolean }) {
   const f = useCurrentFrame();

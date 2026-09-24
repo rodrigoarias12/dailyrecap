@@ -1,5 +1,5 @@
 import { AbsoluteFill, Audio, Sequence, interpolate, staticFile } from 'remotion';
-import { Agenda, Chips, Closing, Cover, Events, Fonts, Metric, Numbers, Quote, Screen, Title } from './pieces';
+import { Agenda, Captions, Chips, Closing, Cover, Events, Fonts, Metric, Numbers, Quote, Screen, Title } from './pieces';
 import { FPS, frames, sceneStarts, totalFrames, type Script } from './script';
 import { palette } from './style';
 
@@ -45,6 +45,7 @@ export function Video(script: Script) {
       {narration.map((n) => (
         <Sequence key={n.file} from={frames(n.at)} layout="none"><Audio src={staticFile(n.file)} /></Sequence>
       ))}
+      <Captions p={p} lines={narration.filter((n) => n.words?.length).map((n) => ({ at: n.at, words: n.words! }))} />
       {script.music && (
         <Audio
           src={staticFile(script.music)}

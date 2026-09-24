@@ -34,7 +34,9 @@ const PUBLIC = join(ROOT, 'public');
 
 const script = JSON.parse(readFileSync(SCRIPT, 'utf8'));
 const LANG = script.lang || process.env.NARRATION_LANG || 'en';
-const EDGE = [join(ROOT, '.venv/bin/edge-tts'), 'edge-tts'].find((p) => { try { execFileSync(p, ['--version'], { stdio: 'ignore' }); return true; } catch { return false; } });
+// The edge engine runs scripts/tts.py with a python that has edge-tts: the repo-local venv, the container's venv, or the system one.
+const PY = [join(ROOT, '.venv/bin/python'), '/opt/edge-tts/bin/python', 'python3'].find((p) => { try { execFileSync(p, ['-c', 'import edge_tts'], { stdio: 'ignore' }); return true; } catch { return false; } });
+const EDGE = PY;
 const ENGINE = KEY ? 'elevenlabs' : EDGE ? 'edge' : null;
 if (!ENGINE) { console.error('No voice engine: set ELEVENLABS_API_KEY, or install edge-tts (pip install edge-tts). Narration is optional.'); process.exit(1); }
 const VOICE = script.voiceId || process.env.NARRATION_VOICE || (ENGINE === 'elevenlabs' ? 'JBFqnCBsd6RMkjVDRZzb' : LANG.startsWith('es') ? 'es-AR-TomasNeural' : 'en-US-AndrewNeural');
@@ -68,7 +70,8 @@ for (let k = 0; k < lines.length; k++) {
       if (!r.ok) { console.error(`  ✘ scene ${i + 1}: ${r.status} ${(await r.text()).slice(0, 200)}`); failures++; continue; }
       writeFileSync(raw, Buffer.from(await r.arrayBuffer()));
     } else {
-      execFileSync(EDGE, ['--voice', VOICE, '--rate=+4%', '--text', s.voice, '--write-media', raw], { stdio: ['ignore', 'ignore', 'inherit'] });
+      execFileSync(PY, [join(ROOT, 'scripts/tts.py'), VOICE, raw, `${raw}.json`], { input: s.voice, stdio: ['pipe', 'ignore', 'inherit'] });
+      writeFileSync(`${abs}.words.json`, readFileSync(`${raw}.json`));
     }
     // Fixed loudness with a plain gain: one-pass loudnorm pumps on clips of a few seconds.
     const g = (LUFS - measure(raw)).toFixed(2);
@@ -89,7 +92,9 @@ for (let k = 0; k < lines.length; k++) {
     if (missing.length) failures++;
   }
   console.log(`  ${missing.length ? '✘' : '✔'} scene ${i + 1}${reused ? ' (reused)' : ''} · at ${start.toFixed(1)} · ${dur.toFixed(2)}s${missing.length ? '  ← not heard: ' + missing.join(', ') : ''}`);
-  narration.push({ file, at: Number((start + LEAD).toFixed(2)), seconds: Number(dur.toFixed(2)), text: s.voice });
+  let words;
+  try { words = JSON.parse(readFileSync(`${abs}.words.json`, 'utf8')); } catch { words = undefined; }
+  narration.push({ file, at: Number((start + LEAD).toFixed(2)), seconds: Number(dur.toFixed(2)), text: s.voice, ...(words?.length ? { words } : {}) });
 }
 // Recompute `at` after scenes were extended: a later scene moved if an earlier one grew.
 let acc = 0;
