@@ -37,7 +37,8 @@ function useLayout() {
   const { width, height } = useVideoConfig();
   const portrait = height > width;
   const pad = Math.round(width * (portrait ? 0.08 : 0.073));
-  return { width, height, portrait, pad, textMax: width - 2 * pad };
+  // Portrait leaves the right quarter free: that is where a feed puts its rail of actions.
+  return { width, height, portrait, pad, textMax: portrait ? Math.round(width * 0.72) - pad : width - 2 * pad };
 }
 
 const clamp = { extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const };
