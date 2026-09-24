@@ -11,7 +11,7 @@
 # UNVERIFIED (2026-09-23): Plow publishes no CPU/RAM/disk limits for hosted agents. A Remotion
 # render needs headless Chrome and ~2 GB RAM. If renders fail in the cloud, the fallback is
 # documented in README: the agent runs on Plow and renders on the owner's Mac through Latch.
-FROM public.ecr.aws/e1h7x4a2/plow-cloud-agents:base-REPLACE_WITH_SHA@sha256:REPLACE_WITH_DIGEST
+FROM public.ecr.aws/e1h7x4a2/plow-cloud-agents:base-7ce757a1745de286dd180c5c5182aca31eba8a75@sha256:6e5e1a11a8c6e2ef6ecaa5e7b429e778a9a3befaf416a09922aaaa4a5b21d647
 
 # Which agent this reports as on the Agent Index. Without it nothing is reported.
 ENV AGENT_ID=dailyrecap
