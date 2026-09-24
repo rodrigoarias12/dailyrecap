@@ -1,4 +1,4 @@
-import { AbsoluteFill, Audio, Sequence, interpolate, staticFile } from 'remotion';
+import { AbsoluteFill, Audio, Easing, Sequence, interpolate, staticFile, useCurrentFrame } from 'remotion';
 import { Agenda, Captions, Chips, Closing, Cover, Events, Fonts, Metric, Numbers, Quote, Screen, Title } from './pieces';
 import { FPS, frames, sceneStarts, totalFrames, type Script } from './script';
 import { palette } from './style';
@@ -15,6 +15,20 @@ function underVoice(f: number, windows: { from: number; to: number }[]): number 
   return floor;
 }
 
+/**
+ * The handoff between scenes: the outgoing scene leaves upward with a blur over its last
+ * 0.33 s and the incoming one arrives from below over 0.5 s, both eased. The motion is the
+ * cut. The first scene has no entrance and the last has no exit.
+ */
+function Shell({ len, first, last, children }: { len: number; first: boolean; last: boolean; children: React.ReactNode }) {
+  const f = useCurrentFrame();
+  const inK = first ? 1 : interpolate(f, [0, 15], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.out(Easing.cubic) });
+  const outK = last ? 0 : interpolate(f, [len - 10, len], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.in(Easing.quad) });
+  const y = (1 - inK) * 140 - outK * 140;
+  const blur = (1 - inK) * 24 + outK * 24;
+  return <AbsoluteFill style={{ transform: `translateY(${y}px)`, filter: blur > 0.5 ? `blur(${blur}px)` : undefined }}>{children}</AbsoluteFill>;
+}
+
 /** One component for every video: the script decides the scenes, the composition decides the frame. */
 export function Video(script: Script) {
   const p = palette(script.brand);
@@ -29,6 +43,7 @@ export function Video(script: Script) {
         const len = frames(s.seconds);
         return (
           <Sequence key={i} from={starts[i]} durationInFrames={len} name={`${i + 1} ${s.type}`}>
+            <Shell len={len} first={i === 0} last={i === script.scenes.length - 1}>
             {s.type === 'title' && <Title p={p} label={s.label} phrase={s.text} total={len} />}
             {s.type === 'cover' && <Cover p={p} image={s.image} label={s.label} phrase={s.text} total={len} />}
             {s.type === 'screen' && <Screen p={p} image={s.image} focus={s.focus} zoom={s.zoom} label={s.label} phrase={s.text} total={len} />}
@@ -39,6 +54,7 @@ export function Video(script: Script) {
             {s.type === 'quote' && <Quote p={p} quote={s.text} who={s.who} total={len} />}
             {s.type === 'agenda' && <Agenda p={p} label={s.label} items={s.items} total={len} />}
             {s.type === 'closing' && <Closing p={p} cta={s.cta} total={len} credit={script.credit !== false} />}
+            </Shell>
           </Sequence>
         );
       })}

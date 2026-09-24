@@ -12,7 +12,7 @@ export const T = {
   title: { fontSize: 34, lineHeight: 1.25, fontWeight: 600, letterSpacing: '-0.014em' },
   body: { fontSize: 30, lineHeight: 1.4, fontWeight: 400, letterSpacing: 0 },
   bodySm: { fontSize: 24, lineHeight: 1.4, fontWeight: 400, letterSpacing: 0 },
-  label: { fontSize: 20, lineHeight: 1.2, fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase' as const },
+  label: { fontSize: 24, lineHeight: 1.2, fontWeight: 600, letterSpacing: '0.18em', textTransform: 'uppercase' as const },
 } satisfies Record<string, CSSProperties>;
 
 export const text = (t: CSSProperties, extra?: CSSProperties): CSSProperties => ({ fontFamily: FONT, margin: 0, ...t, ...extra });

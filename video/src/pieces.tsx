@@ -74,16 +74,24 @@ export function Words({ children, from = 0, gap = 3, style }: { children: string
  * progress line at the top that fills over the scene. Nothing on it is content; it is there
  * so the frame is never static, which is the difference between a video and a slide.
  */
-function Backdrop({ p, total }: { p: Palette; total: number }) {
+function Backdrop({ p, total, dark = true }: { p: Palette; total: number; dark?: boolean }) {
   const f = useCurrentFrame();
   const { width, height } = useVideoConfig();
   const t = f / 30;
   const x1 = 0.7 + 0.08 * Math.sin(t * 0.35), y1 = 0.25 + 0.1 * Math.cos(t * 0.3);
   const x2 = 0.15 + 0.06 * Math.cos(t * 0.27), y2 = 0.85 + 0.06 * Math.sin(t * 0.22);
   const r = Math.max(width, height);
+  const breathe = 1 + 0.04 * Math.sin(t * 0.5);
   return (
     <>
-      <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(${r * 0.55}px at ${x1 * 100}% ${y1 * 100}%, ${p.accent}2e, transparent 70%), radial-gradient(${r * 0.45}px at ${x2 * 100}% ${y2 * 100}%, ${p.accent}14, transparent 70%)` }} />
+      {/* Two accent-tinted glows, breathing slowly. Never a full-screen linear gradient: it bands under H.264. */}
+      <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(${r * 0.55 * breathe}px at ${x1 * 100}% ${y1 * 100}%, ${p.accent}${dark ? '30' : '55'}, transparent 70%), radial-gradient(${r * 0.45}px at ${x2 * 100}% ${y2 * 100}%, ${p.accent}${dark ? '16' : '33'}, transparent 70%)` }} />
+      {/* Ghost text: the company name, huge, at 4%, drifting. Depth without content. */}
+      <div style={{ position: 'absolute', left: -width * 0.05, bottom: -height * 0.12, ...text(T.displayXl, { fontSize: height * 0.42, fontWeight: 700, letterSpacing: '-0.05em', color: dark ? p.light : p.ink, opacity: 0.045, whiteSpace: 'nowrap', lineHeight: 1 }), transform: `translateX(${-t * 6}px)` }}>{p.name}</div>
+      {/* Hairline at the edge, 2px in video scale. */}
+      <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: 2, background: p.accent, opacity: 0.35 }} />
+      {/* Film grain, tiled at 200%, so the flat color never reads as "nothing loaded". */}
+      <div style={{ position: 'absolute', inset: 0, backgroundImage: `url(${staticFile('fx/grain.png')})`, backgroundSize: '512px 512px', opacity: dark ? 0.13 : 0.07, mixBlendMode: 'overlay', pointerEvents: 'none' }} />
       <Progress p={p} total={total} />
     </>
   );
@@ -156,7 +164,9 @@ export function Screen({ p, image, focus, zoom = 1.85, label, phrase, total }: {
   return (
     <AbsoluteFill style={{ background: p.bg, alignItems: 'center', justifyContent: 'center', opacity: leave(f, total) }}>
       <Audio src={staticFile('sfx/transition-soft.mp3')} volume={0.28} />
-      <div style={{ width: w, height: h, borderRadius: 18, overflow: 'hidden', boxShadow: p.shadowCard, opacity: enter(f, 0, 6), transform: `scale(${interpolate(f, [0, 8], [0.975, 1], { extrapolateRight: 'clamp', easing: Easing.out(Easing.cubic) })})` }}>
+      <Backdrop p={p} total={total} dark={false} />
+      {/* Never a flat image: a little perspective, a slow push in, a deep shadow. */}
+      <div style={{ width: w, height: h, borderRadius: 18, overflow: 'hidden', boxShadow: '0 60px 120px -40px rgba(0,0,0,.55), 0 0 0 1px rgba(0,0,0,.08)', opacity: enter(f, 0, 8), transform: `perspective(1600px) rotateY(${-6 + 6 * interpolate(f, [0, total], [0, 1], clamp)}deg) scale(${interpolate(f, [0, total], [0.98, 1.03], clamp)})` }}>
         <div style={{ position: 'relative', width: '100%', height: '100%', transformOrigin: `${cx * 100}% ${cy * 100}%`, transform: `translate(${tx}px, ${ty}px) scale(${s})` }}>
           <Img src={staticFile(image)} style={{ width: '100%', height: '100%', display: 'block', objectFit: 'cover', objectPosition: 'top' }} />
           <div style={{ position: 'absolute', left: `${focus.x * 100}%`, top: `${focus.y * 100}%`, width: `${focus.w * 100}%`, height: `${focus.h * 100}%`, borderRadius: 8, border: `2px solid ${p.accent}`, opacity: k, boxShadow: `0 0 0 4000px rgba(0,0,0,${0.38 * k}), 0 0 24px ${p.accent}` }} />
@@ -209,9 +219,9 @@ export function Numbers({ p, label, items, total }: { p: Palette; label: string;
   const cols = Math.min(portrait ? 2 : 4, Math.max(1, items.length));
   return (
     <AbsoluteFill style={{ background: p.bg, justifyContent: 'center', padding: `0 ${pad}px`, opacity: leave(f, total) }}>
-      <Progress p={p} total={total} />
+      <Backdrop p={p} total={total} dark={false} />
       <Label p={p} dark={false} style={{ marginBottom: 40 }}>{label}</Label>
-      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: 28 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: 28, position: 'relative' }}>
         {items.slice(0, 4).map((it, i) => {
           const e = enter(f, 10 + i * 8, 14);
           return (
@@ -234,11 +244,11 @@ export function Events({ p, label, items, total }: { p: Palette; label: string; 
   return (
     <AbsoluteFill style={{ background: p.ink, justifyContent: 'center', padding: `0 ${pad}px`, opacity: leave(f, total) }}>
       <Backdrop p={p} total={total} />
-      <Label p={p} style={{ marginBottom: 36 }}>{label}</Label>
+      <Label p={p} style={{ marginBottom: 36, position: 'relative' }}>{label}</Label>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 18, maxWidth: Math.min(1500, textMax), position: 'relative' }}>
         {items.slice(0, 6).map((it, i) => {
-          const d = 8 + i * 10;
-          const e = enter(f, d, 12);
+          const d = 6 + i * 6;
+          const e = enter(f, d, 14);
           return (
             <div key={it.tag + it.text}>
               <Sequence from={d} layout="none"><Audio src={staticFile('sfx/ui-message-pop.mp3')} volume={0.22} /></Sequence>
@@ -263,7 +273,8 @@ function countUp(value: string, f: number, from = 8, len = 34): string {
   const sep = num.includes(',');
   const n = Number(num.replace(/,/g, ''));
   if (!Number.isFinite(n)) return value;
-  const k = interpolate(f, [from, from + len], [0, 1], { ...clamp, easing: Easing.out(Easing.cubic) });
+  // From half the value, not from zero: a count from 0 reads as a loading bar; from 50% it reads as arrival.
+  const k = interpolate(f, [from, from + len], [0.5, 1], { ...clamp, easing: Easing.out(Easing.cubic) });
   const cur = Math.round(n * k);
   return `${pre}${sep ? cur.toLocaleString('en-US') : String(cur)}${post}`;
 }
@@ -275,20 +286,20 @@ export function Metric({ p, label, value, delta, up, source, total }: { p: Palet
   return (
     <AbsoluteFill style={{ background: p.bg, justifyContent: 'center', padding: `0 ${pad}px`, opacity: leave(f, total) }}>
       <Audio src={staticFile('sfx/transition-soft.mp3')} volume={0.2} />
-      <Progress p={p} total={total} />
-      <Label p={p} dark={false} style={{ marginBottom: 30 }}>{label}</Label>
-      <Appear from={6} travel={24}>
-        <p style={text(T.displayXl, { color: p.ink, fontSize: 220, lineHeight: 1, fontWeight: 600, fontVariantNumeric: 'tabular-nums' })}>{countUp(value, f)}</p>
+      <Backdrop p={p} total={total} dark={false} />
+      <Label p={p} dark={false} style={{ marginBottom: 30, fontSize: 30, position: 'relative' }}>{label}</Label>
+      <Appear from={6} travel={24} style={{ position: 'relative' }}>
+        <p style={{ ...text(T.displayXl, { color: p.ink, fontSize: 240, lineHeight: 1, fontWeight: 700, fontVariantNumeric: 'tabular-nums', letterSpacing: '-0.04em' }), transform: `scale(${0.5 + 0.5 * interpolate(f, [6, 51], [0, 1], { ...clamp, easing: Easing.out(Easing.cubic) })})`, transformOrigin: 'left center' }}>{countUp(value, f, 6, 45)}</p>
       </Appear>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 24, marginTop: 40, flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 24, marginTop: 40, flexWrap: 'wrap', position: 'relative' }}>
         {delta && (
-          <Appear from={30} travel={10}>
+          <Appear from={54} travel={10}>
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: 12, padding: '14px 24px', borderRadius: 999, background: up === false ? '#ffffff' : p.accent, border: up === false ? '1px solid rgba(0,0,0,0.1)' : 'none', ...text(T.title, { color: up === false ? '#da3d28' : p.ink, fontSize: 32 }) }}>
               {up === undefined ? '' : up ? '▲' : '▼'} {delta}
             </span>
           </Appear>
         )}
-        <Appear from={38} travel={8}><span style={text(T.bodySm, { color: p.ink, opacity: 0.55 })}>{source}</span></Appear>
+        <Appear from={62} travel={8}><span style={text(T.bodySm, { color: p.ink, opacity: 0.55 })}>{source}</span></Appear>
       </div>
     </AbsoluteFill>
   );
@@ -318,9 +329,9 @@ export function Agenda({ p, label, items, total }: { p: Palette; label: string; 
   const { pad, textMax } = useLayout();
   return (
     <AbsoluteFill style={{ background: p.bg, justifyContent: 'center', padding: `0 ${pad}px`, opacity: leave(f, total) }}>
-      <Progress p={p} total={total} />
-      <Label p={p} dark={false} style={{ marginBottom: 36 }}>{label}</Label>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 16, maxWidth: Math.min(1400, textMax) }}>
+      <Backdrop p={p} total={total} dark={false} />
+      <Label p={p} dark={false} style={{ marginBottom: 36, position: 'relative' }}>{label}</Label>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16, maxWidth: Math.min(1400, textMax), position: 'relative' }}>
         {items.slice(0, 5).map((it, i) => {
           const d = 8 + i * 9;
           return (
@@ -347,23 +358,27 @@ export function Captions({ p, lines }: { p: Palette; lines: { at: number; words:
   const { fps } = useVideoConfig();
   const { pad, portrait } = useLayout();
   const t = f / fps;
-  const line = lines.find((l) => t >= l.at - 0.2 && t <= l.at + (l.words[l.words.length - 1]?.e ?? 0) + 0.6);
+  const line = lines.find((l) => t >= l.at - 0.2 && t <= l.at + (l.words[l.words.length - 1]?.e ?? 0) + 0.4);
   if (!line) return null;
-  const idx = line.words.findIndex((w) => t < line.at + w.e);
-  const cur = idx === -1 ? line.words.length - 1 : idx;
-  // A window of words around the current one, so a long sentence never overflows two lines.
-  const span = portrait ? 5 : 8;
-  const from = Math.max(0, Math.min(cur - Math.floor(span / 2), line.words.length - span));
-  const shown = line.words.slice(from, from + span);
-  const alpha = interpolate(t, [line.at - 0.2, line.at], [0, 1], clamp);
+  // Groups of 2–4 words, cut at a silence of 0.18 s or at punctuation: how short-form captions read.
+  const groups: { w: string; s: number; e: number }[][] = [];
+  for (const w of line.words) {
+    const g = groups[groups.length - 1];
+    const prev = g?.[g.length - 1];
+    if (!g || g.length >= 4 || (prev && (w.s - prev.e > 0.18 || /[.?!,;:]$/.test(prev.w)))) groups.push([w]);
+    else g.push(w);
+  }
+  const group = groups.find((g) => t < line.at + g[g.length - 1].e + 0.12) ?? groups[groups.length - 1];
+  const cur = group.findIndex((w) => t < line.at + w.e);
+  const alpha = interpolate(t, [line.at + group[0].s - 0.12, line.at + group[0].s], [0, 1], clamp);
+  const size = portrait ? 66 : 44;
   return (
-    <div style={{ position: 'absolute', left: pad, right: pad, bottom: portrait ? pad * 1.2 : 44, display: 'flex', justifyContent: 'center', opacity: alpha, pointerEvents: 'none' }}>
-      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '6px 10px', padding: '14px 22px', borderRadius: 16, background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(6px)', maxWidth: '100%' }}>
-        {shown.map((w, i) => {
-          const k = from + i;
-          const active = k === cur, past = k < cur;
+    <div style={{ position: 'absolute', left: pad, right: pad, bottom: portrait ? pad * 1.6 : 48, display: 'flex', justifyContent: 'center', opacity: alpha, pointerEvents: 'none' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '6px 12px', padding: '10px 18px', borderRadius: 18, background: 'rgba(0,0,0,0.42)', backdropFilter: 'blur(8px)', maxWidth: '100%' }}>
+        {group.map((w, i) => {
+          const active = i === cur || (cur === -1 && i === group.length - 1), past = cur !== -1 && i < cur;
           return (
-            <span key={k} style={text(T.title, { color: active ? p.ink : past ? p.light : p.lightMid, fontSize: portrait ? 40 : 36, fontWeight: 600, padding: '4px 10px', borderRadius: 10, background: active ? p.accent : 'transparent', transform: active ? 'scale(1.06)' : 'none', transition: 'none' })}>{w.w}</span>
+            <span key={i} style={text(T.title, { color: active ? p.ink : past ? p.light : p.lightMid, fontSize: size, fontWeight: 700, letterSpacing: '-0.02em', padding: '4px 14px', borderRadius: 12, background: active ? p.accent : 'transparent', transform: active ? 'scale(1.05)' : 'none', textShadow: active ? 'none' : '0 2px 8px rgba(0,0,0,.5)' })}>{w.w}</span>
           );
         })}
       </div>

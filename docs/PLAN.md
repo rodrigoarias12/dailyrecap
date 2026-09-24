@@ -97,3 +97,19 @@ todos los días.
 - Molde de agente OpenClaw nativo con Plow: https://github.com/yasuhito/bluepencil
 - HyperFrames: https://github.com/heygen-com/hyperframes
 - Luma del hackathon: https://luma.com/zhkhsnpa
+
+## Investigación HyperFrames (24/9) y decisión
+
+HyperFrames (HeyGen, Apache 2.0, v0.8.70) no hace videos buenos por el motor —HTML + GSAP
+pausado + Chrome + ffmpeg, lo mismo que Remotion— sino por ~600 archivos de doctrina de
+diseño que el agente lee antes de escribir. Esa doctrina se aplicó a nuestro motor el 24/9:
+capa de fondo (brillos, texto fantasma, grano, hairline), escala de video (labels 24px,
+cuerpo ≥32px), transición como salida (sube con desenfoque mientras entra la siguiente),
+contador desde el 50% en 1,5 s, capturas con perspectiva y push, subtítulos en grupos de
+2–4 palabras cortados por silencio. Reglas literales en el informe de la investigación.
+
+Lo que HyperFrames tiene y nosotros no: 395 bloques listos (`npx hyperframes add`), 21 skills
+para agentes, render en la nube de HeyGen (0,1 crédito/min a 1080p30), y la historia «built
+for agents» que HeyGen amplifica. Decisión: **híbrido, jueves**. Guion JSON, validación, voz y
+subtítulos quedan; HyperFrames entra como segundo renderizador (escenas como plantillas
+HTML) y sus skills se instalan en el workspace para escenas libres con sus bloques.
