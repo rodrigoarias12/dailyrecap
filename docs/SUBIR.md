@@ -97,8 +97,20 @@ python3.12 ~/Documents/GitHub/plow-agents/bin/plow-agents image set dailyrecap \
   --video '{"provider":"youtube","id":"<ID>","title":"DailyRecap — your startup'"'"'s first chief of staff"}'
 ```
 
-Ya cargados en la página con `image set`: nombre, blurb, repo, link de instalación y cinco
-capturas (`docs/stills/`). Perfil del builder: «Rodrigo Arias» con la foto de GitHub.
+Ya cargados en la página: nombre, blurb, repo, link de instalación, **logo**, cinco capturas
+(`docs/stills/`) y **tres casos de uso** (stories). Perfil del builder: «Rodrigo Arias» con la
+foto de GitHub. El logo, las capturas y las stories NO van por `plow-agents image set` sino por
+el cliente oficial del índice, con la credencial de un agente propio (`plow-credentials` de
+`mint`):
+
+```bash
+curl -fsS -o /tmp/aic.py https://raw.githubusercontent.com/plow-pbc/agent-index-client/edf196031803e204cdbcd81ce574e1f54fd75f65/standalone/agent_index_client.py
+export PLOW_AGENT_TOKEN=… PLOW_API_BASE=https://api.plow.co
+python3.12 /tmp/aic.py --register --agent dailyrecap --logo docs/logo-512.png --image <url>… --repo … --install-url … --video <ID de YouTube>
+python3.12 /tmp/aic.py --agent dailyrecap --story <id> --title "…" --body "…" --tag … --image <url>
+```
+
+El cliente guarda su clave en `~/.agent-index/` de la máquina desde la que se corre.
 
 ## F. Que los tokens cuenten
 
