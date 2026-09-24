@@ -61,7 +61,9 @@ export function Video(script: Script) {
       {narration.map((n) => (
         <Sequence key={n.file} from={frames(n.at)} layout="none"><Audio src={staticFile(n.file)} /></Sequence>
       ))}
-      <Captions p={p} lines={narration.filter((n) => n.words?.length).map((n) => ({ at: n.at, words: n.words! }))} />
+      {(script.captions ?? script.format === 'portrait') && (
+        <Captions p={p} lines={narration.filter((n) => n.words?.length).map((n) => ({ at: n.at, words: n.words! }))} />
+      )}
       {script.music && (
         <Audio
           src={staticFile(script.music)}

@@ -14,7 +14,7 @@
       "type": "title",
       "label": "Day 47 building Acme Ops",
       "text": "Zero manual picks. First time.",
-      "seconds": 4,
+      "seconds": 6.1,
       "voice": "Day forty-seven building Acme Ops. Zero manual picks, for the first time."
     },
     {
@@ -34,7 +34,7 @@
           "text": "Warehouse #12"
         }
       ],
-      "seconds": 6,
+      "seconds": 6.9,
       "voice": "Shipped today: shortage alerts by WhatsApp, the pick list by aisle, and warehouse twelve went live."
     },
     {
@@ -44,7 +44,7 @@
       "delta": "+9% week over week",
       "up": true,
       "source": "our dashboard",
-      "seconds": 4,
+      "seconds": 4.7,
       "voice": "Eighteen hundred orders picked, up nine percent week over week."
     },
     {
@@ -52,6 +52,270 @@
       "cta": "Follow the build",
       "seconds": 4,
       "voice": "Follow the build at acme ops dot dev."
+    }
+  ],
+  "narration": [
+    {
+      "file": "audio/narration/clip/1.mp3",
+      "at": 0.4,
+      "seconds": 5.18,
+      "text": "Day forty-seven building Acme Ops. Zero manual picks, for the first time.",
+      "words": [
+        {
+          "w": "Day",
+          "s": 0.096,
+          "e": 0.276
+        },
+        {
+          "w": "forty-seven",
+          "s": 0.288,
+          "e": 0.949
+        },
+        {
+          "w": "building",
+          "s": 0.962,
+          "e": 1.406
+        },
+        {
+          "w": "Acme",
+          "s": 1.538,
+          "e": 1.923
+        },
+        {
+          "w": "Ops",
+          "s": 1.935,
+          "e": 2.368
+        },
+        {
+          "w": "Zero",
+          "s": 2.752,
+          "e": 3.029
+        },
+        {
+          "w": "manual",
+          "s": 3.041,
+          "e": 3.45
+        },
+        {
+          "w": "picks",
+          "s": 3.462,
+          "e": 3.93
+        },
+        {
+          "w": "for",
+          "s": 4.111,
+          "e": 4.183
+        },
+        {
+          "w": "the",
+          "s": 4.195,
+          "e": 4.255
+        },
+        {
+          "w": "first",
+          "s": 4.267,
+          "e": 4.531
+        },
+        {
+          "w": "time",
+          "s": 4.543,
+          "e": 4.82
+        }
+      ]
+    },
+    {
+      "file": "audio/narration/clip/2.mp3",
+      "at": 6.5,
+      "seconds": 5.98,
+      "text": "Shipped today: shortage alerts by WhatsApp, the pick list by aisle, and warehouse twelve went live.",
+      "words": [
+        {
+          "w": "Shipped",
+          "s": 0.096,
+          "e": 0.349
+        },
+        {
+          "w": "today",
+          "s": 0.361,
+          "e": 0.709
+        },
+        {
+          "w": "shortage",
+          "s": 1.01,
+          "e": 1.37
+        },
+        {
+          "w": "alerts",
+          "s": 1.382,
+          "e": 1.695
+        },
+        {
+          "w": "by",
+          "s": 1.707,
+          "e": 1.839
+        },
+        {
+          "w": "WhatsApp",
+          "s": 1.851,
+          "e": 2.44
+        },
+        {
+          "w": "the",
+          "s": 2.644,
+          "e": 2.74
+        },
+        {
+          "w": "pick",
+          "s": 2.752,
+          "e": 2.981
+        },
+        {
+          "w": "list",
+          "s": 2.993,
+          "e": 3.245
+        },
+        {
+          "w": "by",
+          "s": 3.257,
+          "e": 3.437
+        },
+        {
+          "w": "aisle",
+          "s": 3.45,
+          "e": 3.822
+        },
+        {
+          "w": "and",
+          "s": 4.099,
+          "e": 4.195
+        },
+        {
+          "w": "warehouse",
+          "s": 4.207,
+          "e": 4.7
+        },
+        {
+          "w": "twelve",
+          "s": 4.712,
+          "e": 5.072
+        },
+        {
+          "w": "went",
+          "s": 5.084,
+          "e": 5.252
+        },
+        {
+          "w": "live",
+          "s": 5.264,
+          "e": 5.625
+        }
+      ]
+    },
+    {
+      "file": "audio/narration/clip/3.mp3",
+      "at": 13.4,
+      "seconds": 3.77,
+      "text": "Eighteen hundred orders picked, up nine percent week over week.",
+      "words": [
+        {
+          "w": "Eighteen",
+          "s": 0.096,
+          "e": 0.373
+        },
+        {
+          "w": "hundred",
+          "s": 0.385,
+          "e": 0.685
+        },
+        {
+          "w": "orders",
+          "s": 0.697,
+          "e": 0.974
+        },
+        {
+          "w": "picked",
+          "s": 0.986,
+          "e": 1.346
+        },
+        {
+          "w": "up",
+          "s": 1.635,
+          "e": 1.779
+        },
+        {
+          "w": "nine",
+          "s": 1.791,
+          "e": 2.055
+        },
+        {
+          "w": "percent",
+          "s": 2.067,
+          "e": 2.452
+        },
+        {
+          "w": "week",
+          "s": 2.464,
+          "e": 2.728
+        },
+        {
+          "w": "over",
+          "s": 2.849,
+          "e": 3.053
+        },
+        {
+          "w": "week",
+          "s": 3.065,
+          "e": 3.401
+        }
+      ]
+    },
+    {
+      "file": "audio/narration/clip/4.mp3",
+      "at": 18.1,
+      "seconds": 2.4,
+      "text": "Follow the build at acme ops dot dev.",
+      "words": [
+        {
+          "w": "Follow",
+          "s": 0.168,
+          "e": 0.373
+        },
+        {
+          "w": "the",
+          "s": 0.385,
+          "e": 0.481
+        },
+        {
+          "w": "build",
+          "s": 0.493,
+          "e": 0.757
+        },
+        {
+          "w": "at",
+          "s": 0.769,
+          "e": 0.853
+        },
+        {
+          "w": "acme",
+          "s": 0.865,
+          "e": 1.25
+        },
+        {
+          "w": "ops",
+          "s": 1.262,
+          "e": 1.538
+        },
+        {
+          "w": "dot",
+          "s": 1.55,
+          "e": 1.707
+        },
+        {
+          "w": "dev",
+          "s": 1.719,
+          "e": 2.031
+        }
+      ]
     }
   ]
 }

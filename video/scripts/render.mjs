@@ -29,7 +29,7 @@ else {
   for (const k of ['name', 'accent', 'ink', 'bg']) if (!isStr(script.brand[k])) errors.push(`brand.${k}: missing`);
   if (typeof script.brand.url !== 'string') errors.push('brand.url: must be a string (may be empty)');
 }
-for (const k of Object.keys(script)) if (!['brand', 'format', 'lang', 'voiceId', 'scenes', 'narration', 'music', 'credit'].includes(k)) errors.push(`${k}: unknown top-level field`);
+for (const k of Object.keys(script)) if (!['brand', 'format', 'lang', 'voiceId', 'scenes', 'narration', 'music', 'credit', 'captions'].includes(k)) errors.push(`${k}: unknown top-level field`);
 if (!Array.isArray(script.scenes) || script.scenes.length === 0) errors.push('scenes: must be a non-empty array');
 else script.scenes.forEach((s, i) => {
   const at = `scenes[${i}]`;

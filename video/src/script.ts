@@ -63,6 +63,12 @@ export type Script = {
   music?: string | false;
   /** Set to false to drop the small "made with DailyRecap" line on the closing card. */
   credit?: boolean;
+  /**
+   * Captions that light up with the voice. Default: on for portrait (watched on a phone,
+   * usually muted), off for landscape (the scenes already carry their text; a caption under
+   * a headline is two texts competing). Set explicitly to override.
+   */
+  captions?: boolean;
 };
 
 export const frames = (seconds: number) => Math.round(seconds * FPS);
