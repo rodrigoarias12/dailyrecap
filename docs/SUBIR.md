@@ -51,6 +51,15 @@ Mandale un mensaje a ese número desde tu teléfono. Tu primer mensaje arranca l
 Pedile «who are you» y después «daily-recap: run». Si el render no entra en el contenedor de
 Plow (los límites no están publicados), el plan B está en `cloud/README.md` (Latch).
 
+Verificado el 24/9 corriendo esta misma imagen en la Mac (emulación amd64, línea Willow):
+arranca, resuelve la identidad de la línea, conecta el canal de Plow, y la voz y la música se
+generan adentro. El render de Remotion no se pudo probar emulado porque Chrome no corre bajo
+qemu (`type=gpu-process`); es un límite de la emulación, no de Plow. La primera corrida de
+«daily-recap: run» en Plow real es la prueba que falta.
+
+Para correr la imagen local: `docker compose -f cloud/compose.yml -f cloud/compose.local.yml up
+--build -d` (el override saltea `tini`, que tampoco funciona emulado).
+
 ## D. El listing en el índice
 
 En `cloud/Dockerfile` ya están `AGENT_ID=dailyrecap`, `AGENT_NAME` y `AGENT_BLURB`. Con eso, al
