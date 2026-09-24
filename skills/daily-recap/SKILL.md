@@ -104,10 +104,19 @@ A recap with a voice is watched; a silent one is skimmed.
 
 **Give it a picture.** The scenes that carry a real image are the ones people remember.
 When something shipped has a URL (a landing, a dashboard, a PR page, a public repo), take
-a 1600×1000 screenshot with the `browser` tool, save it under
-`<ws>/video/public/screens/recap/<date>/`, and use it in a `cover` scene (full-bleed image
-under the day's sentence) or a `screen` scene (the camera moving to what changed). One real
-screenshot beats three text scenes. Never fake one.
+a 1600×1000 screenshot and save it under `<ws>/video/public/screens/recap/<date>/`. With
+the `browser` tool when the Gateway has one; otherwise headless Chromium works anywhere
+the render works:
+
+```
+cd <ws>/video/public/screens/recap/<date> && chromium --headless=new --no-sandbox --disable-gpu \
+  --hide-scrollbars --window-size=1600,1000 --virtual-time-budget=8000 --screenshot=<name>.png <url>
+```
+
+Use it in a `cover` scene (full-bleed image under the day's sentence) or a `screen` scene
+(the camera moving to what changed). One real screenshot beats three text scenes. Never
+fake one. Screens of internal tools stay in the internal recap; the public clip only
+carries pages that are already public.
 
 ## 3. Render and deliver the recap (no approval)
 
