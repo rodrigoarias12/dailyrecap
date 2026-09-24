@@ -9,7 +9,7 @@ metadata:
 
 # launch-video
 
-The whole job, in order. `<ws>` is the workspace root (this repository).
+The whole job, in order. `<ws>` is the workspace root (this repository). `<video>` is the video engine: `$DAILYRECAP_VIDEO_DIR` when that variable is set (the hosted image keeps it at `/opt/dailyrecap/video`), otherwise `<ws>/video`.
 `<slug>` is a short lowercase name for the product, e.g. `acme-ops`.
 
 ## 1. Brief
@@ -34,7 +34,7 @@ Ask at most two questions, only if the answer changes the video:
 
 The best scene in the video is a real screen with the camera on the part that matters.
 
-- Given by the team: copy to `<ws>/video/public/screens/<slug>/` (png or jpg, ≥1600 px wide).
+- Given by the team: copy to `<video>/public/screens/<slug>/` (png or jpg, ≥1600 px wide).
 - Public landing and no screenshots: take one with the `browser` tool at 1600×1000 and save it there.
 - None available: skip `screen` scenes. Do not draw a fake UI.
 
@@ -43,7 +43,7 @@ thing the line talks about. A focus is a region, not a point: at least 0.25 wide
 
 ## 4. Script
 
-Write `<ws>/work/<slug>/script.json`. Schema and example: `<ws>/video/src/script.ts`.
+Write `<ws>/work/<slug>/script.json`. Schema and example: `<video>/src/script.ts`.
 Shape that works:
 
 | # | type | seconds | what it carries |
@@ -78,13 +78,13 @@ owner's "approved" (or the person they handed the session to) unlocks step 6.
 Optional voice, only if asked and `ELEVENLABS_API_KEY` is set:
 
 ```
-cd <ws>/video && node scripts/narrate.mjs ../work/<slug>/script.json
+cd <video> && node scripts/narrate.mjs ../work/<slug>/script.json
 ```
 
 It may extend a scene to fit a line; say so. Then render in the background and poll:
 
 ```
-cd <ws>/video && node scripts/render.mjs ../work/<slug>/script.json ../work/<slug>/launch.mp4
+cd <video> && node scripts/render.mjs ../work/<slug>/script.json ../work/<slug>/launch.mp4
 ```
 
 Use `exec` with `background: true` and a timeout of at least 900 s; check with `process`

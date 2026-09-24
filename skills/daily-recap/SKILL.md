@@ -9,7 +9,7 @@ metadata:
 
 # daily-recap
 
-`<ws>` is the workspace root (this repository). `<date>` is today as `YYYY-MM-DD`.
+`<ws>` is the workspace root (this repository). `<video>` is the video engine: `$DAILYRECAP_VIDEO_DIR` when that variable is set (the hosted image keeps it at `/opt/dailyrecap/video`), otherwise `<ws>/video`. `<date>` is today as `YYYY-MM-DD`.
 Work in `<ws>/work/recap/<date>/`.
 
 ## 0. First time: set the clock
@@ -80,12 +80,12 @@ A recap is not a list. Five to seven scenes:
 | 6 | agenda | tomorrow: meetings, releases, deadlines |
 
 Write `<ws>/work/recap/<date>/recap.json` by **copying the shape of
-`<ws>/video/example/recap.json`** (the `brand` block included, `credit: false`, format
-landscape, `lang` set to the team's language). The schema is `<ws>/video/src/script.ts`.
+`<video>/example/recap.json`** (the `brand` block included, `credit: false`, format
+landscape, `lang` set to the team's language). The schema is `<video>/src/script.ts`.
 Then check it, and fix until it passes, before anything else:
 
 ```
-cd <ws>/video && node scripts/render.mjs ../work/recap/<date>/recap.json --check
+cd <video> && node scripts/render.mjs ../work/recap/<date>/recap.json --check
 ```
 
 The renderer refuses an off-schema script. A missing `brand` would otherwise be silently
@@ -104,12 +104,12 @@ A recap with a voice is watched; a silent one is skimmed.
 
 **Give it a picture.** The scenes that carry a real image are the ones people remember.
 When something shipped has a URL (a landing, a dashboard, a PR page, a public repo), take
-a 1600×1000 screenshot and save it under `<ws>/video/public/screens/recap/<date>/`. With
+a 1600×1000 screenshot and save it under `<video>/public/screens/recap/<date>/`. With
 the `browser` tool when the Gateway has one; otherwise headless Chromium works anywhere
 the render works:
 
 ```
-cd <ws>/video/public/screens/recap/<date> && chromium --headless=new --no-sandbox --disable-gpu \
+cd <video>/public/screens/recap/<date> && chromium --headless=new --no-sandbox --disable-gpu \
   --hide-scrollbars --window-size=1600,1000 --virtual-time-budget=8000 --screenshot=<name>.png <url>
 ```
 
@@ -121,7 +121,7 @@ carries pages that are already public.
 ## 3. Render and deliver the recap (no approval)
 
 ```
-cd <ws>/video && node scripts/render.mjs ../work/recap/<date>/recap.json ../work/recap/<date>/recap.mp4
+cd <video> && node scripts/render.mjs ../work/recap/<date>/recap.json ../work/recap/<date>/recap.mp4
 ```
 
 Background `exec`, poll with `process`. Then deliver where the team asked (MEMORY.md,

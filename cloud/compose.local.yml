@@ -1,0 +1,9 @@
+# Local run of the Plow image on an arm64 Mac (Colima): the base is amd64-only, so it runs
+# emulated, and tini refuses to register as subreaper under emulation. Docker's own init
+# takes its place. Plow itself runs the image natively and never needs this file.
+#   docker compose -f cloud/compose.yml -f cloud/compose.local.yml up --build -d
+services:
+  agent:
+    platform: linux/amd64
+    init: true
+    entrypoint: ["node", "/opt/plow/boot/main.js"]

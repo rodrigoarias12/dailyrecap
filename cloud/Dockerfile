@@ -20,7 +20,7 @@ ENV AGENT_BLURB="Your startup's first chief of staff. Every evening it asks your
 
 USER root
 RUN apt-get update && apt-get install -y --no-install-recommends \
-      ffmpeg git ca-certificates fonts-liberation python3-venv \
+      ffmpeg git ca-certificates fonts-liberation python3-venv chromium \
       libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libdrm2 libxkbcommon0 libxcomposite1 \
       libxdamage1 libxfixes3 libxrandr2 libgbm1 libasound2 libpango-1.0-0 libcairo2 \
  && rm -rf /var/lib/apt/lists/* \
@@ -30,8 +30,10 @@ ENV PATH=/opt/edge-tts/bin:$PATH
 COPY AGENTS.md /opt/plow/prompt/AGENTS.md
 COPY skills/ /opt/plow/skills/
 COPY HEARTBEAT.md /opt/plow/prompt/HEARTBEAT.md
+ENV DAILYRECAP_VIDEO_DIR=/opt/dailyrecap/video
+# Renders and screenshots use the system Chromium, like the dev image.
+ENV DAILYRECAP_CHROME=/usr/bin/chromium
 COPY video/ /opt/dailyrecap/video/
 RUN cd /opt/dailyrecap/video && npm ci --omit=dev --ignore-scripts \
- && npx remotion browser ensure \
  && chown -R node:node /opt/dailyrecap
 USER node
