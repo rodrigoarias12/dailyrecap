@@ -8,7 +8,7 @@
  *   node scripts/render.mjs <script.json> --check      # validate only
  */
 import { execFileSync, spawnSync } from 'node:child_process';
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, renameSync, statSync, writeFileSync } from 'node:fs';
 import { basename, dirname, join } from 'node:path';
 
 const SCRIPT = process.argv[2], OUT = process.argv[3];
@@ -75,5 +75,16 @@ mkdirSync(dirname(OUT), { recursive: true });
 console.log(`render: ${composition} · ${current.scenes.length} scenes · ${total.toFixed(1)}s · ${current.narration?.length ?? 0} voice lines → ${OUT}`);
 // In a container (dev/Dockerfile) Remotion uses the system Chromium instead of downloading one.
 const chrome = process.env.DAILYRECAP_CHROME ? [`--browser-executable=${process.env.DAILYRECAP_CHROME}`] : [];
-execFileSync('npx', ['remotion', 'render', 'src/index.ts', composition, OUT, `--props=${SCRIPT}`, '--codec=h264', '--crf=18', '--log=error', ...chrome], { cwd: ROOT, stdio: 'inherit' });
-console.log(`done: ${OUT}`);
+execFileSync('npx', ['remotion', 'render', 'src/index.ts', composition, OUT, `--props=${SCRIPT}`, '--codec=h264', '--crf=23', '--log=error', ...chrome], { cwd: ROOT, stdio: 'inherit' });
+
+// Chat channels choke on big files well before their documented limits (a 7.6 MB recap
+// failed on Telegram, 4.9 MB went through). Over 6 MB, re-encode to a bitrate that fits.
+const MAX = 6 * 1024 * 1024;
+if (statSync(OUT).size > MAX) {
+  const kbps = Math.max(600, Math.floor((MAX * 8) / 1024 / total * 0.85) - 128);
+  const tmp = `${OUT}.fit.mp4`;
+  execFileSync('ffmpeg', ['-v', 'error', '-y', '-i', OUT, '-c:v', 'libx264', '-b:v', `${kbps}k`, '-maxrate', `${kbps}k`, '-bufsize', `${kbps * 2}k`, '-preset', 'medium', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '128k', '-movflags', '+faststart', tmp]);
+  renameSync(tmp, OUT);
+  console.log(`fit: re-encoded at ${kbps} kbps → ${(statSync(OUT).size / 1024 / 1024).toFixed(1)} MB`);
+}
+console.log(`done: ${OUT} · ${(statSync(OUT).size / 1024 / 1024).toFixed(1)} MB`);
