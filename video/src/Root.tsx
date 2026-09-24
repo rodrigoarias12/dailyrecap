@@ -1,5 +1,6 @@
 import { Composition } from 'remotion';
 import { Video } from './Video';
+import { FEED_EXAMPLE, Feed, feedFrames, type FeedProps } from './Feed';
 import { CLIP, EXAMPLE, FPS, RECAP, totalFrames, type Script } from './script';
 
 /**
@@ -14,6 +15,7 @@ export function Root() {
       <Composition id="Landscape" component={Video} fps={FPS} width={1920} height={1080} durationInFrames={totalFrames(EXAMPLE)} defaultProps={EXAMPLE} calculateMetadata={metadata} />
       <Composition id="Recap" component={Video} fps={FPS} width={1920} height={1080} durationInFrames={totalFrames(RECAP)} defaultProps={RECAP} calculateMetadata={metadata} />
       <Composition id="Portrait" component={Video} fps={FPS} width={1080} height={1920} durationInFrames={totalFrames(CLIP)} defaultProps={CLIP} calculateMetadata={metadata} />
+      <Composition id="Feed" component={Feed} fps={FPS} width={1920} height={1080} durationInFrames={feedFrames(FEED_EXAMPLE)} defaultProps={FEED_EXAMPLE} calculateMetadata={async ({ props }: { props: FeedProps }) => ({ durationInFrames: feedFrames(props) })} />
     </>
   );
 }

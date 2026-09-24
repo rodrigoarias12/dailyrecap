@@ -1,0 +1,4 @@
+[sam/sessions/sam/0f2dc84a-974a-42b1-8805-39db8be39a3b#L10] Assistant: - Booked 12 demos for next week. - Sent 40 follow-up emails.
+[sam/sessions/sam/0f2dc84a-974a-42b1-8805-39db8be39a3b#L13] Assistant: Acknowledged — response received and used in today's recap.
+[sam/sessions/sam/0f2dc84a-974a-42b1-8805-39db8be39a3b#L16] Assistant: Acknowledged — thank you for the confirmation. The response was delivered as specified per my fixture configuration.
+[sam/sessions/sam/0f2dc84a-974a-42b1-8805-39db8be39a3b#L18] Assistant: ANNOUNCE_SKIP

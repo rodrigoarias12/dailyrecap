@@ -1,0 +1,8 @@
+[dailyrecap/sessions/dailyrecap/4a8a34ca-d740-4234-9cc2-40650a815df4#L2] User: Who are you and what are your three jobs? Two lines, no tools.
+[dailyrecap/sessions/dailyrecap/4a8a34ca-d740-4234-9cc2-40650a815df4#L8] User: Who are you and what are your three jobs? Two lines, no tools.
+[dailyrecap/sessions/dailyrecap/4a8a34ca-d740-4234-9cc2-40650a815df4#L9] Assistant: I'm **DailyRecap** 🎬 — the TikTok of your company. Every evening I turn what actually happened into a one-minute video. Three jobs: **(1)** the launch video, once, after you approve the script; **(2)** the daily recap, 45–60s internal, delivered on its own; *
+[dailyrecap/sessions/dailyrecap/4a8a34ca-d740-4234-9cc2-40650a815df4#L10] User: daily-recap: run. Today is 2026-09-23 (America/Argentina/Buenos_Aires), it is 18:00. Messages in the shared session since the last recap: [Lu, 11:40] «Salió el PR de alertas de faltantes por WhatsApp, el cliente Frisvt quedó contento» · [Marco, 16:05] «El deploy d
+[dailyrecap/sessions/dailyrecap/4a8a34ca-d740-4234-9cc2-40650a815df4#L14] Assistant: Arranco con el gather. Voy a preguntarle a ana y sam, leer el git log del workspace, y armar el material.
+[dailyrecap/sessions/dailyrecap/4a8a34ca-d740-4234-9cc2-40650a815df4#L19] Assistant: Perfecto, tengo las respuestas. Ahora verifico las fuentes y armo el material completo.
+[dailyrecap/sessions/dailyrecap/4a8a34ca-d740-4234-9cc2-40650a815df4#L27] Assistant: Tengo todo. Escribo el material crudo con fuentes:
+[dailyrecap/sessions/dailyrecap/4a8a34ca-d740-4234-9cc2-40650a815df4#L31] Assistant: Ahora armo el recap.json con las escenas:

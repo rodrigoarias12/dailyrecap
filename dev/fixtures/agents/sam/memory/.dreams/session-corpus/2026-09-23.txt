@@ -1,0 +1,1 @@
+[sam/sessions/sam/0f2dc84a-974a-42b1-8805-39db8be39a3b#L6] Assistant: - Booked 12 demos for next week. - Sent 40 follow-up emails.

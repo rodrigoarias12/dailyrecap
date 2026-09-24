@@ -1,0 +1,3 @@
+[ana/sessions/ana/ee367c06-deae-48d2-ada0-e6a75eec873d#L5] User: Daily recap. What did you do since yesterday at 18:00 that the team should know? Facts only, with a source each. Six lines at most.
+[ana/sessions/ana/ee367c06-deae-48d2-ada0-e6a75eec873d#L6] Assistant: - Closed 31 tickets. Source: /home/node/.openclaw/workspace/dev/fixtures/helpdesk-2026-09-23.md - Escalated 2 tickets to Marco (both about duplicate orders on retry). Same source. - Nothing else.
+[ana/sessions/ana/ee367c06-deae-48d2-ada0-e6a75eec873d#L9] Assistant: - Closed 31 tickets. Source: /home/node/.openclaw/workspace/dev/fixtures/helpdesk-2026-09-23.md - Escalated 2 tickets to Marco (both about duplicate orders on retry). Same source. - Nothing else.

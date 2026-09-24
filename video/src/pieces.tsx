@@ -115,7 +115,7 @@ export function Title({ p, label, phrase, total }: { p: Palette; label?: string;
     <AbsoluteFill style={{ background: p.ink, justifyContent: 'flex-end', opacity: leave(f, total) }}>
       <Backdrop p={p} total={total} />
       <Audio src={staticFile('sfx/whoosh-fast.mp3')} volume={0.18} />
-      <div style={{ padding: `0 ${pad}px ${portrait ? Math.round(height * 0.2) : 150}px`, position: 'relative' }}>
+      <div style={{ padding: `0 ${pad}px ${portrait ? Math.round(height * 0.36) : 150}px`, position: 'relative' }}>
         {label && <Label p={p} from={6} style={{ marginBottom: 22 }}>{label}</Label>}
         <Words from={10} style={text(portrait ? T.displayLg : T.displayXl, { color: p.light, maxWidth: Math.min(1500, textMax) })}>{phrase}</Words>
       </div>
@@ -138,7 +138,7 @@ export function Cover({ p, image, label, phrase, total }: { p: Palette; image: s
       <Img src={staticFile(image)} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top', transform: `scale(${scale})` }} />
       <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(180deg, ${p.ink}33 0%, ${p.ink}66 45%, ${p.ink}f2 100%)` }} />
       <Progress p={p} total={total} />
-      <div style={{ padding: `0 ${pad}px ${portrait ? Math.round(height * 0.2) : 130}px`, position: 'relative' }}>
+      <div style={{ padding: `0 ${pad}px ${portrait ? Math.round(height * 0.36) : 130}px`, position: 'relative' }}>
         {label && <Label p={p} from={6} style={{ marginBottom: 22, textShadow: p.shadowText }}>{label}</Label>}
         <Words from={10} style={text(portrait ? T.displayLg : T.displayXl, { color: p.light, maxWidth: Math.min(1500, textMax), textShadow: p.shadowText })}>{phrase}</Words>
       </div>
@@ -356,7 +356,7 @@ export function Agenda({ p, label, items, total }: { p: Palette; label: string; 
 export function Captions({ p, lines }: { p: Palette; lines: { at: number; words: { w: string; s: number; e: number }[] }[] }) {
   const f = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const { pad, portrait } = useLayout();
+  const { pad, portrait, height } = useLayout();
   const t = f / fps;
   const line = lines.find((l) => t >= l.at - 0.2 && t <= l.at + (l.words[l.words.length - 1]?.e ?? 0) + 0.4);
   if (!line) return null;
@@ -373,7 +373,7 @@ export function Captions({ p, lines }: { p: Palette; lines: { at: number; words:
   const alpha = interpolate(t, [line.at + group[0].s - 0.12, line.at + group[0].s], [0, 1], clamp);
   const size = portrait ? 66 : 44;
   return (
-    <div style={{ position: 'absolute', left: pad, right: pad, bottom: portrait ? pad * 1.6 : 48, display: 'flex', justifyContent: 'center', opacity: alpha, pointerEvents: 'none' }}>
+    <div style={{ position: 'absolute', left: pad, right: pad, bottom: portrait ? Math.round(height * 0.27) : 48, display: 'flex', justifyContent: 'center', opacity: alpha, pointerEvents: 'none' }}>
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '6px 12px', padding: '10px 18px', borderRadius: 18, background: 'rgba(0,0,0,0.42)', backdropFilter: 'blur(8px)', maxWidth: '100%' }}>
         {group.map((w, i) => {
           const active = i === cur || (cur === -1 && i === group.length - 1), past = cur !== -1 && i < cur;
