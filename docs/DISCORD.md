@@ -1,6 +1,17 @@
-# Mensaje para el Discord de Plow (canal del Agent Index, a Dane Delattre)
+# Mensaje para el Discord de Plow (canal del Agent Index)
 
-Copiar y pegar. Reemplazar `https://youtu.be/X6Si_ppg69s` por el link cuando esté.
+**Formato que usan (una línea; lo procesa el bot «danedelattre's agent», que hace una
+instalación limpia y confirma el reporte de uso):**
+
+```
+DailyRecap (OpenClaw 2.0 hackathon) Slug: dailyrecap UID: a05c7a47-e38c-46c5-8180-0a2cdfe6f95f Image: ghcr.io/rodrigoarias12/dailyrecap@sha256:a605cc17db0859ec1e8c35f464444af3fc2c8a44157661ac4ac6d7e5b95dd270
+```
+
+Si el bot no contesta, los de guardia (Dane está fuera) son Samuel Odio y plucas. Una vez
+admitido, las versiones nuevas se promueven sin pedir permiso:
+`plow-agents image promote dailyrecap ghcr.io/rodrigoarias12/dailyrecap@sha256:<digest>`.
+
+## Versión larga, por si hace falta contexto
 
 ---
 
