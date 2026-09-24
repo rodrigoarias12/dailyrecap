@@ -15,3 +15,4 @@ MEMORY.md
 memory/*.md
 video/.venv/
 !video/public/screens/dailyrecap/
+!video/public/brand/

@@ -1,3 +1,5 @@
+<p align="center"><img src="docs/logo-512.png" width="120" alt="DailyRecap"></p>
+
 # DailyRecap
 
 **Your startup's first chief of staff. The TikTok of your company.** Every evening it asks
