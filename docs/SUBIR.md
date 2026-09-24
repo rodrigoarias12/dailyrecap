@@ -72,7 +72,7 @@ bendecirlo. Se pide en el Discord de Plow (https://discord.gg/fDY2bBThRs, canal 
 index, a Dane Delattre) con este mensaje:
 
 > Publishing **DailyRecap** for the OpenClaw 2.0 hackathon.
-> uid: `<salida de plow-agents profile --show>`
+> uid: `a05c7a47-e38c-46c5-8180-0a2cdfe6f95f`
 > slug: `dailyrecap`
 > image: `ghcr.io/rodrigoarias12/dailyrecap@sha256:…`
 > repo: https://github.com/rodrigoarias12/dailyrecap (MIT)
@@ -84,9 +84,21 @@ Actualizaciones después: `plow-agents image push ghcr.io/…:v2 --promote daily
 
 ## E. El video demo (≥ 60 s)
 
-Lo hace el agente: el recap de un día real de PayDece más el lanzamiento de DailyRecap sobre
-sí mismo. Guion en `docs/SUBMISSION.md`. Subilo a YouTube como público y pegá el link en el
-mensaje de Discord y en el listing.
+Hecho el 24/9: 70 segundos, el lanzamiento de DailyRecap sobre sí mismo (34 s) más un recap
+real con voz (36 s), ambos renderizados por el motor del agente. Está publicado con su
+miniatura en https://github.com/rodrigoarias12/dailyrecap/releases/tag/v0.1-demo.
+
+Lo que falta es tuyo: subir `demo.mp4` a YouTube como **público** (título «DailyRecap — your
+startup's first chief of staff», miniatura `thumbnail.jpg`) y pasar el id del video. Con el
+id, la página del índice se completa así y deja de decir «WIP»:
+
+```bash
+python3.12 ~/Documents/GitHub/plow-agents/bin/plow-agents image set dailyrecap \
+  --video '{"provider":"youtube","id":"<ID>","title":"DailyRecap — your startup'"'"'s first chief of staff"}'
+```
+
+Ya cargados en la página con `image set`: nombre, blurb, repo, link de instalación y cinco
+capturas (`docs/stills/`). Perfil del builder: «Rodrigo Arias» con la foto de GitHub.
 
 ## F. Que los tokens cuenten
 
