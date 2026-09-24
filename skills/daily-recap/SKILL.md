@@ -27,7 +27,9 @@ Ask the owner once, in the session:
   agent, a CFO agent, a marketing agent). They are colleagues: you will ask them every day.
 
 Save the answers to `MEMORY.md`. Then create the cron with the `cron` tool: one job at
-that hour, every weekday, whose message is `daily-recap: run`. Say what you set.
+that hour, every weekday, whose message is `daily-recap: run`, **delivered to the team's
+channel and target** (that is what makes the reply's `MEDIA:` line arrive as a file).
+Say what you set.
 
 ## 1. Gather (all of it, every day)
 
@@ -114,11 +116,20 @@ cd <ws>/video && node scripts/render.mjs ../work/recap/<date>/recap.json ../work
 ```
 
 Background `exec`, poll with `process`. Then deliver where the team asked (MEMORY.md,
-"Delivery"): send the mp4 as a file with the `message` tool to that channel and target,
-with the one-sentence summary as the caption and "reply with a correction and I re-cut".
-Post the same summary and the path in the shared session. If the channel refuses the
-file (size, type), send the summary with the path and say the file is in `shipped/`.
-A correction is a new render, not an argument. Copy `gathered.md`, `recap.json` and `recap.mp4` to
+"Delivery"). Two ways, and only these two count as sending:
+
+- **The run is delivered to the channel** (the daily cron is created with delivery to the
+  team's channel and target; a turn started from that chat replies there). Then your reply
+  IS the delivery: put `MEDIA:<absolute path to recap.mp4>` on its own line, then the
+  one-sentence summary as the caption, then "reply with a correction and I re-cut".
+- **Any other target** (a second group, someone who asked): the `message` tool with the
+  channel, the target id and the file path, and you read its result.
+
+A send you did not see confirmed (the tool's result, or the delivered reply) is not a
+send. Never write "sent" about something you only intended. Post the same summary and the
+path in the shared session. If the channel refuses the file (size, type), send the summary
+with the path and say the file is in `shipped/`. A correction is a new render, not an
+argument. Copy `gathered.md`, `recap.json` and `recap.mp4` to
 `<ws>/shipped/<date>-recap/`.
 
 ## 4. The public clip (approval required)
