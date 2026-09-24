@@ -1,0 +1,72 @@
+{
+  "brand": {
+    "name": "Acme Ops",
+    "url": "acmeops.dev",
+    "accent": "#a0e099",
+    "ink": "#20291f",
+    "bg": "#f8faf7"
+  },
+  "lang": "en",
+  "music": "audio/music-launch.mp3",
+  "scenes": [
+    {
+      "type": "title",
+      "label": "For warehouse teams",
+      "text": "Every order, one screen.",
+      "seconds": 3.5,
+      "voice": "Acme Ops puts every order on one screen."
+    },
+    {
+      "type": "screen",
+      "image": "screens/example/board.png",
+      "focus": {
+        "x": 0.06,
+        "y": 0.2,
+        "w": 0.5,
+        "h": 0.32
+      },
+      "label": "Live",
+      "text": "Orders update as they move.",
+      "seconds": 5,
+      "voice": "Orders update as they move through the warehouse."
+    },
+    {
+      "type": "chips",
+      "label": "What it does",
+      "items": [
+        "Picks and packs",
+        "Flags shortages",
+        "Reports at 6 pm"
+      ],
+      "seconds": 5,
+      "voice": "It picks and packs, flags shortages, and reports at six."
+    },
+    {
+      "type": "numbers",
+      "label": "In production",
+      "items": [
+        {
+          "value": "3x",
+          "claim": "faster picking",
+          "source": "pilot, 8 weeks"
+        },
+        {
+          "value": "0",
+          "claim": "lost orders"
+        },
+        {
+          "value": "12",
+          "claim": "warehouses"
+        }
+      ],
+      "seconds": 5,
+      "voice": "Three times faster picking, zero lost orders, twelve warehouses."
+    },
+    {
+      "type": "closing",
+      "cta": "Start free at acmeops.dev",
+      "seconds": 4.5,
+      "voice": "Start free at acme ops dot dev."
+    }
+  ]
+}

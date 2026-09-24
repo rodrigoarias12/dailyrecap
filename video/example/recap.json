@@ -1,0 +1,92 @@
+{
+  "brand": {
+    "name": "Acme Ops",
+    "url": "acmeops.dev",
+    "accent": "#a0e099",
+    "ink": "#20291f",
+    "bg": "#f8faf7"
+  },
+  "lang": "en",
+  "music": "audio/music-recap.mp3",
+  "credit": false,
+  "scenes": [
+    {
+      "type": "cover",
+      "image": "screens/example/board.png",
+      "label": "Acme Ops · Tuesday, September 23",
+      "text": "Three PRs merged. One customer went live.",
+      "seconds": 4.5,
+      "voice": "Tuesday at Acme Ops: three PRs merged and one customer went live."
+    },
+    {
+      "type": "events",
+      "label": "Shipped",
+      "items": [
+        {
+          "tag": "PR #212",
+          "text": "Shortage alerts go out by WhatsApp",
+          "who": "Lu"
+        },
+        {
+          "tag": "PR #214",
+          "text": "Pick list sorted by aisle",
+          "who": "Marco"
+        },
+        {
+          "tag": "PR #215",
+          "text": "Fix: duplicate orders on retry",
+          "who": "Lu"
+        },
+        {
+          "tag": "support",
+          "text": "31 tickets closed, 2 escalated to Marco",
+          "who": "Ana (agent)"
+        },
+        {
+          "tag": "sales",
+          "text": "12 demos booked, reported, not verified",
+          "who": "Sam (agent)"
+        }
+      ],
+      "seconds": 8,
+      "voice": "Lu shipped shortage alerts by WhatsApp and a fix for duplicate orders. Marco sorted the pick list by aisle. Support closed thirty-one tickets. Sales reports twelve demos, not verified."
+    },
+    {
+      "type": "metric",
+      "label": "Orders picked today",
+      "value": "1,842",
+      "delta": "+9% vs. last Tuesday",
+      "up": true,
+      "source": "acmeops.dev/reports",
+      "seconds": 4.5,
+      "voice": "One thousand eight hundred forty-two orders picked, nine percent more than last Tuesday."
+    },
+    {
+      "type": "quote",
+      "text": "The Rosario warehouse ran a full day with zero manual picks. First time.",
+      "who": "Sofía, Customer Success",
+      "seconds": 5,
+      "voice": "Sofía from Customer Success: the Rosario warehouse ran a full day with zero manual picks. First time."
+    },
+    {
+      "type": "agenda",
+      "label": "Tomorrow",
+      "items": [
+        {
+          "when": "10:00",
+          "text": "Demo with Northwind"
+        },
+        {
+          "when": "15:00",
+          "text": "Release 1.8 goes out"
+        },
+        {
+          "when": "EOD",
+          "text": "Investor update due"
+        }
+      ],
+      "seconds": 5,
+      "voice": "Tomorrow: the Northwind demo at ten, release one point eight at three, and the investor update by end of day."
+    }
+  ]
+}

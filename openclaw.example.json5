@@ -1,0 +1,22 @@
+// Local install: merge this into ~/.openclaw/openclaw.json (JSON5).
+// The workspace is this repository, so the agent finds AGENTS.md, SOUL.md and skills/.
+{
+  agents: {
+    entries: {
+      dailyrecap: {
+        workspace: "~/dailyrecap",
+        identity: { name: "DailyRecap", emoji: "🎬" },
+        // Any strong model works. Anthropic via API key, or Bedrock: "amazon-bedrock/global.anthropic.claude-sonnet-5".
+        model: { primary: "anthropic/claude-sonnet-5" },
+      },
+    },
+  },
+  // Rendering runs on the Gateway host with exec: node, ffmpeg and git must be on its PATH.
+  tools: {
+    exec: { host: "gateway", timeoutSeconds: 1800 },
+    // DailyRecap asks the other agents on this Gateway what they did today. List them here.
+    agentToAgent: { allow: ["dailyrecap", "eddie", "cfo"] },
+  },
+  // Shared sessions are on by default in 2.0; this keeps Suggest and Draft available to teammates.
+  session: { sharing: { readOnly: true, suggest: true, drafts: true } },
+}

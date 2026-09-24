@@ -1,0 +1,57 @@
+{
+  "brand": {
+    "name": "Acme Ops",
+    "url": "acmeops.dev",
+    "accent": "#a0e099",
+    "ink": "#20291f",
+    "bg": "#f8faf7"
+  },
+  "format": "portrait",
+  "lang": "en",
+  "music": "audio/music-clip.mp3",
+  "scenes": [
+    {
+      "type": "title",
+      "label": "Day 47 building Acme Ops",
+      "text": "Zero manual picks. First time.",
+      "seconds": 4,
+      "voice": "Day forty-seven building Acme Ops. Zero manual picks, for the first time."
+    },
+    {
+      "type": "events",
+      "label": "Today",
+      "items": [
+        {
+          "tag": "shipped",
+          "text": "Shortage alerts by WhatsApp"
+        },
+        {
+          "tag": "shipped",
+          "text": "Pick list by aisle"
+        },
+        {
+          "tag": "live",
+          "text": "Warehouse #12"
+        }
+      ],
+      "seconds": 6,
+      "voice": "Shipped today: shortage alerts by WhatsApp, the pick list by aisle, and warehouse twelve went live."
+    },
+    {
+      "type": "metric",
+      "label": "Orders picked",
+      "value": "1,842",
+      "delta": "+9% week over week",
+      "up": true,
+      "source": "our dashboard",
+      "seconds": 4,
+      "voice": "Eighteen hundred orders picked, up nine percent week over week."
+    },
+    {
+      "type": "closing",
+      "cta": "Follow the build",
+      "seconds": 4,
+      "voice": "Follow the build at acme ops dot dev."
+    }
+  ]
+}

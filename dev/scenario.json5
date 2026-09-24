@@ -1,0 +1,10 @@
+// Test scenario: two fixture colleagues on the same Gateway, and DailyRecap allowed to ask them.
+{
+  agents: {
+    entries: {
+      ana: { name: "ana", workspace: "/home/node/.openclaw/workspace/dev/fixtures/agents/ana", identity: { name: "Ana", emoji: "🎧" } },
+      sam: { name: "sam", workspace: "/home/node/.openclaw/workspace/dev/fixtures/agents/sam", identity: { name: "Sam", emoji: "📞" } },
+    },
+  },
+  tools: { agentToAgent: { allow: ["dailyrecap", "ana", "sam"] } },
+}

@@ -1,0 +1,110 @@
+{
+  "brand": {
+    "name": "PayDece",
+    "url": "paydece.com",
+    "accent": "#a0e099",
+    "ink": "#20291f",
+    "bg": "#f8faf7"
+  },
+  "lang": "en",
+  "music": "audio/music-recap-2026-09-24.mp3",
+  "credit": false,
+  "scenes": [
+    {
+      "type": "title",
+      "label": "PayDece · Wednesday, September 24",
+      "text": "Voice synthesis and validation shipped. The engine is production-ready.",
+      "seconds": 6.8,
+      "voice": "Wednesday at PayDece: voice synthesis and validation shipped. The engine is production-ready."
+    },
+    {
+      "type": "events",
+      "label": "Shipped",
+      "items": [
+        {
+          "tag": "c429145",
+          "text": "Free voice: edge-tts as default narration engine",
+          "who": "Rodrigo"
+        },
+        {
+          "tag": "25b4870",
+          "text": "Strict script validation, cover scenes, live backgrounds",
+          "who": "Rodrigo"
+        },
+        {
+          "tag": "support",
+          "text": "31 tickets closed, 2 escalated to Marco",
+          "who": "Ana (agent)"
+        },
+        {
+          "tag": "sales",
+          "text": "12 demos booked, reported, not verified",
+          "who": "Sam (agent)"
+        }
+      ],
+      "seconds": 12.4,
+      "voice": "Rodrigo shipped free voice synthesis with edge-tts and strict script validation with cover scenes. Support closed thirty-one tickets. Sales reports twelve demos, not verified."
+    },
+    {
+      "type": "metric",
+      "label": "Lines changed today",
+      "value": "528",
+      "delta": "+437 insertions, -91 deletions",
+      "up": true,
+      "source": "git log workspace",
+      "seconds": 6.9,
+      "voice": "Five hundred twenty-eight lines changed: four hundred thirty-seven insertions, ninety-one deletions."
+    },
+    {
+      "type": "quote",
+      "text": "The WhatsApp shortage alerts PR is out, Northwind is happy",
+      "who": "Lu",
+      "seconds": 5.1,
+      "voice": "Lu: the WhatsApp shortage alerts PR is out, Northwind is happy."
+    },
+    {
+      "type": "agenda",
+      "label": "Tomorrow",
+      "items": [
+        {
+          "when": "10:00",
+          "text": "WMS deploy (postponed from today 3 pm)"
+        }
+      ],
+      "seconds": 5,
+      "voice": "Tomorrow: WMS deploy at ten, postponed from today."
+    }
+  ],
+  "narration": [
+    {
+      "file": "audio/narration/recap/1.mp3",
+      "at": 0.4,
+      "seconds": 5.88,
+      "text": "Wednesday at PayDece: voice synthesis and validation shipped. The engine is production-ready."
+    },
+    {
+      "file": "audio/narration/recap/2.mp3",
+      "at": 7.2,
+      "seconds": 11.52,
+      "text": "Rodrigo shipped free voice synthesis with edge-tts and strict script validation with cover scenes. Support closed thirty-one tickets. Sales reports twelve demos, not verified."
+    },
+    {
+      "file": "audio/narration/recap/3.mp3",
+      "at": 19.6,
+      "seconds": 5.98,
+      "text": "Five hundred twenty-eight lines changed: four hundred thirty-seven insertions, ninety-one deletions."
+    },
+    {
+      "file": "audio/narration/recap/4.mp3",
+      "at": 26.5,
+      "seconds": 4.25,
+      "text": "Lu: the WhatsApp shortage alerts PR is out, Northwind is happy."
+    },
+    {
+      "file": "audio/narration/recap/5.mp3",
+      "at": 31.6,
+      "seconds": 4.13,
+      "text": "Tomorrow: WMS deploy at ten, postponed from today."
+    }
+  ]
+}

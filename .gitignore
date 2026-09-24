@@ -1,0 +1,16 @@
+node_modules/
+out/
+.env
+.env.*
+!.env.example
+video/public/audio/
+video/public/screens/*
+!video/public/screens/example/
+work/
+.DS_Store
+plow-credentials
+shipped/**/*.mp4
+dev/.env
+MEMORY.md
+memory/*.md
+video/.venv/

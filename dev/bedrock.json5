@@ -1,0 +1,31 @@
+// Inference through Amazon Bedrock instead of an Anthropic API key. Applied with:
+//   openclaw config patch --file /home/node/.openclaw/workspace/dev/bedrock.json5
+// Credentials come from AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY / AWS_REGION in dev/.env.
+{
+  models: {
+    providers: {
+      "amazon-bedrock": {
+        baseUrl: "https://bedrock-runtime.us-east-1.amazonaws.com",
+        api: "bedrock-converse-stream",
+        auth: "aws-sdk",
+        models: [
+          {
+            id: "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+            name: "Claude Sonnet 4.5 (Bedrock)",
+            reasoning: true,
+            input: ["text", "image"],
+            cost: { input: 3, output: 15, cacheRead: 0.3, cacheWrite: 3.75 },
+            contextWindow: 200000,
+            maxTokens: 8192,
+          },
+        ],
+      },
+    },
+  },
+  agents: {
+    defaults: {
+      model: { primary: "amazon-bedrock/us.anthropic.claude-sonnet-4-5-20250929-v1:0" },
+      models: { "amazon-bedrock/us.anthropic.claude-sonnet-4-5-20250929-v1:0": {} },
+    },
+  },
+}

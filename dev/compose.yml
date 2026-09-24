@@ -1,0 +1,71 @@
+# A throwaway OpenClaw Gateway running DailyRecap, in Docker. Nothing is installed on the
+# host. Remove everything with:  docker compose -f dev/compose.yml down -v --rmi local
+#
+# Mirrors the official docker-compose.yml of openclaw/openclaw (env pins, ports, bind),
+# with the repository mounted as the agent's workspace.
+services:
+  gateway:
+    build:
+      context: ..
+      dockerfile: dev/Dockerfile
+    image: dailyrecap-dev:local
+    env_file:
+      - path: .env
+        required: true
+    environment:
+      HOME: /home/node
+      OPENCLAW_HOME: /home/node
+      TERM: xterm-256color
+      OPENCLAW_STATE_DIR: /home/node/.openclaw
+      OPENCLAW_CONFIG_PATH: /home/node/.openclaw/openclaw.json
+      OPENCLAW_CONFIG_DIR: /home/node/.openclaw
+      OPENCLAW_WORKSPACE_DIR: /home/node/.openclaw/workspace
+      OPENCLAW_GATEWAY_PORT: "18789"
+      TZ: ${OPENCLAW_TZ:-UTC}
+    volumes:
+      - state:/home/node/.openclaw
+      - ..:/home/node/.openclaw/workspace
+      - /home/node/.openclaw/workspace/video/node_modules
+      - secrets:/home/node/.config/openclaw
+    cap_drop: [NET_RAW, NET_ADMIN]
+    security_opt: ["no-new-privileges:true"]
+    extra_hosts: ["host.docker.internal:host-gateway"]
+    ports:
+      - "${OPENCLAW_GATEWAY_PORT:-18789}:18789"
+    init: true
+    restart: unless-stopped
+    command: ["node", "dist/index.js", "gateway", "--bind", "lan", "--port", "18789"]
+
+  cli:
+    image: dailyrecap-dev:local
+    network_mode: "service:gateway"
+    env_file:
+      - path: .env
+        required: true
+    environment:
+      HOME: /home/node
+      OPENCLAW_HOME: /home/node
+      TERM: xterm-256color
+      OPENCLAW_STATE_DIR: /home/node/.openclaw
+      OPENCLAW_CONFIG_PATH: /home/node/.openclaw/openclaw.json
+      OPENCLAW_CONFIG_DIR: /home/node/.openclaw
+      OPENCLAW_WORKSPACE_DIR: /home/node/.openclaw/workspace
+      OPENCLAW_GATEWAY_PORT: "18789"
+      BROWSER: echo
+      TZ: ${OPENCLAW_TZ:-UTC}
+    volumes:
+      - state:/home/node/.openclaw
+      - ..:/home/node/.openclaw/workspace
+      - /home/node/.openclaw/workspace/video/node_modules
+      - secrets:/home/node/.config/openclaw
+    cap_drop: [NET_RAW, NET_ADMIN]
+    security_opt: ["no-new-privileges:true"]
+    stdin_open: true
+    tty: true
+    init: true
+    entrypoint: ["node", "dist/index.js"]
+    depends_on: [gateway]
+
+volumes:
+  state:
+  secrets:
