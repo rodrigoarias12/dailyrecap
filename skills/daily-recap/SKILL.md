@@ -20,7 +20,9 @@ Ask the owner once, in the session:
   Telegram group, a Discord channel; on a Plow line, the owner's iMessage) or, failing
   that, the shared session. The mp4 is sent as a file with the `message` tool; the session
   gets the summary and the path. Ask for the exact channel and target id; save both.
-- Which repos count, if any? (paths or Git URLs; you keep shallow clones under `<ws>/work/repos/`)
+- Which repos count, if any? (paths or Git URLs; you keep clones under `<ws>/work/repos/`, made
+  with `git clone --shallow-since="14 days ago" <url>`, never `--depth 1`: a one-commit clone
+  shows the whole project as one commit made today, and the recap would say so.)
 - Is the public clip wanted every day, or only when asked?
 - Which numbers may be told outside, if any?
 - **Where do the numbers live?** The systems the company already runs, so the recap says
@@ -83,8 +85,10 @@ asking. So the two primary sources need nothing connected:
 Then the optional sources, only when the Gateway already has them (a later chapter, not a
 requirement):
 
-- **Repos:** for each connected repo, `git fetch` and `git log --since="yesterday 18:00"
-  --stat` plus the merged PRs and open PRs that moved. Read the diffs of the merged ones:
+- **Repos:** for each connected repo, `git fetch --shallow-since="14 days ago"` and
+  `git log --since="yesterday 18:00" --stat` plus the merged PRs and open PRs that moved. If the
+  log shows one commit with thousands of lines, the clone is too shallow: deepen it before
+  writing a row. Read the diffs of the merged ones:
   the commit message says what, the diff says whether it matters.
 - **Calendar:** today's meetings and tomorrow's, if there is a calendar tool or skill.
 - **Numbers, from the systems connected in step 0.** Each source has a script that returns
