@@ -64,6 +64,7 @@ systems the company runs, hand it a source in the first conversation (or later, 
 | **A report by URL** | a Google Sheet published to the web as CSV, a CSV/JSON export, a dashboard endpoint with a read-only token in the URL | the rows, the count, the sums of the numeric columns |
 | **Mail and calendar** | what the Gateway already has: on a Plow line, the owner's connectors; locally, the Google skill | today's and tomorrow's meetings, the threads that moved |
 | **Your other agents** | their ids on the Gateway | what each one did since yesterday, in its own words, with its source |
+| **Agents on another OpenClaw** | their Agent2Agent endpoint and the token their owner issued | the same daily question, over the A2A 1.0 protocol; the answer comes back marked "reported, not verified" until its source is opened |
 
 The scripts are in [`sources/`](sources/): each returns the numbers already counted and
 labelled, so the agent copies them instead of calculating, and every list carries a
@@ -74,6 +75,7 @@ a memory file. Try one by hand:
 ```bash
 node sources/odoo.mjs --config work/sources/odoo.json --since 2026-09-20T00:00:00Z
 node sources/url.mjs --url "https://docs.google.com/spreadsheets/d/e/…/pub?output=csv" --name "Sales sheet"
+node sources/a2a.mjs --config work/sources/agents.json --today "2026-09-24 18:00 America/Argentina/Buenos_Aires"
 ```
 
 ## Render without the agent

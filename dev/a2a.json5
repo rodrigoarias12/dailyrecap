@@ -1,0 +1,16 @@
+// A2A for the test scenario: this Gateway exposes `sam` (sales) to a peer called `dailyrecap`,
+// the way a company's sales OpenClaw would expose its agent to the chief of staff's OpenClaw.
+// Token in dev/.env (A2A_DAILYRECAP_TOKEN). Card: GET /.well-known/agent-card.json
+{
+  channels: {
+    a2a: {
+      enabled: true,
+      replyTimeoutMs: 180000,
+      exposeAgents: ["sam"],
+      peers: { dailyrecap: { token: "${A2A_DAILYRECAP_TOKEN}" } },
+    },
+  },
+  bindings: [
+    { agentId: "sam", match: { channel: "a2a", peer: { kind: "direct", id: "dailyrecap" } } },
+  ],
+}

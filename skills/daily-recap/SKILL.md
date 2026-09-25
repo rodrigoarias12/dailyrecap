@@ -38,6 +38,12 @@ Ask the owner once, in the session:
   the session and the other agents; say so and move on.
 - **Which other agents work here?** Their ids on this Gateway (a sales agent, a support
   agent, a CFO agent, a marketing agent). They are colleagues: you will ask them every day.
+- **Agents on another OpenClaw** (another machine, another team, a vendor's agent): the
+  Agent2Agent protocol. Ask for the peer's endpoint (`https://…/a2a/v1`) and the bearer
+  token its owner issued for you, and save them to `<ws>/work/sources/agents.json` as
+  `<sources>/a2a.mjs` documents at its top. Their owner enables it on their side with
+  `channels.a2a.enabled` and a peer for you; the card at `/.well-known/agent-card.json`
+  says which agent answers.
 
 Save the answers to `MEMORY.md`. Then schedule the run: if the `cron` tool exists, one job
 at that hour, every weekday, whose message is `daily-recap: run`, **delivered to the team's
@@ -65,6 +71,11 @@ asking. So the two primary sources need nothing connected:
   says so). What an agent reports is a claim, like a commit message: if it points at
   something you can open (a PR, a ticket, a report), open it before it goes in the video.
   Their rows carry `who` = the agent's name, so the team knows who said it.
+- **The agents on other OpenClaws**, with the same question over Agent2Agent:
+  `node <sources>/a2a.mjs --config <ws>/work/sources/agents.json --today "<date> <hour> <timezone>"`.
+  It waits for each peer and returns, per peer, `answered`, the text, and a `row` already
+  marked "reported, not verified"; a peer that is down is a row too. Same rule as above:
+  open what they point at before the number goes in.
 - **The shared session:** everything teammates wrote since the last recap. This is where
   the quotes and the customer moments come from.
 - **Yesterday's recap** in `shipped/`, so you do not repeat and so a delta has a baseline.
