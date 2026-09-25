@@ -86,6 +86,9 @@ un Plow limpio, renderizó y entregó un recap real y reportó 185.373 tokens ba
 admin: `plow-agents image promote dailyrecap ghcr.io/rodrigoarias12/dailyrecap@sha256:<digest>`
 (aplica a instalaciones nuevas; las que ya corren conservan su imagen).
 
+Promovida el 25/9 02:19 UTC: `@sha256:b6bfed0d…` (commit f34fead: fuentes Odoo, URL y A2A; recap por
+heartbeat). Comprobado que la imagen trae `/opt/dailyrecap/sources/{odoo,url,a2a}.mjs`.
+
 ## E. El video demo (≥ 60 s)
 
 Hecho el 24/9: 70 segundos, el lanzamiento de DailyRecap sobre sí mismo (34 s) más un recap
