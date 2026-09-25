@@ -15,6 +15,12 @@ Work in `<ws>/work/recap/<date>/`.
 ## 0. First time: set the clock
 
 Ask the owner once, in the session:
+- **Whose video is it?** The company name as it should read on screen, its URL, and its
+  look: the accent color (used as a background, never as text), the ink color and the page
+  background, as hex. If they give a website instead, read the accent and text colors from
+  its CSS. If they send their logo as an image, save it under `<video>/public/brand/<company>/`
+  and use it. Write the whole `brand` block to `MEMORY.md` under "Brand". Without this the
+  video carries no brand: never a placeholder company, never another company's colors.
 - At what hour should the recap go out? (default 18:00 local)
 - **Where does it go?** A channel the Gateway already has (a Slack channel, a WhatsApp or
   Telegram group, a Discord channel; on a Plow line, the owner's iMessage) or, failing
@@ -132,8 +138,9 @@ cd <video> && node scripts/render.mjs ../work/recap/<date>/recap.json --check
 
 The renderer refuses an off-schema script. A missing `brand` would otherwise be silently
 replaced by the example's, and the video would carry another company's name. The `brand`
-values come from `MEMORY.md` or `USER.md`; a URL you were not given is an empty string,
-not a guess.
+values come from `MEMORY.md` ("Brand", set in the first conversation) or `USER.md`; a URL you
+were not given is an empty string, not a guess. Every company gets its own brand block: the
+example's colors are the example's.
 
 **Every source gets its row.** An agent that reported without a source is still a row: its
 text ends with "reported, not verified". Leaving it out is your judgement replacing the
