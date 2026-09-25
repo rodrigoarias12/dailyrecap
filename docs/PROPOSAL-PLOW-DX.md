@@ -82,9 +82,14 @@ automated." So the text stays. Everything around it can go.
 Android and SMS: the same button and QR work (`?&body=` is the cross-platform form), and a
 phone number is a single handle, so step 3 rarely fires.
 
-**What this changes in the CLI**: `plow-agents login` prints the `sms:` link and renders the
-`SMSTO` QR in the terminal next to the text it prints today. No API change for step 1 and
-2; step 3 needs one endpoint (`/v1/auth/link`) and one reply template.
+**What this changes in the CLI, two QR codes**: `plow-agents login` prints the `sms:` link and
+renders the `SMSTO` QR for the reception number next to the text it prints today. And
+`plow-agents deploy`, the moment the agent reaches `running` (or `plow-agents agents` when it
+already is), prints a second link and QR: `SMSTO:<line number>:who are you`. Scan, send, and
+the agent answers who it is. The person never looks the line up in `lines` and never types a
+number. We verified the QR half on an iPhone: the Camera app opens Messages with the text in
+place. No API change for steps 1 and 2; step 3 needs one endpoint (`/v1/auth/link`) and one
+reply template.
 
 Sources: Plow Chat API docs (howto.plow.co/plow-chat-api), Apple Messages for Business FAQ
 and security guide, Apple Tech Talk 206 on QR formats, Apple's `sms:` scheme reference,
