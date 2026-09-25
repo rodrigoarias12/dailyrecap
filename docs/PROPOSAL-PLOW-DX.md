@@ -40,6 +40,48 @@ places where Plow could say something, ordered by how much time each would have 
 9. **Progress in the chat, by default, for the first run.** Turn `verbose_output` on for the first N minutes after deploy, or emit one line when a run starts ("working on it, ~10 min") and one when a tool call exceeds a minute. Silence is indistinguishable from death.
 10. **Docs in one place.** The pieces exist (three READMEs, the publish page, `howto.plow.co`, Discord) but the sender gate, the two-handle trap, the tool profile and the boot overwrite are in none of them. A single "Hosting an agent on Plow" page with those four facts would have saved us four days.
 
+## Onboarding v2: the same proof, one tap
+
+Why the user texts first: Apple does not let a business open an iMessage thread with a
+stranger. Messages for Business says "customers must start conversations", and an
+unofficial Mac relay that texts strangers gets throttled or flagged. Plow's own docs say it
+plainly: the activation text "proves you hold the phone, which is why it can't be
+automated." So the text stays. Everything around it can go.
+
+**What the user sees**
+
+1. **plow.co/start** (or the CLI) calls `/v1/auth/activate` and shows two things: a green
+   button and a QR. The button is `sms:+16282463032?&body=Plow%20Activate%3A%20ABCDE`.
+   The QR encodes `SMSTO:+16282463032:Plow Activate: ABCDE`: the iPhone camera opens
+   Messages with the recipient and the text already in place. The user only taps Send.
+   Nothing is typed, so the colon, the spaces and the code are always right.
+2. The page polls `/v1/auth/activate/redeem`. When the inbound arrives from handle H1 with
+   the code, the account is bound to H1, the page flips to "You're in", and the thread
+   gets its first line from the agent. The user never leaves Messages.
+3. **The second handle.** When an unknown handle H2 texts an agent's line with no code,
+   Plow answers once: "Already have Plow? Tap plow.co/link/<token>". The link, opened in
+   the browser that did step 1 (or after a magic-link login), shows "Link
+   you@icloud.com to this account? Yes." H2 is proven by the reply living only in H2's
+   thread; the account by the web session. The account page offers the same as "Link
+   another number or email", which reuses step 1.
+4. The activation reply says the one thing we did not know: "On a Mac or an iPhone,
+   Messages may send from your Apple ID email. Reply from there once and I will link it."
+5. Later, for the verified badge and one identity per Apple Account: register on Messages
+   for Business through an MSP (Poke did, approved in June 2026). Its Opaque ID is one per
+   Apple Account regardless of handle, which removes this whole class of problem, and its
+   URLs (`bcrw.apple.com/urn:biz:…?body=…`) work as buttons, QR and NFC.
+
+Android and SMS: the same button and QR work (`?&body=` is the cross-platform form), and a
+phone number is a single handle, so step 3 rarely fires.
+
+**What this changes in the CLI**: `plow-agents login` prints the `sms:` link and renders the
+`SMSTO` QR in the terminal next to the text it prints today. No API change for step 1 and
+2; step 3 needs one endpoint (`/v1/auth/link`) and one reply template.
+
+Sources: Plow Chat API docs (howto.plow.co/plow-chat-api), Apple Messages for Business FAQ
+and security guide, Apple Tech Talk 206 on QR formats, Apple's `sms:` scheme reference,
+Signal and WhatsApp device linking, Telegram `t.me/<bot>?start=` deep links.
+
 ## Your own issue tracker already says most of this
 
 We are not the first. Reading plow-pbc's open issues after the fact, every row of our table
