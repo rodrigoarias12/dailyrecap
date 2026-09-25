@@ -19,6 +19,12 @@ to install, no keys to paste, no model to choose (inference is Plow's). Then:
 3. From then on, the video arrives **in that same iMessage thread**, every weekday at the
    hour you set. No other channel to connect.
 
+**If the agent never answers:** a Plow account *is* a phone number. The agent only answers the
+phone that completed `plow-agents login` (or, for a one-text install, the phone that sent the
+install text). A blue, delivered iMessage from any other phone is dropped silently, with no chat
+created. Text from that phone, or log in again from the phone you will use: the same command
+prints a new activation text, and the account that phone creates is the one the agent belongs to.
+
 Plow (plow.co) is the hosting: a phone line, a container per person, usage reporting for the
 hackathon index. The hosting is theirs; the agent, its skills and its video engine are this
 repository, packaged as the image `ghcr.io/rodrigoarias12/dailyrecap`.
