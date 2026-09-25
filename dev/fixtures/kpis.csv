@@ -1,0 +1,10 @@
+week,metric,value,unit,source
+2026-W39,Installs (Agent Index),2,installs,aiworthusing.com/agent-index/dailyrecap
+2026-W39,Activated (saw their first video),2,installs,Plow admission log 24/9 + own line
+2026-W39,Time to first video,9,minutes,Plow admission test 24/9
+2026-W39,Videos delivered this week,4,videos,shipped/ folder in the workspace
+2026-W39,Tokens reported to the index,520000,tokens,Agent Index row 24/9
+2026-W39,Issues opened this week,8,issues,github.com/rodrigoarias12/dailyrecap/issues
+2026-W39,Issues closed this week,1,issues,github.com/rodrigoarias12/dailyrecap/issues
+2026-W39,Customer requests open,0,issues,label "customer request"
+2026-W39,Features shipped vs planned,3 of 4,features,docs/PLAN.md day 3
