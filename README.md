@@ -36,7 +36,14 @@ the video with the agent's name on the row. An agent's report is a claim: if it 
 something DailyRecap can open, it opens it first; if not, the row says "reported, not
 verified". The first hire that asks the other hires what they did today.
 
-## Install (local OpenClaw Gateway, 2026.9 or later)
+## Install
+
+**One text, nothing to install:** send `Set this up for me: aiworthusing.com/agent-index/dailyrecap`
+by iMessage to +1 (628) 246-3032. Your agent texts you back from its own number, asks four
+questions, and the video arrives in that thread every evening. The full guide, including
+your own Gateway with Telegram, Slack or WhatsApp delivery, is [docs/INSTALL.md](docs/INSTALL.md).
+
+### Local OpenClaw Gateway (2026.9 or later)
 
 ```bash
 git clone https://github.com/rodrigoarias12/dailyrecap ~/dailyrecap

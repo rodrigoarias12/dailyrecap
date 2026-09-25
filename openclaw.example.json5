@@ -17,6 +17,10 @@
     // DailyRecap asks the other agents on this Gateway what they did today. List them here.
     agentToAgent: { allow: ["dailyrecap", "eddie", "cfo"] },
   },
+  // Where the recap arrives. Telegram: `openclaw channels add --channel telegram --token <token>`
+  // puts the token here for you; then message the bot once and `openclaw pairing approve telegram <code>`.
+  // (docs/INSTALL.md). Slack, WhatsApp and Discord work the same way through `openclaw channels add`.
+  channels: { telegram: { enabled: true } },
   // Shared sessions are on by default in 2.0; this keeps Suggest and Draft available to teammates.
   session: { sharing: { readOnly: true, suggest: true, drafts: true } },
 }
