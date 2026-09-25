@@ -1,6 +1,6 @@
 {
  "brand": {
-  "name": "PayDece",
+  "name": "YoRobot",
   "url": "yorobot.ai",
   "accent": "#a0e099",
   "ink": "#20291f",
@@ -12,10 +12,10 @@
  "scenes": [
   {
    "type": "title",
-   "label": "PayDece \u00b7 Friday, September 25",
+   "label": "YoRobot \u00b7 Friday, September 25",
    "text": "The week the product turned a corner. 301 weekly actives, retention up.",
    "seconds": 7.9,
-   "voice": "Friday at PayDece: the week the product turned a corner. Three hundred and one weekly actives, and retention is up."
+   "voice": "Friday at YoRobot: the week the product turned a corner. Three hundred and one weekly actives, and retention is up."
   },
   {
    "type": "chart",
