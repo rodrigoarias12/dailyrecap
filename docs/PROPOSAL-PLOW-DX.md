@@ -56,10 +56,18 @@ automated." So the text stays. Everything around it can go.
    Messages with the recipient and the text already in place. The user only taps Send.
    Nothing is typed, so the colon, the spaces and the code are always right.
 2. The page polls `/v1/auth/activate/redeem`. When the inbound arrives from handle H1 with
-   the code, the account is bound to H1, the page flips to "You're in", and the thread
-   gets its first line from the agent. The user never leaves Messages.
-3. **The second handle.** When an unknown handle H2 texts an agent's line with no code,
-   Plow answers once: "Already have Plow? Tap plow.co/link/<token>". The link, opened in
+   the code, the account is bound to H1 and the page flips to "You're in". Two numbers are
+   involved and the user should never have to know it: the reception number (+1 628…) is
+   where activation and installs go; the agent lives on its own line (+1 650…), and today
+   that line sends no greeting, so the user has to find its number in `plow-agents lines`
+   and text it first. So the activation reply on the reception number carries the bridge:
+   "Your account is +54…. Your agent is on +1 650 346 6610: tap to say hi", with a
+   `sms:+16503466610?&body=hi` link. One tap lands the user in the right thread, from the
+   same identity that just activated.
+3. **The second handle.** When an unknown handle H2 texts an agent's line (which is where
+   this happens: the activation thread and the agent thread are different numbers, and
+   Messages may pick a different identity for each), Plow answers once: "Already have Plow?
+   Tap plow.co/link/<token>". The link, opened in
    the browser that did step 1 (or after a magic-link login), shows "Link
    you@icloud.com to this account? Yes." H2 is proven by the reply living only in H2's
    thread; the account by the web session. The account page offers the same as "Link
