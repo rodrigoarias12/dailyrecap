@@ -5,7 +5,7 @@
       ana: { name: "ana", workspace: "/home/node/.openclaw/workspace/dev/fixtures/agents/ana", identity: { name: "Ana", emoji: "🎧" } },
       sam: { name: "sam", workspace: "/home/node/.openclaw/workspace/dev/fixtures/agents/sam", identity: { name: "Sam", emoji: "📞" } },
       cto: { name: "cto", workspace: "/home/node/.openclaw/workspace/dev/fixtures/agents/cto", identity: { name: "Theo", emoji: "🛠️" } },
-      po: { name: "po", workspace: "/home/node/.openclaw/workspace/dev/fixtures/agents/po", identity: { name: "Pilar", emoji: "🧭" } },
+      po: { name: "po", workspace: "/home/node/.openclaw/workspace/dev/fixtures/agents/po", identity: { name: "Pilar", emoji: "🧭" } /* Chief Product Officer's assistant */ },
     },
   },
   tools: { agentToAgent: { allow: ["dailyrecap", "ana", "sam", "cto", "po"] } },

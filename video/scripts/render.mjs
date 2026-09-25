@@ -19,7 +19,7 @@ const script = JSON.parse(readFileSync(SCRIPT, 'utf8'));
 // ── Validation ──────────────────────────────────────────────────────────────────────────
 const SCENES = {
   title: ['text'], cover: ['image', 'text'], screen: ['image', 'focus', 'label', 'text'], chips: ['label', 'items'],
-  numbers: ['label', 'items'], events: ['label', 'items'], metric: ['label', 'value', 'source'], quote: ['text', 'who'],
+  numbers: ['label', 'items'], events: ['label', 'items'], metric: ['label', 'value', 'source'], chart: ['kind', 'label', 'series', 'source'], quote: ['text', 'who'],
   agenda: ['label', 'items'], closing: ['cta'],
 };
 const errors = [];
@@ -38,6 +38,12 @@ else script.scenes.forEach((s, i) => {
   for (const k of SCENES[s.type]) if (s[k] === undefined || s[k] === null || s[k] === '') errors.push(`${at}.${k}: required for type "${s.type}"`);
   if (s.items !== undefined && !Array.isArray(s.items)) errors.push(`${at}.items: must be an array`);
   if (Array.isArray(s.items) && s.items.length === 0) errors.push(`${at}.items: empty; drop the scene instead`);
+  if (s.type === 'chart') {
+    if (!['line', 'bars', 'funnel'].includes(s.kind)) errors.push(`${at}.kind: must be line, bars or funnel`);
+    if (!Array.isArray(s.series) || s.series.length < 2) errors.push(`${at}.series: needs at least two points { x, y }`);
+    else s.series.forEach((pt, j) => { if (!isStr(pt.x) || typeof pt.y !== 'number') errors.push(`${at}.series[${j}]: needs a string x and a number y`); });
+    if (s.type === 'chart' && Array.isArray(s.series) && s.series.length > 12) errors.push(`${at}.series: more than 12 points does not read in a video; aggregate`);
+  }
   if (s.voice !== undefined && !isStr(s.voice)) errors.push(`${at}.voice: must be a non-empty string when present`);
   if ((s.type === 'screen' || s.type === 'cover') && isStr(s.image) && !existsSync(join(ROOT, 'public', s.image))) errors.push(`${at}.image: public/${s.image} does not exist`);
   if (s.type === 'screen' && s.focus) for (const k of ['x', 'y', 'w', 'h']) if (typeof s.focus[k] !== 'number') errors.push(`${at}.focus.${k}: must be a number in 0..1`);

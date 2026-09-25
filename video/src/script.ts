@@ -38,6 +38,8 @@ export type Scene =
   | { type: 'events'; label: string; items: { tag: string; text: string; who?: string }[]; seconds: number; voice?: string }
   /** One number that moved today, with where it came from. `delta` is free text such as "+12 since Monday". */
   | { type: 'metric'; label: string; value: string; delta?: string; up?: boolean; source: string; seconds: number; voice?: string }
+  /** A metric with its chart: one series, the accent as the mark, the number counted up beside it. `value` defaults to the last point. `kind`: line (over time), bars (by category), funnel (steps that lose people). */
+  | { type: 'chart'; kind: 'line' | 'bars' | 'funnel'; label: string; series: { x: string; y: number }[]; value?: string; delta?: string; up?: boolean; unit?: string; source: string; seconds: number; voice?: string }
   /** Something a teammate said, with their name. Their words, not a paraphrase. */
   | { type: 'quote'; text: string; who: string; seconds: number; voice?: string }
   /** What is next: tomorrow's meetings, deadlines, releases. Up to five rows. */

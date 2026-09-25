@@ -116,7 +116,7 @@ A recap is not a list. Five to seven scenes:
 |---|---|---|
 | 1 | title | label = company · date; text = the one sentence for the day |
 | 2 | events | what shipped: up to six rows, tag = PR number or repo, `who` from the commit author |
-| 3 | metric | the number that moved most, with delta and source; drop if nothing moved |
+| 3 | metric or chart | the number that moved most, with delta and source; drop if nothing moved. When the source gives a series (weeks, days, cohorts, funnel steps), use `chart` instead of `metric`: `kind` line for change over time, bars for magnitude by category or period, funnel for steps that lose people; 2 to 12 points; one series per chart |
 | 4 | quote | the best thing a teammate said in the session, verbatim, with their name |
 | 5 | events or screen | a customer moment, an incident and its fix, or a screenshot of what shipped |
 | 6 | agenda | tomorrow: meetings, releases, deadlines |

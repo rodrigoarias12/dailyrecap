@@ -8,3 +8,21 @@ week,metric,value,unit,source
 2026-W39,Issues closed this week,1,issues,github.com/rodrigoarias12/dailyrecap/issues
 2026-W39,Customer requests open,0,issues,label "customer request"
 2026-W39,Features shipped vs planned,3 of 4,features,docs/PLAN.md day 3
+2026-W32,Weekly active users,120,users,product analytics (demo data)
+2026-W33,Weekly active users,138,users,product analytics (demo data)
+2026-W34,Weekly active users,151,users,product analytics (demo data)
+2026-W35,Weekly active users,176,users,product analytics (demo data)
+2026-W36,Weekly active users,198,users,product analytics (demo data)
+2026-W37,Weekly active users,231,users,product analytics (demo data)
+2026-W38,Weekly active users,262,users,product analytics (demo data)
+2026-W39,Weekly active users,301,users,product analytics (demo data)
+2026-W34,Day-7 retention,31,%,product analytics (demo data)
+2026-W35,Day-7 retention,34,%,product analytics (demo data)
+2026-W36,Day-7 retention,33,%,product analytics (demo data)
+2026-W37,Day-7 retention,38,%,product analytics (demo data)
+2026-W38,Day-7 retention,42,%,product analytics (demo data)
+2026-W39,Day-7 retention,46,%,product analytics (demo data)
+2026-W39,Activation funnel: Signed up,412,users,product analytics (demo data)
+2026-W39,Activation funnel: Connected a source,286,users,product analytics (demo data)
+2026-W39,Activation funnel: First video,241,users,product analytics (demo data)
+2026-W39,Activation funnel: Came back next day,174,users,product analytics (demo data)

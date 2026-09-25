@@ -2,6 +2,7 @@ import { AbsoluteFill, Audio, Easing, Sequence, interpolate, staticFile, useCurr
 import { Agenda, Captions, Chips, Closing, Cover, Events, Fonts, Metric, Numbers, Quote, Screen, Title } from './pieces';
 import { FPS, frames, sceneStarts, totalFrames, type Script } from './script';
 import { palette } from './style';
+import { Chart } from './charts';
 
 const BED = 0.3, BED_UNDER_VOICE = 0.1;
 
@@ -51,6 +52,7 @@ export function Video(script: Script) {
             {s.type === 'numbers' && <Numbers p={p} label={s.label} items={s.items} total={len} />}
             {s.type === 'events' && <Events p={p} label={s.label} items={s.items} total={len} />}
             {s.type === 'metric' && <Metric p={p} label={s.label} value={s.value} delta={s.delta} up={s.up} source={s.source} total={len} />}
+            {s.type === 'chart' && <Chart p={p} kind={s.kind} label={s.label} series={s.series} value={s.value} delta={s.delta} up={s.up} unit={s.unit} source={s.source} total={len} />}
             {s.type === 'quote' && <Quote p={p} quote={s.text} who={s.who} total={len} />}
             {s.type === 'agenda' && <Agenda p={p} label={s.label} items={s.items} total={len} />}
             {s.type === 'closing' && <Closing p={p} cta={s.cta} total={len} credit={script.credit !== false} />}

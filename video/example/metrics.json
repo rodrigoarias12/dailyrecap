@@ -1,0 +1,210 @@
+{
+ "brand": {
+  "name": "PayDece",
+  "url": "yorobot.ai",
+  "accent": "#a0e099",
+  "ink": "#20291f",
+  "bg": "#f8faf7"
+ },
+ "lang": "en",
+ "music": "audio/music-recap.mp3",
+ "credit": false,
+ "scenes": [
+  {
+   "type": "title",
+   "label": "PayDece \u00b7 Friday, September 25",
+   "text": "The week the product turned a corner. 301 weekly actives, retention up.",
+   "seconds": 7.9,
+   "voice": "Friday at PayDece: the week the product turned a corner. Three hundred and one weekly actives, and retention is up."
+  },
+  {
+   "type": "chart",
+   "kind": "line",
+   "label": "Weekly active users",
+   "series": [
+    {
+     "x": "W32",
+     "y": 120
+    },
+    {
+     "x": "W33",
+     "y": 138
+    },
+    {
+     "x": "W34",
+     "y": 151
+    },
+    {
+     "x": "W35",
+     "y": 176
+    },
+    {
+     "x": "W36",
+     "y": 198
+    },
+    {
+     "x": "W37",
+     "y": 231
+    },
+    {
+     "x": "W38",
+     "y": 262
+    },
+    {
+     "x": "W39",
+     "y": 301
+    }
+   ],
+   "delta": "+15% vs. last week",
+   "up": true,
+   "source": "Pilar \u00b7 KPI sheet, week 39",
+   "seconds": 9,
+   "voice": "Weekly active users: three hundred and one, fifteen percent more than last week, and the eighth week of growth in a row."
+  },
+  {
+   "type": "chart",
+   "kind": "funnel",
+   "label": "Activation this week",
+   "series": [
+    {
+     "x": "Signed up",
+     "y": 412
+    },
+    {
+     "x": "Connected a source",
+     "y": 286
+    },
+    {
+     "x": "First video",
+     "y": 241
+    },
+    {
+     "x": "Came back next day",
+     "y": 174
+    }
+   ],
+   "value": "58%",
+   "delta": "signup to first video",
+   "up": true,
+   "source": "Pilar \u00b7 product analytics",
+   "seconds": 10.2,
+   "voice": "Activation: of four hundred and twelve sign-ups, two hundred and forty-one got their first video. Fifty-eight percent, and one hundred seventy-four came back the next day."
+  },
+  {
+   "type": "chart",
+   "kind": "bars",
+   "label": "Day-7 retention by cohort",
+   "unit": "%",
+   "series": [
+    {
+     "x": "W34",
+     "y": 31
+    },
+    {
+     "x": "W35",
+     "y": 34
+    },
+    {
+     "x": "W36",
+     "y": 33
+    },
+    {
+     "x": "W37",
+     "y": 38
+    },
+    {
+     "x": "W38",
+     "y": 42
+    },
+    {
+     "x": "W39",
+     "y": 46
+    }
+   ],
+   "delta": "+4 pts vs. last cohort",
+   "up": true,
+   "source": "Pilar \u00b7 KPI sheet, week 39",
+   "seconds": 9,
+   "voice": "Day-seven retention: forty-six percent for this week's cohort, four points better than last week's, and the best so far."
+  },
+  {
+   "type": "events",
+   "label": "Engineering",
+   "items": [
+    {
+     "tag": "CI",
+     "text": "5 runs, all green",
+     "who": "Theo"
+    },
+    {
+     "tag": "bugs",
+     "text": "3 open: timezone onboarding, clip timing, heartbeat",
+     "who": "Theo"
+    },
+    {
+     "tag": "shipped",
+     "text": "Agent2Agent comms, number sources, install flow",
+     "who": "Theo"
+    }
+   ],
+   "seconds": 10.6,
+   "voice": "From engineering, Theo reports five green builds, three open bugs, and three things shipped: agent-to-agent comms, number sources and the install flow."
+  },
+  {
+   "type": "chart",
+   "kind": "bars",
+   "label": "Bugs: opened vs. closed",
+   "series": [
+    {
+     "x": "Mon",
+     "y": 2
+    },
+    {
+     "x": "Tue",
+     "y": 1
+    },
+    {
+     "x": "Wed",
+     "y": 3
+    },
+    {
+     "x": "Thu",
+     "y": 1
+    },
+    {
+     "x": "Fri",
+     "y": 0
+    }
+   ],
+   "value": "3 open",
+   "delta": "7 closed this week",
+   "up": true,
+   "source": "Theo \u00b7 GitHub issues",
+   "seconds": 8,
+   "voice": "Bugs: seven closed this week, three still open, none opened today."
+  },
+  {
+   "type": "quote",
+   "text": "Demo call with a prospect today: they want their KPI sheet as a source, and a video they can forward to their board",
+   "who": "Rodrigo",
+   "seconds": 7.6,
+   "voice": "Rodrigo, from today's demo call: they want their KPI sheet as a source, and a video they can forward to their board."
+  },
+  {
+   "type": "agenda",
+   "label": "Next",
+   "items": [
+    {
+     "when": "Mon",
+     "text": "Cohort W40 starts; retention target 48%"
+    },
+    {
+     "when": "Tue",
+     "text": "Release: timezone in onboarding"
+    }
+   ],
+   "seconds": 7.8,
+   "voice": "Next: cohort forty starts Monday with a retention target of forty-eight, and the timezone fix ships Tuesday."
+  }
+ ]
+}

@@ -33,7 +33,7 @@ export function Fonts() {
  * The same pieces serve 1920×1080 and 1080×1920. Type sizes are designed for a 1080 px
  * short side, so they hold in both; what changes is the gutter and how wide a line may run.
  */
-function useLayout() {
+export function useLayout() {
   const { width, height } = useVideoConfig();
   const portrait = height > width;
   const pad = Math.round(width * (portrait ? 0.08 : 0.073));
@@ -75,7 +75,7 @@ export function Words({ children, from = 0, gap = 3, style }: { children: string
  * progress line at the top that fills over the scene. Nothing on it is content; it is there
  * so the frame is never static, which is the difference between a video and a slide.
  */
-function Backdrop({ p, total, dark = true }: { p: Palette; total: number; dark?: boolean }) {
+export function Backdrop({ p, total, dark = true }: { p: Palette; total: number; dark?: boolean }) {
   const f = useCurrentFrame();
   const { width, height } = useVideoConfig();
   const t = f / 30;
@@ -103,7 +103,7 @@ function Progress({ p, total }: { p: Palette; total: number }) {
   return <div style={{ position: 'absolute', top: 0, left: 0, height: 6, width: `${interpolate(f, [0, total], [0, 100], clamp)}%`, background: p.accent, opacity: 0.9 }} />;
 }
 
-function Label({ p, children, dark = true, from = 4, style }: { p: Palette; children: ReactNode; dark?: boolean; from?: number; style?: CSSProperties }) {
+export function Label({ p, children, dark = true, from = 4, style }: { p: Palette; children: ReactNode; dark?: boolean; from?: number; style?: CSSProperties }) {
   const f = useCurrentFrame();
   return <div style={{ ...text(T.label, { color: dark ? p.accent : p.ink, opacity: dark ? 1 : 0.6 }), opacity: enter(f, from), ...style }}>{children}</div>;
 }
@@ -267,7 +267,7 @@ export function Events({ p, label, items, total }: { p: Palette; label: string; 
 }
 
 /** "1,842" → counts up from zero keeping the thousands separator; "3x" keeps its suffix; anything else is shown as is. */
-function countUp(value: string, f: number, from = 8, len = 34): string {
+export function countUp(value: string, f: number, from = 8, len = 34): string {
   const m = value.match(/^([^\d]*)([\d][\d,.]*)(.*)$/);
   if (!m) return value;
   const [, pre, num, post] = m;
