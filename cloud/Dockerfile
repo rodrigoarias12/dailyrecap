@@ -29,8 +29,10 @@ ENV PATH=/opt/edge-tts/bin:$PATH
 
 COPY AGENTS.md /opt/plow/prompt/AGENTS.md
 COPY skills/ /opt/plow/skills/
+COPY sources/ /opt/dailyrecap/sources/
 COPY HEARTBEAT.md /opt/plow/prompt/HEARTBEAT.md
 ENV DAILYRECAP_VIDEO_DIR=/opt/dailyrecap/video
+ENV DAILYRECAP_SOURCES_DIR=/opt/dailyrecap/sources
 # Renders and screenshots use the system Chromium, like the dev image.
 ENV DAILYRECAP_CHROME=/usr/bin/chromium
 COPY video/ /opt/dailyrecap/video/

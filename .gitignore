@@ -17,3 +17,6 @@ video/.venv/
 !video/public/screens/dailyrecap/
 !video/public/brand/
 video/public/demo/
+
+# credentials of the owner's systems live only in the container
+work/sources/

@@ -18,6 +18,19 @@ Read `SOUL.md` when it exists. Read `USER.md` for the company you work for. Read
 `memory/YYYY-MM-DD.md` for today and yesterday, and `MEMORY.md` only in the main session.
 `HEARTBEAT.md` says what to check when a heartbeat or the daily cron wakes you.
 
+## When you wake up on your own
+
+A heartbeat or a cron wakes you without a message. Then, in this order:
+
+1. **Is it recap time?** Read `Recap hour` from `MEMORY.md` (default 18:00 in the owner's
+   timezone). If that hour has passed today and `shipped/<today>-recap/` does not exist,
+   run `skills/daily-recap/SKILL.md` end to end now and deliver it where the owner said.
+   This is how the recap goes out where there is no `cron` tool (a Plow line): the
+   heartbeat is the clock. Never run it twice in a day; `shipped/` is the record.
+2. **Otherwise** check the session for corrections to the last recap (re-cut if there are
+   any), for a clip approval you are waiting on (render if it came), and for a new
+   launch-video brief. Nothing to do: say nothing.
+
 ## The one rule under everything
 
 **Every word on screen comes from a datum.** A commit, a calendar entry, a number from a

@@ -52,6 +52,30 @@ To try it without installing anything, [`dev/`](dev/README.md) runs the whole Ga
 Docker and removes itself with one command. For the hosted, 1-click version (Plow phone
 line), see [`cloud/`](cloud/README.md).
 
+## Connect your numbers
+
+The recap is only as good as what it can read. Out of the box it reads the shared session,
+the other agents on the Gateway and any repo you name. To have it say what happened in the
+systems the company runs, hand it a source in the first conversation (or later, any time):
+
+| Source | What you give it | What it reads every evening |
+|---|---|---|
+| **Odoo** (any version; ERP with the same API) | URL, database, a read-only login or an Odoo 19+ API key | vendor bills received, customer invoices issued, sales orders confirmed, new companies: counts, totals per currency, how many are paid, with the source beside each number |
+| **A report by URL** | a Google Sheet published to the web as CSV, a CSV/JSON export, a dashboard endpoint with a read-only token in the URL | the rows, the count, the sums of the numeric columns |
+| **Mail and calendar** | what the Gateway already has: on a Plow line, the owner's connectors; locally, the Google skill | today's and tomorrow's meetings, the threads that moved |
+| **Your other agents** | their ids on the Gateway | what each one did since yesterday, in its own words, with its source |
+
+The scripts are in [`sources/`](sources/): each returns the numbers already counted and
+labelled, so the agent copies them instead of calculating, and every list carries a
+`truncated` flag so a sample is never mistaken for the whole. Credentials stay in
+`work/sources/` inside the agent's own container; they never reach a video, a message or
+a memory file. Try one by hand:
+
+```bash
+node sources/odoo.mjs --config work/sources/odoo.json --since 2026-09-20T00:00:00Z
+node sources/url.mjs --url "https://docs.google.com/spreadsheets/d/e/…/pub?output=csv" --name "Sales sheet"
+```
+
 ## Render without the agent
 
 The video package stands on its own. A `script.json` in, an mp4 out:

@@ -9,7 +9,7 @@ metadata:
 
 # daily-recap
 
-`<ws>` is the workspace root (this repository). `<video>` is the video engine: `$DAILYRECAP_VIDEO_DIR` when that variable is set (the hosted image keeps it at `/opt/dailyrecap/video`), otherwise `<ws>/video`. `<date>` is today as `YYYY-MM-DD`.
+`<ws>` is the workspace root (this repository). `<video>` is the video engine: `$DAILYRECAP_VIDEO_DIR` when that variable is set (the hosted image keeps it at `/opt/dailyrecap/video`), otherwise `<ws>/video`. `<sources>` is the folder of source scripts: `$DAILYRECAP_SOURCES_DIR` when set (the hosted image: `/opt/dailyrecap/sources`), otherwise `<ws>/sources`. `<date>` is today as `YYYY-MM-DD`.
 Work in `<ws>/work/recap/<date>/`.
 
 ## 0. First time: set the clock
@@ -23,13 +23,29 @@ Ask the owner once, in the session:
 - Which repos count, if any? (paths or Git URLs; you keep shallow clones under `<ws>/work/repos/`)
 - Is the public clip wanted every day, or only when asked?
 - Which numbers may be told outside, if any?
+- **Where do the numbers live?** The systems the company already runs, so the recap says
+  what happened in them, not what someone remembers. Offer these, one at a time:
+  - **Odoo** (or any ERP with the same API): the URL, the database name, and a login made
+    for you with read-only rights (or, on Odoo 19+, an API key). Save them to
+    `<ws>/work/sources/odoo.json` as `<sources>/odoo.mjs` documents at its top.
+  - **A report by URL**: a Google Sheet published to the web as CSV, a CSV or JSON export,
+    a dashboard endpoint with a read-only token in the URL. Save the URL and a short name
+    to `<ws>/work/sources/urls.json` (`[{ "name": "…", "url": "…" }]`).
+  - **Mail and calendar** through what the Gateway already has (a Plow line: the owner's
+    connectors and the owner's Mac; a local Gateway: its Google skill).
+  A credential arrives in this private container only; it never goes in a video, a
+  message, a repo or a memory file. If they have none of this, the recap still works from
+  the session and the other agents; say so and move on.
 - **Which other agents work here?** Their ids on this Gateway (a sales agent, a support
   agent, a CFO agent, a marketing agent). They are colleagues: you will ask them every day.
 
-Save the answers to `MEMORY.md`. Then create the cron with the `cron` tool: one job at
-that hour, every weekday, whose message is `daily-recap: run`, **delivered to the team's
-channel and target** (that is what makes the reply's `MEDIA:` line arrive as a file).
-Say what you set.
+Save the answers to `MEMORY.md`. Then schedule the run: if the `cron` tool exists, one job
+at that hour, every weekday, whose message is `daily-recap: run`, **delivered to the team's
+channel and target** (that is what makes the reply's `MEDIA:` line arrive as a file). If the
+`cron` tool does not exist (a Plow line, for one), the heartbeat does the job: the rule in
+`AGENTS.md` under "When you wake up on your own" runs the recap the first time you wake up
+after the hour. Write the hour to `MEMORY.md` as `Recap hour: HH:MM <timezone>`. Say what
+you set, and which of the two mechanisms it is.
 
 ## 1. Gather (all of it, every day)
 
@@ -60,8 +76,19 @@ requirement):
   --stat` plus the merged PRs and open PRs that moved. Read the diffs of the merged ones:
   the commit message says what, the diff says whether it matters.
 - **Calendar:** today's meetings and tomorrow's, if there is a calendar tool or skill.
-- **Numbers:** dashboards or reports the owner connected (a URL, a file, an MCP tool). A
-  number goes in only with its source.
+- **Numbers, from the systems connected in step 0.** Each source has a script that returns
+  the numbers already counted, summed and labelled, with the source beside each one, so
+  you copy instead of calculating:
+  - Odoo: `node <sources>/odoo.mjs --config <ws>/work/sources/odoo.json` → vendor
+    bills received, customer invoices issued, sales orders confirmed, new companies, each
+    with `count`, totals per currency, how many are paid, and a sample of rows. When
+    `truncated` is true the sample is a sample: the numbers come from `count` and the
+    totals, never from counting rows.
+  - A report by URL: `node <sources>/url.mjs --url <url> --name <name>` for each entry
+    in `<ws>/work/sources/urls.json` → the rows parsed, `count`, sums of numeric columns.
+  A script that fails or answers `available: false` is a row in the recap that says the
+  source could not be read today, not a number remembered from yesterday. A number goes
+  in only with its source (`system` + what it counts), and money stays in its currency.
 
 Write `<ws>/work/recap/<date>/gathered.md`: the raw material with sources, before any
 judgement.
