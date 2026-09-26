@@ -39,9 +39,10 @@ verified". The first hire that asks the other hires what they did today.
 ## Install
 
 **One text, nothing to install:** send `Set this up for me: aiworthusing.com/agent-index/dailyrecap`
-by iMessage to +1 (628) 246-3032. Your agent texts you back from its own number and asks one
-thing, your website; the first video arrives about 15 minutes later, and one every weekday
-evening after that. It learns the rest one question a day; text `settings` to change anything. The full guide, including
+by iMessage to +1 (628) 246-3032. Your agent texts you back from its own number and asks for one
+thing, your website, and makes your first video from it (about 15 minutes). Then it shows you
+what you can connect next (your numbers, your team and agents, your repos); text `settings`
+to change anything. The full guide, including
 your own Gateway with Telegram, Slack or WhatsApp delivery, is [docs/INSTALL.md](docs/INSTALL.md).
 
 ### Local OpenClaw Gateway (2026.9 or later)

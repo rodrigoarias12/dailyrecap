@@ -28,9 +28,9 @@ to install, no keys to paste, no model to choose (inference is Plow's). Then:
 1. It asks one thing: your company's website. From it, it takes your name, logo and colors,
    sets 18:00 on weekdays in your timezone, and makes your first video right away (about 15
    minutes), from what is public.
-2. After each day's video it asks one more question: where your numbers live (Odoo, a report
-   link), who to ask every day (phone numbers of your team or of your other agents), which
-   repos count. Answer, or say "later".
+2. Right after the first video it lists what you can connect next: your numbers (Odoo, a
+   report link), who to ask every day (phone numbers of your team or of your other agents),
+   your repos. Reply a number, or "later"; if you pick nothing, it asks one of them a day.
 3. From then on, the video arrives **in that same iMessage thread**, every weekday at the
    hour you set. Text `settings` to see and change the setup, `pause` to stop the recaps.
 
