@@ -1,0 +1,112 @@
+{
+ "brand": {
+  "name": "Acme Ops",
+  "url": "acmeops.dev",
+  "accent": "#a0e099",
+  "ink": "#20291f",
+  "bg": "#f8faf7"
+ },
+ "style": "tiktok",
+ "lang": "en",
+ "credit": false,
+ "scenes": [
+  {
+   "type": "chart",
+   "kind": "bars",
+   "label": "Commits, last 8 weeks",
+   "series": [
+    {
+     "x": "08-03",
+     "y": 41
+    },
+    {
+     "x": "08-10",
+     "y": 37
+    },
+    {
+     "x": "08-17",
+     "y": 52
+    },
+    {
+     "x": "08-24",
+     "y": 48
+    },
+    {
+     "x": "08-31",
+     "y": 61
+    },
+    {
+     "x": "09-07",
+     "y": 58
+    },
+    {
+     "x": "09-14",
+     "y": 66
+    },
+    {
+     "x": "this week",
+     "y": 39
+    }
+   ],
+   "value": "402",
+   "source": "github.com/acme/ops",
+   "verified": true,
+   "seconds": 3,
+   "voice": "Four hundred and two commits in eight weeks."
+  },
+  {
+   "type": "title",
+   "label": "Acme Ops \u00b7 today",
+   "text": "Every order, one screen. That is what Acme Ops ships.",
+   "seconds": 3,
+   "voice": "Acme Ops puts every order on one screen."
+  },
+  {
+   "type": "events",
+   "label": "Shipped this month",
+   "items": [
+    {
+     "tag": "v1.8",
+     "text": "Release 1.8: pick lists by aisle",
+     "who": "GitHub",
+     "verified": true
+    },
+    {
+     "tag": "blog",
+     "text": "How Rosario went to zero manual picks",
+     "who": "acmeops.dev/blog",
+     "verified": true
+    }
+   ],
+   "seconds": 3.5,
+   "voice": "This month: release one point eight, and a post on Rosario's zero manual picks."
+  },
+  {
+   "type": "events",
+   "label": "In the news",
+   "items": [
+    {
+     "tag": "news",
+     "text": "Acme Ops raises seed round to automate warehouses",
+     "who": "Google News",
+     "verified": true
+    }
+   ],
+   "seconds": 3,
+   "voice": "And in the news: a seed round."
+  },
+  {
+   "type": "title",
+   "label": "Tomorrow",
+   "text": "Tomorrow: your own numbers, once they're connected.",
+   "seconds": 3,
+   "voice": "Tomorrow it's your numbers, once you connect them."
+  },
+  {
+   "type": "closing",
+   "cta": "Your recap, weekdays at 6 pm. Text settings anytime.",
+   "seconds": 3,
+   "voice": "Every weekday at six. Text settings anytime."
+  }
+ ]
+}

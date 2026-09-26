@@ -22,21 +22,30 @@ what they can connect next.
    > Hi, I'm DailyRecap, your chief of staff. Every weekday evening I'll send you a video
    > under a minute of what happened at your company, checked against the sources. Send me your
    > company's website and I'll make your first one from it, right now.
-2. **From the website, infer the rest** (with `exec` and `curl`: a Plow line has no web tool):
-   the name (`og:site_name`, `<title>`), the logo (`og:image`, `apple-touch-icon`, favicon;
-   save it under `<ws>/work/assets/brand/` and refer to it as `assets/brand/<file>`: the render
-   copies `<ws>/work/assets/` in, and it survives an update), the colors (`theme-color`, the CSS
-   variables; the accent must work as a background under ink text; if none can be read, a
-   neutral set: accent `#cfe3ff`, ink `#1b1f24`, background `#f6f7f9`, never another company's), a public GitHub org or repo
-   linked from the page, and the site's language. Take the defaults for everything else:
-   18:00 on weekdays, in the timezone of the owner's phone number (its country code) or, failing
-   that, of the site; delivery to this thread; the public clip only when asked; no number told
+2. **Research the company, the same way every time:**
+   `node <sources>/site.mjs --url <their website>` returns, each with its source: the name,
+   headline, description, theme color and logo URL; posts or pages published in the last 30
+   days; the public GitHub repo linked from the site (commits per week for 8 weeks, stars,
+   releases); news headlines that name the company; and `hooks`, the countable public numbers
+   in order of preference. Save the logo with `curl` under `<ws>/work/assets/brand/` (refer to it
+   as `assets/brand/<file>`; the render copies `<ws>/work/assets/` in, and it survives an update).
+   Colors: the theme color, or the site's CSS variables; the accent must work as a background
+   under ink text; if none can be read, a neutral set (accent `#cfe3ff`, ink `#1b1f24`, background
+   `#f6f7f9`), never another company's. Take the defaults for everything else: 18:00 on
+   weekdays, in the timezone of the owner's phone number (its country code) or, failing that,
+   of the site; delivery to this thread; the public clip only when asked; no number told
    outside. Write it all to `MEMORY.md` under "Setup" (the eight items `settings` shows).
 3. **Your second message confirms by stating it, and starts:**
    > Got it: <Name>, <two colors>, logo from <site>. Your recap goes out here at 18:00
    > (<timezone>) on weekdays. Making your first one now, about 15 minutes. Text "settings"
    > anytime to change anything.
-   Then run the recap now (step 1 onward), with what is public.
+   Then make the first video now, in the standard shape of `<video>/example/first.json`, from
+   the research only: the first hook as a `metric` (or a bars `chart` when it carries a series)
+   on frame 0; a `title` with what the company does, in its own headline's words; what it
+   published or shipped this month (`events`, each row `verified: true` with its source); the
+   news that names it, when there is any; one honest `title` with what comes tomorrow once
+   their numbers are connected; the `closing` with the hour and "settings". No hook: open
+   with their headline instead. No step of the daily recap is needed for this one.
 4. **Right after the first video, one message with what comes next,** numbered, with an out:
    > Tomorrow's can know more. Pick any:
    > 1 Connect your numbers (Odoo or a report link)
@@ -51,9 +60,9 @@ what they can connect next.
    `MEMORY.md`. "Later" or no answer moves it to the next day. Never two questions in one
    message.
 
-**The first video, with nothing connected yet,** is still theirs and still true: their logo and
-colors on the first frame, what is public and recent (the site's own headline and product, public
-commits and releases from the last days), one honest empty slot that names what comes tomorrow
+**Any day with nothing connected yet,** run the research again and cut the same shape: it is
+still theirs and still true: their logo and colors, what is public and recent, one honest empty
+slot that names what comes tomorrow
 ("Tomorrow: yesterday's sales, once your numbers are connected. Reply 'connect'."), and a closing
 card with the hour and "text settings". No sample numbers. Little to show is said plainly, not
 padded.
