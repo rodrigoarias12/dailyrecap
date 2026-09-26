@@ -61,6 +61,12 @@ line), see [`cloud/`](cloud/README.md).
 
 ## The TikTok of your company
 
+<a href="docs/tiktok/ceo-report-2026-09-25.mp4"><img src="docs/tiktok/ceo-report.gif" width="270" align="right" alt="The CEO's report of September 25, cut like a TikTok"></a>
+
+*The CEO's report of September 25: DailyRecap asked the CTO's and the product owner's
+assistants what happened and cut it in 30 seconds. [Watch it with sound](docs/tiktok/ceo-report-2026-09-25.mp4).
+The product numbers come from a demo KPI sheet.*
+
 The recap is cut like a TikTok, not like a slide deck: vertical, 30–45 s, the day's most
 surprising number on the first frame, a cut every two to four seconds, word-by-word captions,
 and everything kept inside the zone the app's interface leaves clear. `"style": "tiktok"` in
