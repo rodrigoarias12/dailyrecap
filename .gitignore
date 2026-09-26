@@ -27,3 +27,7 @@ DREAMS.md
 **/DREAMS.md
 **/memory/.dreams/
 **/memory/dreaming/
+# What the agent delivered: a company's own data. Never in the repo (a local install's
+# workspace IS this clone).
+shipped/**
+!shipped/.gitkeep
