@@ -75,15 +75,6 @@ any script turns it on; [`video/example/tiktok.json`](video/example/tiktok.json)
 The rules come from TikTok's own creative guidance (hook in the first 3 s, faster scene
 changes, text on screen) and are encoded in the engine, so every company's recap follows them.
 
-## Multiplayer: the team room
-
-On Plow, OpenClaw's multiplayer is an iMessage group with the agent in it. DailyRecap opens
-one with you and your team (with your yes): it asks the day's question there, everyone
-answers where everyone can read it, the video lands there, and anyone can reply "that's wrong"
-or "you missed X". It re-checks, re-cuts, and says whose correction it was. What goes outside
-(the public clip, a number shared outside) stays yours to approve, in your private chat. On
-your own OpenClaw the same room is a shared session, with Suggest and Draft for teammates.
-
 ## Who it asks
 
 Every evening DailyRecap asks the same question to everyone on its roster: people and agents
