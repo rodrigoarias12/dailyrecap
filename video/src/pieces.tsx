@@ -247,7 +247,7 @@ export function Numbers({ p, label, items, total }: { p: Palette; label: string;
           const e = enter(f, 10 + i * 8, 14);
           return (
             <div key={it.value + it.claim} style={{ padding: '38px 34px 40px', background: '#ffffff', borderTop: `6px solid ${p.accent}`, borderRadius: 12, minHeight: 360, display: 'flex', flexDirection: 'column', boxShadow: '0 20px 40px -8px rgba(0,0,0,0.08)', opacity: e, transform: `translateY(${(1 - e) * 28}px)` }}>
-              <p style={text(T.displayXl, { color: p.ink, fontVariantNumeric: 'tabular-nums', whiteSpace: 'nowrap', fontWeight: 600 })}>{countUp(it.value, f, 10 + i * 8, 30)}</p>
+              <p style={text(T.displayXl, { color: p.ink, fontVariantNumeric: 'tabular-nums', whiteSpace: 'nowrap', fontWeight: 600 })}>{useLayout().tiktok ? it.value : countUp(it.value, f, 10 + i * 8, 30)}</p>
               <p style={text(T.body, { color: p.ink, marginTop: 18, flex: 1, fontWeight: 500 })}>{it.claim}</p>
               {it.source && <p style={text(T.bodySm, { color: p.ink, opacity: 0.55, marginTop: 20 })}>{it.source}</p>}
             </div>
