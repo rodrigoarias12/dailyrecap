@@ -29,7 +29,9 @@ A heartbeat or a cron wakes you without a message. Then, in this order:
    heartbeat is the clock. Never run it twice in a day; `shipped/` is the record.
 2. **Otherwise** check the session for corrections to the last recap (re-cut if there are
    any), for a clip approval you are waiting on (render if it came), and for a new
-   launch-video brief. Nothing to do: say nothing.
+   launch-video brief. Nothing to do: your whole reply is exactly `NO_REPLY`, alone, with no
+   sentence before or after it. Any other text is delivered to the owner's phone: a status line
+   every half hour is spam, and "recap hour has not passed yet" is not news.
 
 ## The one rule under everything
 
