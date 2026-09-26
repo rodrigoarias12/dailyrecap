@@ -2,9 +2,9 @@
  "brand": {
   "name": "Acme Ops",
   "url": "acmeops.dev",
-  "accent": "#a0e099",
-  "ink": "#20291f",
-  "bg": "#f8faf7"
+  "accent": "#cfe3ff",
+  "ink": "#1b1f24",
+  "bg": "#f6f7f9"
  },
  "style": "tiktok",
  "lang": "en",
@@ -55,11 +55,23 @@
    "voice": "Four hundred and two commits in eight weeks."
   },
   {
-   "type": "title",
+   "type": "cover",
+   "image": "screens/example/board.png",
    "label": "Acme Ops \u00b7 today",
-   "text": "Every order, one screen. That is what Acme Ops ships.",
+   "text": "Every order, one screen.",
    "seconds": 3,
    "voice": "Acme Ops puts every order on one screen."
+  },
+  {
+   "type": "chips",
+   "label": "What they do",
+   "items": [
+    "Picks and packs",
+    "Flags shortages",
+    "Reports at 6 pm"
+   ],
+   "seconds": 3,
+   "voice": "Picking, shortage alerts, and a report at six."
   },
   {
    "type": "events",
@@ -88,12 +100,12 @@
     {
      "tag": "news",
      "text": "Acme Ops raises seed round to automate warehouses",
-     "who": "Google News",
-     "verified": true
+     "who": "TechDaily",
+     "verified": false
     }
    ],
    "seconds": 3,
-   "voice": "And in the news: a seed round."
+   "voice": "And in the news, reported: a seed round."
   },
   {
    "type": "title",

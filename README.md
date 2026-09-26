@@ -53,8 +53,8 @@ cd ~/dailyrecap/video && npm install
 ```
 
 Merge `openclaw.example.json5` into `~/.openclaw/openclaw.json` (the agent's workspace is
-this folder), restart the Gateway, open a shared session and paste a repo URL. The first
-message sets the recap hour and which repos count. The Gateway host needs `node`, `ffmpeg`,
+this folder), restart the Gateway and open a shared session. The first
+message asks for your website and makes your first video from it; `settings` changes the rest. The Gateway host needs `node`, `ffmpeg`,
 `ffprobe` and `git` on its PATH. The first render downloads a headless Chrome once.
 
 To try it without installing anything, [`dev/`](dev/README.md) runs the whole Gateway in
@@ -136,8 +136,9 @@ npm run studio                                          # live preview in Remoti
 ```
 
 The script schema is [`video/src/script.ts`](video/src/script.ts). Eleven scene types:
-`title`, `screen` (screenshot + focus), `chips`, `numbers`, `events`, `metric`, `quote`,
-`agenda`, `closing`. `format: "portrait"` switches to 9:16 with the same pieces. Colors
+`title`, `cover` (full-bleed screenshot), `screen` (screenshot + focus), `chips`, `numbers`,
+`events`, `metric`, `chart` (line, bars, funnel), `quote`, `agenda`, `closing`. `"style": "tiktok"`
+is the daily recap's cut. `format: "portrait"` switches to 9:16 with the same pieces. Colors
 come from `brand`; the accent is always a background with ink text on it, never text.
 
 ## Layout

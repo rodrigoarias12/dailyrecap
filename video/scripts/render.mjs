@@ -34,7 +34,7 @@ const SCENES = {
 const errors = [];
 // The examples carry a made-up company. A real recap with its brand would put another company's
 // name on the owner's video; refuse it outside video/example/.
-if (script.brand?.url === 'acmeops.dev' && !resolve(SCRIPT).includes(`${join('video', 'example')}`)) errors.push('brand: this is the example company (Acme Ops). Use the owner\'s brand from MEMORY.md "Setup".');
+if ((script.brand?.url === 'acmeops.dev' || /^acme ops$/i.test(script.brand?.name ?? '')) && !resolve(SCRIPT).includes(`${join('video', 'example')}`)) errors.push('brand: this is the example company (Acme Ops). Use the owner\'s brand from MEMORY.md "Setup".');
 const isStr = (v) => typeof v === 'string' && v.trim().length > 0;
 if (!script.brand || typeof script.brand !== 'object') errors.push('brand: missing. Needs { name, url, accent, ink, bg }.');
 else {
@@ -43,6 +43,13 @@ else {
 }
 for (const k of Object.keys(script)) if (!['brand', 'format', 'style', 'lang', 'voiceId', 'scenes', 'narration', 'music', 'credit', 'captions'].includes(k)) errors.push(`${k}: unknown top-level field`);
 if (script.style !== undefined && script.style !== 'tiktok') errors.push('style: the only style is "tiktok" (or leave it out)');
+// Ink on the accent (the closing card, the pills) and ink on the background must be readable.
+function lum(hex) { const m = /^#?([0-9a-f]{6})$/i.exec(hex ?? ''); if (!m) return null; const c = [0, 2, 4].map(i => parseInt(m[1].slice(i, i + 2), 16) / 255).map(v => v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; }
+function contrast(a, b) { const x = lum(a), y = lum(b); return x === null || y === null ? null : (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); }
+for (const [bgk, min] of [['accent', 4.5], ['bg', 4.5]]) {
+  const c = contrast(script.brand?.ink, script.brand?.[bgk]);
+  if (c !== null && c < min) errors.push(`brand: ink ${script.brand.ink} on ${bgk} ${script.brand[bgk]} has contrast ${c.toFixed(1)}:1, under ${min}:1. Pick a lighter ${bgk} or a darker ink; if the site's color is dark, use it as ink, not as accent.`);
+}
 if (!Array.isArray(script.scenes) || script.scenes.length === 0) errors.push('scenes: must be a non-empty array');
 else script.scenes.forEach((s, i) => {
   const at = `scenes[${i}]`;

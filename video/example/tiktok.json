@@ -2,9 +2,9 @@
  "brand": {
   "name": "Acme Ops",
   "url": "acmeops.dev",
-  "accent": "#a0e099",
-  "ink": "#20291f",
-  "bg": "#f8faf7"
+  "accent": "#cfe3ff",
+  "ink": "#1b1f24",
+  "bg": "#f6f7f9"
  },
  "style": "tiktok",
  "lang": "en",

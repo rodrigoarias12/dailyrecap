@@ -1,6 +1,6 @@
 # Submission notes — OpenClaw 2.0 hackathon «Build your startup's first hire»
 
-Deadline: 2026-09-28 23:59 PT. Listing: aiworthusing.com/agent-index (slug `dailyrecap`).
+Deadline: submissions by 2026-09-28 23:59 PT; the leaderboard's top five are taken on Wednesday 2026-09-30 at 23:59 PT. Listing: aiworthusing.com/agent-index (slug `dailyrecap`).
 
 ## One line
 
@@ -47,7 +47,7 @@ are the videos in `shipped/`.
 ## Demo video checklist (≥ 60 s)
 
 1. The founder pastes the repo URL; the launch video comes back (10 s).
-2. 18:00: the cron fires. DailyRecap asks Ana and Sam; Ana's source is opened, Sam's row
+2. 18:00: the heartbeat (or cron) fires. DailyRecap asks the CTO's and the product owner's assistants; one source is opened, the other row
    says "reported, not verified" (20 s).
 3. The recap plays: voice, counter, quote, tomorrow (25 s).
 4. The public clip waits for "approved" in the shared session; a teammate suggests a change

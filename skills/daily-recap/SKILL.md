@@ -39,20 +39,33 @@ what they can connect next.
    > Got it: <Name>, <two colors>, logo from <site>. Your recap goes out here at 18:00
    > (<timezone>) on weekdays. Making your first one now, about 15 minutes. Text "settings"
    > anytime to change anything.
-   Then make the first video now, in the standard shape of `<video>/example/first.json`, from
-   the research only: the first hook as a `metric` (or a bars `chart` when it carries a series)
-   on frame 0; a `title` with what the company does, in its own headline's words; what it
-   published or shipped this month (`events`, each row `verified: true` with its source); the
-   news that names it, when there is any; one honest `title` with what comes tomorrow once
-   their numbers are connected; the `closing` with the hour and "settings". No hook: open
-   with their headline instead. No step of the daily recap is needed for this one.
+   Then make the first video now: it is today's recap. Write it to
+   `<ws>/work/recap/<date>/recap.json` in the standard shape of `<video>/example/first.json`
+   (the one exception to the length rule: 6–8 beats, 20–30 s), check it, render it to
+   `<ws>/work/recap/<date>/recap.mp4`, deliver it, and copy the three files to
+   `<ws>/shipped/<date>-recap/` so the evening heartbeat does not send a second one. The shape,
+   from the research only:
+   - **Frame 0:** the first `hook` as a `metric`, or as a bars `chart` when it carries a series
+     (its last bar is the week still running: say "so far"). No hook: a `cover` with the
+     screenshot of their home page (`company.screenshot` says how to take it) and their headline.
+   - **What they do:** `chips` with their `sections`, in their words.
+   - **What they published or shipped this month:** `events`, each row `verified: true` with its
+     source (a release, a post).
+   - **The news that names them,** if any: `events` with `who` = the outlet and
+     `verified: false`, because nobody opened the article.
+   - **Tomorrow:** one honest `title` ("Tomorrow: your own numbers, once they're connected.").
+   - **`closing`** with the hour and "text settings".
+   When `company.available` is false (the site blocks robots, or is down), say so in one line and
+   ask what the company does, in one sentence; make the video from that answer, their name and
+   the menu. No website at all: ask once more; still none, make it from what they wrote.
 4. **Right after the first video, one message with what comes next,** numbered, with an out:
    > Tomorrow's can know more. Pick any:
-   > 1 Connect your numbers (Odoo or a report link)
-   > 2 Add who I ask every day (your team, or your other agents)
-   > 3 Add your repos
-   > Reply a number, or "later". "settings" shows everything I know.
-   A number starts that item's questions (the setup below says what each needs). They can pick
+   > · numbers: connect Odoo or a report link
+   > · team: add who I ask every day (your team, or your other agents)
+   > · repos: add your repos
+   > Reply one of those words, or "later". "settings" shows everything I know.
+   A word starts that item's questions (words, not numbers, so it never mixes with the numbered
+   `settings` list). `connect` shows this list again, any day (the setup below says what each needs). They can pick
    more than one, now or any day.
 5. **If they pick nothing,** one question a day, right after that day's video, skipping what
    you already know, in this order: where the numbers live; who to ask every day; which repos
@@ -73,8 +86,8 @@ padded.
 always the same eight lines and in this order:
 
 ```
-1 Company: YoRobot (yorobot.ai)
-2 Time: 18:00 Buenos Aires, weekdays
+1 Company: Acme Ops (acmeops.dev)
+2 Time: 18:00 your timezone, weekdays
 3 Sent to: this chat
 4 Numbers from: not connected
 5 People I ask: none
@@ -97,7 +110,7 @@ and `undo` (the last change).
   look: the accent color (used as a background, never as text), the ink color and the page
   background, as hex. If they give a website instead, read the accent and text colors from
   its CSS. If they send their logo as an image, save it under `<ws>/work/assets/brand/`
-  and use it as `assets/brand/<file>`. Write the whole `brand` block to `MEMORY.md` under "Brand". Without this the
+  and use it as `assets/brand/<file>`. Write the whole `brand` block to `MEMORY.md` under "Setup". Without this the
   video carries no brand: never a placeholder company, never another company's colors.
 - **Hour and timezone.** Default 18:00, weekdays, in the timezone you inferred.
 - **Where does it go?** A channel the Gateway already has (a Slack channel, a WhatsApp or
@@ -268,7 +281,7 @@ cd <video> && node scripts/render.mjs <ws>/work/recap/<date>/recap.json --check
 
 The renderer refuses an off-schema script. A missing `brand` would otherwise be silently
 replaced by the example's, and the video would carry another company's name. The `brand`
-values come from `MEMORY.md` ("Brand", set in the first conversation) or `USER.md`; a URL you
+values come from `MEMORY.md` ("Setup", from the first conversation) or `USER.md`; a URL you
 were not given is an empty string, not a guess. Every company gets its own brand block: the
 example's colors are the example's.
 
@@ -305,7 +318,7 @@ cd <video> && node scripts/render.mjs <ws>/work/recap/<date>/recap.json <ws>/wor
 ```
 
 Background `exec`, poll with `process`. Then deliver where the team asked (MEMORY.md,
-"Delivery"). Two ways, and only these two count as sending:
+"Setup", item 3). Two ways, and only these two count as sending:
 
 - **The run is delivered to the channel** (the daily cron is created with delivery to the
   team's channel and target; a turn started from that chat replies there). Then your reply

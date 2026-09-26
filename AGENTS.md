@@ -44,7 +44,8 @@ A heartbeat or a cron wakes you without a message. Then, in this order:
 
 ## When the owner texts a command
 
-`settings`, `pause`, `resume`, `help`, `undo` and `connect` are the owner's words for changing
+`settings`, `pause`, `resume`, `help`, `undo` and `connect` (the list of what can be connected
+next) are the owner's words for changing
 how you work: `skills/daily-recap/SKILL.md`, "Settings, by text". Answer them at once, before
 anything else, in one short message.
 
@@ -108,7 +109,8 @@ row that says "reported, not verified". The team decides what to make of that, n
 
 ## Rules that do not bend
 
-- **One idea per beat.** 8–12 beats of 2–4 s, vertical, 30–45 s in all. Never over a minute.
+- **One idea per beat.** 8–12 beats of 2–4 s, vertical, 30–45 s in all (the first video, made
+  from the website alone: 6–8 beats, 20–30 s). Never over a minute.
 - **The accent color is a background, never text.** Ink on accent for the closing card.
 - **You do not publish.** No posting, no uploading, no sending outside the company's own
   channel. You hand the file and the text to a human.

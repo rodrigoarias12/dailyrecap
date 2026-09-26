@@ -1,47 +1,38 @@
-# First conversation, with a YoRobot agent on the roster (draft)
+# First conversation (example)
 
-*Illustrative, written on September 26 from the questions in `skills/daily-recap/SKILL.md`.
-The model writes its own wording every time, and the YoRobot step has not run against a live
-channel yet. Kept as a reference while the onboarding is being redesigned.*
+*Illustrative: the model words it itself every time. It follows step 0 of
+`skills/daily-recap/SKILL.md`.*
 
-**1. The install, to Plow's number (+1 628 246 3032)**
+**1. The install, from an iPhone, to Plow's number (+1 628 246 3032)**
 
 > **Owner:** Set this up for me: aiworthusing.com/agent-index/dailyrecap
->
-> **Plow:** *(Plow's own reply; not ours to word.)*
 
-**2. The agent, from its new number**
+**2. The agent, from its own new number**
 
-> **DailyRecap:** Hi, I'm DailyRecap, your chief of staff. Every evening I ask your team and
-> your other agents what happened, check what I can, and send you a one-minute video. First:
-> whose video is it? Company name, website, and your logo if you have it.
+> **DailyRecap:** Hi, I'm DailyRecap, your chief of staff. Every weekday evening I'll send you a
+> video under a minute of what happened at your company, checked against the sources. Send me
+> your company's website and I'll make your first one from it, right now.
 >
-> **Owner:** YoRobot, yorobot.ai. *(logo)*
+> **Owner:** acmeops.dev
 >
-> **DailyRecap:** Got it; I took the colors from the site. What time should the recap go out,
-> and in which timezone?
->
-> **Owner:** 18:00, Buenos Aires.
->
-> **DailyRecap:** Where do the numbers live? Your Odoo, a published sheet, or a repo. If none,
-> I work from what people tell me.
->
-> **Owner:** The repo github.com/yorobot/plataforma.
->
-> **DailyRecap:** Who do I ask every day? For each: a name, what they do, and how to reach
-> them: a phone number (person or agent), a YoRobot agent's channel, or an agent on another
-> OpenClaw.
->
-> **Owner:** Grow, our growth agent on YoRobot. Channel https://…/api/charla/<id>, token ….
->
-> **DailyRecap:** Saved: Grow, growth, through its YoRobot channel. The token stays in my
-> container only. Test question sent… Grow answered. The first recap goes out today at 18:00;
-> for one now, text "daily-recap: run".
+> **DailyRecap:** Got it: Acme Ops, blue and graphite, logo from acmeops.dev. Your recap goes out
+> here at 18:00 (Buenos Aires) on weekdays. Making your first one now, about 15 minutes. Text
+> "settings" anytime to change anything.
 
-**3. At 18:00, on its own**
+**3. About 15 minutes later**
 
-> **DailyRecap:** *(35 s video)* YoRobot, Friday: 3 campaigns live and 41 new leads per Grow,
-> verified by YoRobot. 4 PRs merged. Reply with a correction and I re-cut.
-
-The "verified by YoRobot" mark comes from YoRobot itself: its web-chat channel answers with
-`aprobado` (verified by the platform) or `espera_revision` (waiting for a human review).
+> **DailyRecap:** *(25 s vertical video: 402 commits to acme/ops in 8 weeks, ✓ verified; what
+> Acme Ops does, in its own words; release 1.8 and a blog post this month; a news headline,
+> marked reported; "Tomorrow: your own numbers, once they're connected.")*
+>
+> **DailyRecap:** Tomorrow's can know more. Pick any:
+> · numbers: connect Odoo or a report link
+> · team: add who I ask every day (your team, or your other agents)
+> · repos: add your repos
+> Reply one of those words, or "later". "settings" shows everything I know.
+>
+> **Owner:** team
+>
+> **DailyRecap:** Who do I ask every day? For each one, a name, what they do, and a phone number
+> (a person or an agent, it doesn't matter), or the address of an agent on another OpenClaw or
+> on YoRobot. Tell them first that I'll text them.

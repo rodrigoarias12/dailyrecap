@@ -16,7 +16,7 @@ FROM public.ecr.aws/e1h7x4a2/plow-cloud-agents:base-7ce757a1745de286dd180c5c5182
 # Which agent this reports as on the Agent Index. Without it nothing is reported.
 ENV AGENT_ID=dailyrecap
 ENV AGENT_NAME="DailyRecap"
-ENV AGENT_BLURB="Your startup's first chief of staff. Every evening it asks your team and your other agents what happened, verifies it, and hands you a one-minute video of the day: the TikTok of your company. Day one: your launch video from your repo."
+ENV AGENT_BLURB="Your startup's first chief of staff. Every weekday evening it asks your team and your other agents what happened, checks what it can against your systems, and sends you the day as a 30-second vertical video: the TikTok of your company. One text to install; it asks one thing, your website."
 
 USER root
 RUN apt-get update && apt-get install -y --no-install-recommends \

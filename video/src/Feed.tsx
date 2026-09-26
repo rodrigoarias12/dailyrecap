@@ -22,7 +22,7 @@ export type FeedProps = {
 };
 
 export const FEED_EXAMPLE: FeedProps = {
-  brand: { name: 'PayDece', url: 'yorobot.ai', accent: '#a0e099', ink: '#20291f', bg: '#f8faf7', logo: 'brand/dailyrecap-logo.png' },
+  brand: { name: 'Acme Ops', url: 'acmeops.dev', accent: '#a0e099', ink: '#20291f', bg: '#f8faf7', logo: 'brand/dailyrecap-logo.png' },
   clip: 'demo/clip.mp4', from: 0, seconds: 8, handle: '@paydece', caption: 'Day 47 building in public · today, in one minute', music: 'DailyRecap · original bed',
 };
 
