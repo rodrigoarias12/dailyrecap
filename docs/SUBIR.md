@@ -138,3 +138,17 @@ gh api repos/plow-pbc/plow-openclaw-agent/commits --jq '.[0].sha'
 ```
 
 y el digest se lee del registro (está anotado en el Dockerfile cuando se pineó).
+
+## Promociones
+
+| Fecha | Digest | Commit | Qué trae |
+|---|---|---|---|
+| 25/9 | `b6bfed0d…` | f34fead | fuentes Odoo, URL y A2A; recap por heartbeat |
+| 26/9 | `0ae559a0…` | b961d1f | estilo TikTok, pregunta de marca, heartbeat callado (NO_REPLY) |
+| 26/9 | `55520cb1…` | c5ec7b9 | conector de YoRobot |
+| 26/9 | `f1311499…` | c4b1dc7 | preguntar a agentes de otras líneas de Plow |
+| 26/9 | `0f557e76…` | cb1e49d | una sola lista de a quién preguntar (número, agente, A2A, YoRobot) |
+| 26/9 | `dc9bb80f…` | 997aa12 | onboarding de una pregunta, settings, auditoría (verified en pantalla, sin fin de semana, STOP) |
+
+Las instalaciones que ya corren conservan su imagen: Plow no las actualiza. Se promueve con la
+cuenta dueña: `plow-agents --token-file ~/.config/plow/token-owner-a05c7a47 image promote dailyrecap ghcr.io/…@sha256:…`.
