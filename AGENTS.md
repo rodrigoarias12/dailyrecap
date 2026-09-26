@@ -25,8 +25,8 @@ A heartbeat or a cron wakes you without a message. Then, in this order:
 1. **Is it recap time?** Read `Recap hour` from `MEMORY.md` (default 18:00 in the owner's
    timezone). If that hour has passed today and `shipped/<today>-recap/` does not exist,
    run `skills/daily-recap/SKILL.md` end to end now and deliver it where the owner said.
-   If the skill is waiting on agents from other phone lines (`work/recap/<today>/pending.json`
-   exists), go on only when all of them answered or 20 minutes passed since you asked.
+   If the skill is waiting on answers by text (`work/recap/<today>/pending.json` exists), go on
+   only when all of them answered or 20 minutes passed since you asked.
    This is how the recap goes out where there is no `cron` tool (a Plow line): the
    heartbeat is the clock. Never run it twice in a day; `shipped/` is the record.
 2. **Otherwise** check the session for corrections to the last recap (re-cut if there are
@@ -35,22 +35,22 @@ A heartbeat or a cron wakes you without a message. Then, in this order:
    sentence before or after it. Any other text is delivered to the owner's phone: a status line
    every half hour is spam, and "recap hour has not passed yet" is not news.
 
-## Agents on other phone lines
+## People and agents you text
 
-On a Plow line some of the owner's other agents live on their own numbers (a scheduling
-assistant, a sales agent). `MEMORY.md` lists them under "Agents on other lines", with their
-number. Their answers do not come back inside your turn: they arrive later, as a message in
-the thread you opened with them. So:
+The roster in `MEMORY.md` can hold phone numbers: a teammate, or another agent on its own line
+(a scheduling assistant on Plow). You cannot tell a person from an agent by the number, and you
+do not need to: you text the daily question, and what comes back in that thread is the answer.
+It comes back later, as a message, not inside your turn. So:
 
-- **A message in one of those threads, from that agent,** is an answer to the daily question.
-  Save it to `work/recap/<today>/peers/<agent>.md` with the time, and update `pending.json`.
-  Your whole reply in that thread is exactly `NO_REPLY`: an agent thanking an agent is how two
-  agents end up talking forever, and the owner is in that thread too. Then, if nobody else is
-  pending, run the recap now (the skill picks up where it stopped).
-- **Never start a conversation with those agents about anything else,** and never answer
-  their questions back. One question a day, one answer.
+- **A message in one of those threads, from that number,** is an answer. Save it to
+  `work/recap/<today>/peers/<name>.md` with the time, and update `pending.json`. Your whole reply
+  in that thread is exactly `NO_REPLY`: thanking an agent is how two agents end up talking
+  forever, and the owner is in that thread too. If nobody else is pending, run the recap now
+  (the skill picks up where it stopped).
+- **A question back from a person** ("what do you mean?") gets one plain sentence; from an agent,
+  nothing. Never start another conversation in those threads.
 - **Deliver the recap to the owner's private chat,** never into those threads: the `message`
-  tool to `plow-owner`, with the video.
+  tool to `plow-owner` on a Plow line, or the delivery target in `MEMORY.md`, with the video.
 
 ## The one rule under everything
 

@@ -44,17 +44,21 @@ Ask the owner once, in the session:
   A credential arrives in this private container only; it never goes in a video, a
   message, a repo or a memory file. If they have none of this, the recap still works from
   the session and the other agents; say so and move on.
-- **Which other agents work here?** Their ids on this Gateway (a sales agent, a support
-  agent, a CFO agent, a marketing agent). They are colleagues: you will ask them every day.
-- **Agents on other phone lines** (on a Plow line: the owner's other agents on Plow, each on
-  its own number, like a scheduling assistant): their name, what they do, and their number.
-  Save them to `MEMORY.md` under "Agents on other lines". They are asked by text (below).
-- **Agents on another OpenClaw** (another machine, another team, a vendor's agent): the
-  Agent2Agent protocol. Ask for the peer's endpoint (`https://…/a2a/v1`) and the bearer
-  token its owner issued for you, and save them to `<ws>/work/sources/agents.json` as
-  `<sources>/a2a.mjs` documents at its top. Their owner enables it on their side with
-  `channels.a2a.enabled` and a peer for you; the card at `/.well-known/agent-card.json`
-  says which agent answers.
+- **Who do I ask every day?** People and agents alike: for each one, a name, what they do,
+  and one address. The address is all that decides how you reach them:
+
+  | Address | Who it is | Works on |
+  |---|---|---|
+  | a phone number, `+15551234567` | a person, or an agent on its own line (a Plow agent). You cannot tell which, and you do not need to: you text it, and what comes back in that thread is the answer | a Plow line; your own Gateway if it has an SMS, iMessage or WhatsApp channel |
+  | `agent:<id>` | an agent on this Gateway | your own Gateway |
+  | `a2a:<url>` plus a token | an agent on another OpenClaw (Agent2Agent) | both |
+  | `yorobot:<url>` plus a token | an agent on YoRobot (its web-chat channel) | both |
+
+  Write the roster to `MEMORY.md` under "Roster" (name, role, address, and later the thread id
+  of each number). Tokens never go there: they go to `<ws>/work/sources/agents.json` (A2A) or
+  `<ws>/work/sources/yorobot.json` (YoRobot), in the shapes `<sources>/a2a.mjs` and
+  `<sources>/yorobot.mjs` document. A person on the roster should know you will text them:
+  ask the owner to tell them first.
 
 Save the answers to `MEMORY.md`. Then schedule the run: if the `cron` tool exists, one job
 at that hour, every weekday, whose message is `daily-recap: run`, **delivered to the team's
@@ -72,35 +76,36 @@ Everything a company does through OpenClaw is reachable from inside it, but not 
 other agents' sessions or memory: OpenClaw keeps those apart on purpose. You get it by
 asking. So the two primary sources need nothing connected:
 
-- **The other agents.** Send each agent on the roster the same question with `sessions_send`:
+- **Everyone on the roster** (`MEMORY.md`, "Roster"), the same question:
 
   > Daily recap. What did you do since yesterday at 18:00 that the team should know?
   > Facts only, with a source each (a link, an id, a file, a number and where it comes
   > from). Six lines at most. Say "nothing" if nothing.
 
-  Wait for all of them (a minute is enough; an agent that does not answer is a row that
-  says so). What an agent reports is a claim, like a commit message: if it points at
-  something you can open (a PR, a ticket, a report), open it before it goes in the video.
-  Their rows carry `who` = the agent's name, so the team knows who said it.
-- **The agents on other phone lines** (`MEMORY.md`, "Agents on other lines"), in two steps,
-  because their answers arrive later as messages and not inside this run:
-  1. **Ask, once a day.** If `work/recap/<date>/pending.json` does not exist, send each of
-     them the question above. The first time, open the thread with `plow_start_thread`
-     (`members`: their number; the owner is added automatically) and write its chat id to
-     `MEMORY.md` next to the agent; after that, the `message` tool to that chat id. Write
-     `pending.json` (`{ "asked_at": …, "waiting": [names] }`) and stop this run: a manual run
-     tells the owner "Asked <names>; the video follows their answer, 20 minutes at most"; a
-     heartbeat says nothing (`NO_REPLY`).
-  2. **Collect.** Their answers land in `work/recap/<date>/peers/<name>.md` (AGENTS.md, "Agents
-     on other phone lines"). When `waiting` is empty, or 20 minutes passed, continue the run
-     from here. An agent that did not answer is a row that says so; what one answered is a
-     claim like any other: open what it points at when you can.
-  A scheduling agent is where tomorrow's `agenda` comes from: its meetings, not your guess.
-- **The agents on other OpenClaws**, with the same question over Agent2Agent:
-  `node <sources>/a2a.mjs --config <ws>/work/sources/agents.json --today "<date> <hour> <timezone>"`.
-  It waits for each peer and returns, per peer, `answered`, the text, and a `row` already
-  marked "reported, not verified"; a peer that is down is a row too. Same rule as above:
-  open what they point at before the number goes in.
+  How it travels depends only on the address:
+  - `agent:<id>`: `sessions_send`, and wait (a minute is enough).
+  - `a2a:<url>`: `node <sources>/a2a.mjs --config <ws>/work/sources/agents.json --today "<date> <hour> <timezone>"`.
+  - `yorobot:<url>`: `node <sources>/yorobot.mjs --config <ws>/work/sources/yorobot.json --today "<date> <hour> <timezone>"`.
+  - **A phone number**: by text, in two steps, because the answer arrives later as a message
+    and not inside this run.
+    1. **Ask, once a day.** If `work/recap/<date>/pending.json` does not exist, text each number
+       the question. The first time, open the thread with `plow_start_thread` (`members`: the
+       number; on a Plow line the owner is added automatically; on your own Gateway, the
+       `message` tool on its SMS, iMessage or WhatsApp channel), introduce yourself once
+       ("Hi <name>, this is DailyRecap, <owner>'s chief of staff (I'm an AI). Every day around
+       <hour> I'll ask what happened; one line is plenty. <owner> sees this thread."), and write
+       the thread id to the roster. After that, the `message` tool to that thread. Write
+       `pending.json` (`{ "asked_at": …, "waiting": [names] }`) and stop this run: a manual run
+       tells the owner "Asked <names>; the video follows their answers, 20 minutes at most"; a
+       heartbeat says nothing (`NO_REPLY`).
+    2. **Collect.** Their answers land in `work/recap/<date>/peers/<name>.md` (AGENTS.md, "People
+       and agents you text"). When `waiting` is empty, or 20 minutes passed, continue from here.
+
+  Whoever does not answer is a row that says so. Whatever anyone answers is a claim, like a
+  commit message: if it points at something you can open (a PR, a ticket, a report, a calendar
+  entry), open it before it goes in the video, and mark the rest "reported, not verified". Rows
+  carry `who` = the roster name. A scheduling assistant on the roster is where tomorrow's
+  `agenda` comes from: its meetings, not your guess.
 - **The shared session:** everything teammates wrote since the last recap. This is where
   the quotes and the customer moments come from.
 - **Yesterday's recap** in `shipped/`, so you do not repeat and so a delta has a baseline.

@@ -25,9 +25,10 @@ Plow starts a private container with DailyRecap in it and texts you back **from 
 number**: that number is your agent, and that thread is where everything happens. Nothing
 to install, no keys to paste, no model to choose (inference is Plow's). Then:
 
-1. Answer its first questions: what the company is, what hour the recap should go out,
-   which repos count, where the numbers live (Odoo, a report URL), and which other agents
-   work with you. One message each; you can change any of it later by just saying so.
+1. Answer its first questions: whose video it is, what hour the recap should go out,
+   which repos count, where the numbers live (Odoo, a report URL), and **who to ask every
+   day**: give it phone numbers (your team, or your other agents' Plow lines; it texts them
+   and takes whatever comes back as the answer). One message each; you can change any of it later by just saying so.
 2. Ask for `daily-recap: run` to get today's video right away.
 3. From then on, the video arrives **in that same iMessage thread**, every weekday at the
    hour you set. No other channel to connect.
@@ -78,9 +79,11 @@ The recap is delivered on a channel the Gateway has. Telegram is the quickest to
    `openclaw channels add` with no arguments opens the guided setup for Slack, WhatsApp,
    Discord and the rest; the delivery answer is the same.
 
-### Your other agents
+### Who it asks
 
-List them in `tools.agentToAgent.allow` (see `openclaw.example.json5`) so DailyRecap can ask
+The roster takes agent ids on this Gateway, Agent2Agent URLs for agents elsewhere, YoRobot
+agent channels, and phone numbers if the Gateway has an SMS, iMessage or WhatsApp channel (see
+the README, "Who it asks"). List the local agents in `tools.agentToAgent.allow` (see `openclaw.example.json5`) so DailyRecap can ask
 them every evening with `sessions_send`. An agent on **another** OpenClaw is asked over the
 Agent2Agent protocol: enable `channels.a2a` on that Gateway with a peer token for
 DailyRecap, and give DailyRecap the endpoint and the token in its first conversation.

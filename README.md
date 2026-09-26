@@ -74,6 +74,25 @@ any script turns it on; [`video/example/tiktok.json`](video/example/tiktok.json)
 The rules come from TikTok's own creative guidance (hook in the first 3 s, faster scene
 changes, text on screen) and are encoded in the engine, so every company's recap follows them.
 
+## Who it asks
+
+Every evening DailyRecap asks the same question to everyone on its roster: people and agents
+alike. In the first conversation you give it, for each one, a name, a role and an address. The
+address is the only thing that decides how the question travels:
+
+| Address | On Plow (one text to install) | On your own OpenClaw |
+|---|---|---|
+| **A phone number** | Yes: it texts the number over iMessage. A teammate or another agent on its own Plow line, it cannot tell and does not need to: whatever comes back in that thread is the answer. | Yes, if the Gateway has an SMS, iMessage or WhatsApp channel |
+| **An agent id on the same Gateway** | No: a Plow line holds one agent | Yes, with `sessions_send` |
+| **An Agent2Agent URL and a token** (another OpenClaw) | Yes | Yes |
+| **A YoRobot agent's channel and a token** | Yes | Yes |
+
+So the two paths are simple. **On Plow, give it phone numbers**: your CTO, your CFO, your
+scheduling assistant's line. **On your own OpenClaw, give it agent ids** for the agents beside
+it, and URLs for the ones elsewhere. Answers by text arrive later than the others, so on those
+days the recap waits up to 20 minutes for them; whoever does not answer is a row that says so,
+and whatever anyone answers is marked verified only when DailyRecap could open its source.
+
 ## Connect your numbers
 
 The recap is only as good as what it can read. Out of the box it reads the shared session,
@@ -85,8 +104,7 @@ systems the company runs, hand it a source in the first conversation (or later, 
 | **Odoo** (any version; ERP with the same API) | URL, database, a read-only login or an Odoo 19+ API key | vendor bills received, customer invoices issued, sales orders confirmed, new companies: counts, totals per currency, how many are paid, with the source beside each number |
 | **A report by URL** | a Google Sheet published to the web as CSV, a CSV/JSON export, a dashboard endpoint with a read-only token in the URL | the rows, the count, the sums of the numeric columns |
 | **Mail and calendar** | what the Gateway already has: on a Plow line, the owner's connectors; locally, the Google skill | today's and tomorrow's meetings, the threads that moved |
-| **Your other agents** | their ids on the Gateway | what each one did since yesterday, in its own words, with its source |
-| **Agents on another OpenClaw** | their Agent2Agent endpoint and the token their owner issued | the same daily question, over the A2A 1.0 protocol; the answer comes back marked "reported, not verified" until its source is opened |
+| **People and other agents** | a roster: name, role, and a phone number, an agent id, or an Agent2Agent or YoRobot address (see "Who it asks") | what each one did since yesterday, in their own words, with its source |
 
 The scripts are in [`sources/`](sources/): each returns the numbers already counted and
 labelled, so the agent copies them instead of calculating, and every list carries a
