@@ -39,6 +39,24 @@ places where Plow could say something, ordered by how much time each would have 
 8. **Config extension point.** Let an image declare additions to the boot-owned config (`/opt/plow/config.overlay.json5`, merged after boot's): `tools.alsoAllow: ["cron"]`, extra workspace files to copy. Today the only way is to patch boot's compiled JS, which the admission check would rightly reject.
 9. **Progress in the chat, by default, for the first run.** Turn `verbose_output` on for the first N minutes after deploy, or emit one line when a run starts ("working on it, ~10 min") and one when a tool call exceeds a minute. Silence is indistinguishable from death.
 10. **Docs in one place.** The pieces exist (three READMEs, the publish page, `howto.plow.co`, Discord) but the sender gate, the two-handle trap, the tool profile and the boot overwrite are in none of them. A single "Hosting an agent on Plow" page with those four facts would have saved us four days.
+11. **Updates that reach the agents already running.** `image promote` changes what new
+    installs get; every instance already running keeps its old image, and nothing tells the
+    builder or the installer. We hit it on Sept 26: a fix for an agent that texted its owner
+    every half hour reached new installs only, while the five people already using it kept
+    getting the texts, and we had no way to reach them. Proposed:
+    - `plow-agents image promote --roll`: redeploy every running instance of the listing onto
+      the new pin, keeping each one's state volume (`/var/lib/plow`) and chats, one at a time,
+      stopping on the first that fails its health check.
+    - Or per install, opt-in: an "auto-update" setting next to `verbose_output`, and a reply
+      the installer can send ("update yourself") that moves that one instance to the current
+      pin.
+    - `plow-agents image show` listing how many running instances are on each digest, so the
+      builder knows who is behind.
+    - One line to the installer when their agent is updated, with the changelog the builder
+      passes to `promote --note`.
+    Vercel promotes with instant rollback, Fly rolls a deploy machine by machine with health
+    checks; either shape works. Without it, a builder's only fix for a live bug is asking
+    every user to reinstall.
 
 ## Onboarding v2: the same proof, one tap
 
