@@ -20,3 +20,10 @@ video/public/demo/
 
 # credentials of the owner's systems live only in the container
 work/sources/
+
+# OpenClaw's memory-core writes these while the dev Gateway runs: session corpora and
+# "dreaming" summaries. Runtime, not source; they never belong in the public repo.
+DREAMS.md
+**/DREAMS.md
+**/memory/.dreams/
+**/memory/dreaming/
