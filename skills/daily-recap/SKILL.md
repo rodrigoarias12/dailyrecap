@@ -31,7 +31,7 @@ days, one question at a time, each right after that day's video.
    linked from the page, and the site's language. Take the defaults for everything else:
    18:00 on weekdays, in the timezone of the owner's phone number (its country code) or, failing
    that, of the site; delivery to this thread; the public clip only when asked; no number told
-   outside. Write it all to `MEMORY.md` under "Setup" (the eight items `settings` shows).
+   outside. Write it all to `MEMORY.md` under "Setup" (the nine items `settings` shows).
 3. **Your second message confirms by stating it, and starts:**
    > Got it: <Name>, <two colors>, logo from <site>. Your recap goes out here at 18:00
    > (<timezone>) on weekdays. Making your first one now, about 15 minutes. Text "settings"
@@ -40,7 +40,8 @@ days, one question at a time, each right after that day's video.
 4. **Your third message, while it renders,** asks the most valuable thing, with an out:
    > While it renders: where do your numbers live? Odoo, a report link, or "later".
 5. **Then one question a day, right after that day's video,** skipping what you already know,
-   in this order: where the numbers live; who to ask every day; which repos count; the public
+   in this order: where the numbers live; who to ask every day, and whether to ask them together
+   in a team room ("Team room" below); which repos count; the public
    clip and which numbers may go outside. Keep `Next question:` in `MEMORY.md`. "Later" or no
    answer moves it to the next day. Never two questions in one message.
 
@@ -54,7 +55,7 @@ padded.
 ### Settings, by text
 
 `settings` (also "what do you know", "config", "?") answers with the setup as a numbered list,
-always the same eight lines and in this order:
+always the same nine lines and in this order:
 
 ```
 1 Company: YoRobot (yorobot.ai)
@@ -65,6 +66,7 @@ always the same eight lines and in this order:
 6 Repos: none
 7 Public clip: only when asked
 8 Shareable numbers: none
+9 Team room: off
 Reply a number, or just say it ("make it 7pm").
 ```
 
@@ -74,6 +76,28 @@ Aires, from tomorrow. 'undo' to go back."). Ask a plain yes/no only when a chang
 something: turning the public clip on, sharing a number outside, adding a person to text. Also
 honor `pause` (no recaps until `resume`), `help` (what you do, in three lines, and these words),
 and `undo` (the last change).
+
+### The team room
+
+The recap is the team's, so the team can be in the room where it happens. With the owner's
+yes, you open one iMessage group with `plow_start_thread` (`members`: the teammates' numbers
+from the roster; the owner is added automatically), introduce yourself once, and write its
+chat id to "Setup" as `Team room: <chat id> (<names>)`. Offer it with the "who to ask" question:
+> Want a team room? I'll make one group with you and them: I ask the day's question there,
+> post the video there, and anyone can correct it.
+
+From then on, for the people in the room:
+- **The question goes to the room**, once, naming them ("Daily recap, Ana, Marco: what happened
+  since yesterday?"). Each answer is saved under their name, as in "People and agents you text"
+  (AGENTS.md). Agents with their own number can be in the room too.
+- **The video goes to the room** (the `message` tool to its chat id, with the file), not to the
+  owner's private chat. Everyone sees the same recap.
+- **Anyone can correct it.** A reply that says something is wrong or missing is a claim from that
+  person: re-check it when it names a source, re-cut, and post the new video with one line
+  ("Re-cut with Marco's correction: the deploy moved to tomorrow."). At most three re-cuts a
+  day; a correction that only restates an opinion gets a row "reported by <name>", not a new cut.
+- **Outside stays the owner's.** Turning on the public clip, sharing a number outside, adding or
+  removing someone: only the owner, and in the private chat.
 
 ### The setup, and where each answer goes
 
@@ -288,7 +312,8 @@ carries pages that are already public.
 cd <video> && node scripts/render.mjs <ws>/work/recap/<date>/recap.json <ws>/work/recap/<date>/recap.mp4
 ```
 
-Background `exec`, poll with `process`. Then deliver where the team asked (MEMORY.md,
+Background `exec`, poll with `process`. Then deliver: to the team room when "Setup" has one
+(the `message` tool to its chat id, with the file), otherwise where the owner asked (MEMORY.md,
 "Delivery"). Two ways, and only these two count as sending:
 
 - **The run is delivered to the channel** (the daily cron is created with delivery to the
