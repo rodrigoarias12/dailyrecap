@@ -46,6 +46,9 @@ Ask the owner once, in the session:
   the session and the other agents; say so and move on.
 - **Which other agents work here?** Their ids on this Gateway (a sales agent, a support
   agent, a CFO agent, a marketing agent). They are colleagues: you will ask them every day.
+- **Agents on other phone lines** (on a Plow line: the owner's other agents on Plow, each on
+  its own number, like a scheduling assistant): their name, what they do, and their number.
+  Save them to `MEMORY.md` under "Agents on other lines". They are asked by text (below).
 - **Agents on another OpenClaw** (another machine, another team, a vendor's agent): the
   Agent2Agent protocol. Ask for the peer's endpoint (`https://…/a2a/v1`) and the bearer
   token its owner issued for you, and save them to `<ws>/work/sources/agents.json` as
@@ -79,6 +82,20 @@ asking. So the two primary sources need nothing connected:
   says so). What an agent reports is a claim, like a commit message: if it points at
   something you can open (a PR, a ticket, a report), open it before it goes in the video.
   Their rows carry `who` = the agent's name, so the team knows who said it.
+- **The agents on other phone lines** (`MEMORY.md`, "Agents on other lines"), in two steps,
+  because their answers arrive later as messages and not inside this run:
+  1. **Ask, once a day.** If `work/recap/<date>/pending.json` does not exist, send each of
+     them the question above. The first time, open the thread with `plow_start_thread`
+     (`members`: their number; the owner is added automatically) and write its chat id to
+     `MEMORY.md` next to the agent; after that, the `message` tool to that chat id. Write
+     `pending.json` (`{ "asked_at": …, "waiting": [names] }`) and stop this run: a manual run
+     tells the owner "Asked <names>; the video follows their answer, 20 minutes at most"; a
+     heartbeat says nothing (`NO_REPLY`).
+  2. **Collect.** Their answers land in `work/recap/<date>/peers/<name>.md` (AGENTS.md, "Agents
+     on other phone lines"). When `waiting` is empty, or 20 minutes passed, continue the run
+     from here. An agent that did not answer is a row that says so; what one answered is a
+     claim like any other: open what it points at when you can.
+  A scheduling agent is where tomorrow's `agenda` comes from: its meetings, not your guess.
 - **The agents on other OpenClaws**, with the same question over Agent2Agent:
   `node <sources>/a2a.mjs --config <ws>/work/sources/agents.json --today "<date> <hour> <timezone>"`.
   It waits for each peer and returns, per peer, `answered`, the text, and a `row` already
