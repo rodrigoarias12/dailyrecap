@@ -1,6 +1,19 @@
 # Install DailyRecap
 
-Two ways. The first needs nothing but a phone.
+## In one minute: what you are installing
+
+An agent on Plow **is a phone number**. You text it from your iPhone, in Messages; there is
+nothing to install and nothing to sign up for. Plow runs one private container per person,
+with DailyRecap inside, and reports usage to the hackathon index.
+
+Two numbers are involved:
+
+- **+1 (628) 246-3032** is Plow's reception number: it takes install texts.
+- **Your agent's own number** is what texts you back. That thread is DailyRecap. Text it from
+  the same iPhone you installed from: an iPhone can send iMessages as your number or as your
+  Apple ID email, and Plow only knows the one that sent the install text.
+
+Two ways to install. The first needs nothing but a phone.
 
 ## 1. Hosted, one text (Plow)
 
