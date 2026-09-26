@@ -1,0 +1,102 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>DailyRecap Blueprint</title>
+<style>
+@font-face{font-family:'Rethink Sans';src:url('../video/public/fonts/RethinkSans-Regular.ttf');font-weight:400}
+@font-face{font-family:'Rethink Sans';src:url('../video/public/fonts/RethinkSans-Medium.ttf');font-weight:500}
+@font-face{font-family:'Rethink Sans';src:url('../video/public/fonts/RethinkSans-SemiBold.ttf');font-weight:600}
+:root{--green:#a0e099;--green-darker:#83cc7a;--green-darker-ext:#2c5227;--ink:#20291f;--mid:#647063;--low:#9ca89b;--outline:#dde5dc;--outline-accent:#ced6ce;--overlay:#f0f4ef;--surface:#fff;--bg:#f8faf7;--warning:#f59e0b}
+*{box-sizing:border-box}
+body{margin:0;width:1600px;height:1130px;background:var(--bg);font-family:'Rethink Sans',system-ui,sans-serif;color:var(--ink)}
+header{height:118px;padding:34px 56px 0;display:flex;align-items:flex-start;gap:14px}
+header svg.m{width:36px;height:36px;flex:none}
+header h1{font-size:26px;font-weight:600;letter-spacing:-.02em;margin:0}
+header p{margin:4px 0 0;color:var(--mid);font-size:14px}
+.canvas{position:absolute;left:0;right:0;top:118px;bottom:0;border-top:1px solid var(--outline);background-color:var(--surface);
+  background-image:radial-gradient(circle at center, rgb(131 204 122 / .45) 1.1px, transparent 1.1px);background-size:16px 16px}
+.t{position:absolute;font-size:10px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--mid)}
+.n{position:absolute;border:1px solid var(--outline-accent);border-radius:10px;background:var(--surface);box-shadow:0 1px 2px rgb(32 41 31 / .08);padding:10px 12px}
+.n.off{border-style:dashed}
+.n.hot{border:2px solid var(--green-darker);padding:9px 11px}
+.nm{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;margin:0}
+.ico{flex:none;width:22px;height:22px;border-radius:6px;display:grid;place-items:center;background:var(--overlay);color:var(--mid)}
+.ico.a{background:var(--green);color:var(--ink)}
+.ico svg{width:14px;height:14px}
+.d{font-size:12px;line-height:1.45;color:var(--mid);margin:3px 0 0}
+.q{font-size:12px;line-height:1.45;margin:6px 0 0;padding:6px 9px;border-radius:12px;border-bottom-left-radius:4px;background:#eef3ed;color:var(--ink)}
+.jaula{position:absolute;border:1px dashed var(--green-darker);border-radius:14px;background:rgb(253 255 252 / .72)}
+.jaula .rot{position:absolute;left:16px;top:12px}
+.llaves{position:absolute;left:16px;bottom:10px;font-size:11px;color:var(--mid)}
+.chips{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.chip{font-size:11.5px;font-weight:500;border:1px solid var(--outline-accent);border-radius:999px;padding:4px 10px;background:var(--surface);color:var(--ink)}
+.chip b{display:inline-grid;place-items:center;width:17px;height:17px;border-radius:50%;background:var(--green);font-size:10px;margin-right:6px}
+.pill{position:absolute;font-size:11px;font-weight:500;border:1px solid var(--outline-accent);border-radius:999px;padding:4px 10px;color:var(--mid);background:var(--surface)}
+svg.cables{position:absolute;left:0;top:0;width:1600px;height:1062px;overflow:visible;pointer-events:none;z-index:1}
+.n,.pill{z-index:2}
+.c{fill:none;stroke:var(--green-darker);stroke-width:1.5}
+.c.off{stroke:var(--low);stroke-dasharray:5 5}
+.port{fill:#fff;stroke:var(--low);stroke-width:1.5}
+.sep{position:absolute;left:56px;right:56px;height:1px;background:var(--outline)}
+.ley{position:absolute;right:56px;bottom:22px;display:flex;gap:18px;font-size:11.5px;color:var(--mid);align-items:center}
+.ley i{display:inline-block;width:26px;height:0;border-top:1.5px solid var(--green-darker);vertical-align:middle;margin-right:6px}
+.ley i.o{border-top:1.5px dashed var(--low)}
+</style>
+<body>
+<header>
+ <svg class="m" viewBox="116.16 103.77 847.68 847.68"><rect x="116.16" y="103.77" width="847.68" height="847.68" rx="164.07" fill="#a0e099"/><path fill="#20291f" d="M761.24,306.36h0s-221.24,0-221.24,0h-221.24c0,122.19,99.05,221.24,221.24,221.24h-221.24v221.24h0c122.19,0,221.24-99.05,221.24-221.24v221.24h221.24c0-122.19-99.05-221.24-221.24-221.24,122.19,0,221.24-99.05,221.24-221.24Z"/></svg>
+ <div><h1>How DailyRecap runs: on your Mac and on Plow</h1><p>Top: your own OpenClaw, where DailyRecap works beside your other agents. Bottom: Plow, where anyone installs it with one text and it lives in a container of its own.</p></div>
+</header>
+<div class="canvas">
+<svg class="cables" viewBox="0 0 1600 1062" id="cables"></svg>
+<div class="t" style="left:56px;top:26px">Who writes</div>
+<div class="n " id="own" style="left:56px;top:56px;width:290px"><p class="nm"><span class="ico"><svg viewBox="0 0 16 16"><circle cx="8" cy="5" r="3" fill="currentColor"/><path d="M2 15c.6-3.2 3.1-5 6-5s5.4 1.8 6 5z" fill="currentColor"/></svg></span>You · the owner</p><p class="d">Over Telegram:</p><p class="q">daily-recap: run</p></div>
+
+<div class="n off" id="team" style="left:56px;top:220px;width:290px"><p class="nm"><span class="ico"><svg viewBox="0 0 16 16"><circle cx="5" cy="5" r="2.4" fill="currentColor"/><circle cx="11" cy="5" r="2.4" fill="currentColor"/><path d="M0.5 14c.4-2.6 2.2-4 4.5-4s4.1 1.4 4.5 4zM6.5 14c.4-2.6 2.2-4 4.5-4s4.1 1.4 4.5 4z" fill="currentColor"/></svg></span>Your team · shared session</p><p class="d">They suggest and draft in the same session. Described in the repo, not shown yet.</p></div>
+
+<div class="jaula" style="left:420px;top:40px;width:720px;height:410px"><p class="t rot">Your Gateway · on your Mac · OpenClaw 2.0 in Docker</p><p class="llaves">Model: Claude on Bedrock (our key) · the video renders on the Mac · runs while the Mac is on.</p></div>
+<div class="n hot" id="dr" style="left:446px;top:84px;width:664px"><p class="nm"><span class="ico a"><svg viewBox="0 0 16 16"><rect x="1" y="7" width="8" height="2.6" rx="1.3" fill="currentColor"/><circle cx="12.2" cy="8.3" r="3" fill="currentColor"/></svg></span>DailyRecap · chief of staff</p><p class="d">At 6 pm it asks the agents beside it (sessions_send) and those on another OpenClaw (Agent2Agent). Opens what they cite before it counts.</p><div class="chips"><span class="chip">Git and CI</span><span class="chip">Odoo</span><span class="chip">A sheet by URL</span><span class="chip">YoRobot agents</span></div></div>
+
+<div class="n " id="theo" style="left:446px;top:276px;width:300px"><p class="nm"><span class="ico"><svg viewBox="0 0 16 16"><path d="M5 4L1 8l4 4M11 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></span>Theo · the CTO's assistant</p><p class="d">Repo, builds and open bugs.</p></div>
+
+<div class="n " id="pilar" style="left:790px;top:276px;width:300px"><p class="nm"><span class="ico"><svg viewBox="0 0 16 16"><path d="M2 14V9h3v5zM6.5 14V5h3v9zM11 14V2h3v12z" fill="currentColor"/></svg></span>Pilar · the CPO's assistant</p><p class="d">Backlog and the KPI sheet.</p></div>
+
+<div class="t" style="left:1190px;top:26px">What goes out</div>
+<div class="n " id="vid1" style="left:1190px;top:84px;width:354px"><p class="nm"><span class="ico a"><svg viewBox="0 0 16 16"><rect x="4" y="1" width="8" height="14" rx="2" fill="currentColor"/><path d="M7 6l3 2-3 2z" fill="#a0e099"/></svg></span>The video, over Telegram</p><p class="d">Vertical, 30 to 45 s. Every row with who said it and ✓ verified or reported.</p></div>
+
+<div class="n " id="cust" style="left:1190px;top:220px;width:354px"><p class="nm"><span class="ico"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="2.4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 1v2.5M8 12.5V15M1 8h2.5M12.5 8H15M3 3l1.8 1.8M11.2 11.2L13 13M13 3l-1.8 1.8M4.8 11.2L3 13" stroke="currentColor" stroke-width="1.6"/></svg></span>Everything is yours to change</p><p class="d">Skills, agents, channels, model and schedule: it is your install.</p></div>
+
+<div class="sep" style="top:480px"></div>
+<div class="t" style="left:56px;top:504px">Who writes</div>
+<div class="n " id="own2" style="left:56px;top:534px;width:290px"><p class="nm"><span class="ico"><svg viewBox="0 0 16 16"><circle cx="8" cy="5" r="3" fill="currentColor"/><path d="M2 15c.6-3.2 3.1-5 6-5s5.4 1.8 6 5z" fill="currentColor"/></svg></span>Owner · iMessage</p><p class="d">First, to Plow's number:</p><p class="q">Set this up for me: aiworthusing.com/agent-index/dailyrecap</p><p class="d">Then, to the agent's own number.</p></div>
+
+<div class="n off" id="oth" style="left:56px;top:712px;width:290px"><p class="nm"><span class="ico"><svg viewBox="0 0 16 16"><circle cx="5" cy="5" r="2.4" fill="currentColor"/><circle cx="11" cy="5" r="2.4" fill="currentColor"/><path d="M0.5 14c.4-2.6 2.2-4 4.5-4s4.1 1.4 4.5 4zM6.5 14c.4-2.6 2.2-4 4.5-4s4.1 1.4 4.5 4z" fill="currentColor"/></svg></span>People and agents, by number</p><p class="d">A teammate, or OnBehalf's line. They answer in the thread DailyRecap opened, with the owner in it.</p></div>
+
+<div class="n off" id="els" style="left:56px;top:836px;width:290px"><p class="nm"><span class="ico"><svg viewBox="0 0 16 16"><path d="M5 1v4M11 1v4M3 5h10v3a5 5 0 0 1-10 0zM8 13v2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></span>Agents elsewhere</p><p class="d">Another OpenClaw (Agent2Agent) or a YoRobot agent like Grow. Grow's channel is still pending.</p></div>
+
+<div class="jaula" style="left:420px;top:520px;width:720px;height:430px"><p class="t rot">The owner's container on Plow · one phone number · OpenClaw</p><p class="llaves">Model: Plow's · the image promoted on install day; later versions reach new installs only.</p></div>
+<div class="n " id="onb" style="left:446px;top:564px;width:664px"><p class="nm"><span class="ico"><svg viewBox="0 0 16 16"><path d="M2 3h12v8H6l-4 3z" fill="currentColor"/></svg></span>First conversation</p><div class="chips"><span class="chip"><b>1</b>One question: the website</span><span class="chip"><b>2</b>First video in ~15 min</span><span class="chip"><b>3</b>One question a day · settings</span></div></div>
+
+<div class="n hot" id="dr2" style="left:446px;top:700px;width:664px"><p class="nm"><span class="ico a"><svg viewBox="0 0 16 16"><rect x="1" y="7" width="8" height="2.6" rx="1.3" fill="currentColor"/><circle cx="12.2" cy="8.3" r="3" fill="currentColor"/></svg></span>DailyRecap · chief of staff</p><p class="d">Wakes every 30 min. At 6 pm on weekdays it asks everyone, waits up to 20 min for answers by text, opens what it can and cuts the video.</p><div class="chips"><span class="chip">Website and public repos</span><span class="chip">Odoo</span><span class="chip">A sheet by URL</span></div></div>
+
+<div class="t" style="left:1190px;top:504px">What goes out</div>
+<div class="n " id="vid2" style="left:1190px;top:712px;width:354px"><p class="nm"><span class="ico a"><svg viewBox="0 0 16 16"><rect x="4" y="1" width="8" height="14" rx="2" fill="currentColor"/><path d="M7 6l3 2-3 2z" fill="#a0e099"/></svg></span>The video, in the iMessage thread</p><p class="d">Vertical, 30 to 45 s. ✓ verified or reported beside every source.</p></div>
+
+<div class="pill" style="left:1190px;top:830px">Nothing public without the owner's yes</div>
+<div class="ley"><span><i></i>path that works today</span><span><i class="o"></i>pending or not shown yet</span><span>Dashed green border: where it runs</span></div>
+</div>
+<script>
+const svg=document.getElementById('cables'), off=document.querySelector('.canvas').getBoundingClientRect();
+function box(id){const r=document.getElementById(id).getBoundingClientRect();return {l:r.left-off.left,r:r.right-off.left,t:r.top-off.top,b:r.bottom-off.top,cy:(r.top+r.bottom)/2-off.top,cx:(r.left+r.right)/2-off.left};}
+function cable(a,b,o={}){const A=box(a),B=box(b);let x1=A.r,y1=o.ya??A.cy,x2=B.l,y2=o.yb??B.cy;
+ if(o.down){x1=A.cx+(o.dx||0);y1=A.b;x2=B.cx+(o.dx2||0);y2=B.t;const p=`M${x1},${y1} C${x1},${y1+40} ${x2},${y2-40} ${x2},${y2}`;add(p,o);port(x1,y1);port(x2,y2);return;}
+ if(o.up){x1=A.cx+(o.dx||0);y1=A.t;x2=B.cx+(o.dx2||0);y2=B.b;const p=`M${x1},${y1} C${x1},${y1-40} ${x2},${y2+40} ${x2},${y2}`;add(p,o);port(x1,y1);port(x2,y2);return;}
+ const k=Math.max(40,(x2-x1)/2);add(`M${x1},${y1} C${x1+k},${y1} ${x2-k},${y2} ${x2},${y2}`,o);port(x1,y1);port(x2,y2);}
+function add(d,o){const p=document.createElementNS('http://www.w3.org/2000/svg','path');p.setAttribute('d',d);p.setAttribute('class','c'+(o.off?' off':''));svg.appendChild(p);}
+function port(x,y){const c=document.createElementNS('http://www.w3.org/2000/svg','circle');c.setAttribute('cx',x);c.setAttribute('cy',y);c.setAttribute('r',3.5);c.setAttribute('class','port');svg.appendChild(c);}
+
+cable('own','dr'); cable('team','dr',{off:true});
+cable('dr','theo',{down:true,dx:-160,dx2:0}); cable('dr','pilar',{down:true,dx:180,dx2:0});
+cable('dr','vid1',{ya:box('dr').t+30});
+cable('own2','onb'); cable('onb','dr2',{down:true,dx:-200,dx2:-200});
+cable('oth','dr2',{off:true}); cable('els','dr2',{off:true});
+cable('dr2','vid2');
+</script>
+</body></html>
