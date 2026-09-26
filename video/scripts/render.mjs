@@ -29,7 +29,8 @@ else {
   for (const k of ['name', 'accent', 'ink', 'bg']) if (!isStr(script.brand[k])) errors.push(`brand.${k}: missing`);
   if (typeof script.brand.url !== 'string') errors.push('brand.url: must be a string (may be empty)');
 }
-for (const k of Object.keys(script)) if (!['brand', 'format', 'lang', 'voiceId', 'scenes', 'narration', 'music', 'credit', 'captions'].includes(k)) errors.push(`${k}: unknown top-level field`);
+for (const k of Object.keys(script)) if (!['brand', 'format', 'style', 'lang', 'voiceId', 'scenes', 'narration', 'music', 'credit', 'captions'].includes(k)) errors.push(`${k}: unknown top-level field`);
+if (script.style !== undefined && script.style !== 'tiktok') errors.push('style: the only style is "tiktok" (or leave it out)');
 if (!Array.isArray(script.scenes) || script.scenes.length === 0) errors.push('scenes: must be a non-empty array');
 else script.scenes.forEach((s, i) => {
   const at = `scenes[${i}]`;
@@ -54,7 +55,7 @@ if (errors.length) {
   console.error(`script ${SCRIPT} is not valid:\n  - ${errors.join('\n  - ')}\nSchema: video/src/script.ts · shape to copy: video/example/recap.json`);
   process.exit(2);
 }
-if (OUT === '--check') { console.log(`ok: ${script.scenes.length} scenes · ${seconds.toFixed(1)}s · ${script.format ?? 'landscape'}`); process.exit(0); }
+if (OUT === '--check') { console.log(`ok: ${script.scenes.length} scenes · ${seconds.toFixed(1)}s · ${script.style === 'tiktok' ? 'tiktok (portrait)' : script.format ?? 'landscape'}`); process.exit(0); }
 
 // ── Voice ───────────────────────────────────────────────────────────────────────────────
 const voiced = script.scenes.filter((s) => s.voice).length;
@@ -76,7 +77,7 @@ if (current.music !== false) {
 }
 
 // ── Render ──────────────────────────────────────────────────────────────────────────────
-const composition = current.format === 'portrait' ? 'Portrait' : 'Landscape';
+const composition = current.format === 'portrait' || current.style === 'tiktok' ? 'Portrait' : 'Landscape';
 mkdirSync(dirname(OUT), { recursive: true });
 console.log(`render: ${composition} · ${current.scenes.length} scenes · ${total.toFixed(1)}s · ${current.narration?.length ?? 0} voice lines → ${OUT}`);
 // In a container (dev/Dockerfile) Remotion uses the system Chromium instead of downloading one.

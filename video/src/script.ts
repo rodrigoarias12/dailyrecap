@@ -54,6 +54,8 @@ export type Script = {
   brand: Brand;
   /** 16:9 for the launch video and the internal recap, 9:16 for the public clip. Default landscape. */
   format?: 'landscape' | 'portrait';
+  /** 'tiktok': the short-form cut (vertical, safe zone, hook on frame 0, hard cuts, big captions). Implies portrait. */
+  style?: 'tiktok';
   /** Language of the voice lines, e.g. "en" or "es". Picks the default voice. */
   lang?: string;
   /** A specific voice id for the narration engine (edge-tts or ElevenLabs). */

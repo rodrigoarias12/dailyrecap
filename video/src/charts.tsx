@@ -22,30 +22,31 @@ const fmt = (n: number, unit?: string) => (unit === '%' ? `${Math.round(n)}%` : 
 
 export function Chart({ p, kind, label, value, delta, up, unit, series, source, total }: ChartProps) {
   const f = useCurrentFrame();
-  const { pad, portrait, width, height } = useLayout();
+  const { pad, padR, portrait, width, height, tiktok } = useLayout();
+  const t0 = tiktok ? 0 : 6, cLen = tiktok ? 16 : 40, dAt = tiktok ? 12 : 44, sAt = tiktok ? 16 : 52;
   const hero = value ?? fmt(series[series.length - 1]?.y ?? 0, unit);
-  const chartW = portrait ? width - 2 * pad : Math.round(width * 0.54);
-  const chartH = portrait ? Math.round(height * 0.34) : Math.round(height * 0.5);
+  const chartW = portrait ? width - pad - padR : Math.round(width * 0.54);
+  const chartH = tiktok ? Math.round(height * 0.24) : portrait ? Math.round(height * 0.34) : Math.round(height * 0.5);
   return (
-    <AbsoluteFill style={{ background: p.ink, padding: `0 ${pad}px`, justifyContent: 'center', opacity: leave(f, total) }}>
+    <AbsoluteFill style={{ background: p.ink, padding: useLayout().frame, justifyContent: 'center', opacity: leave(f, total) }}>
       <Audio src={staticFile('sfx/transition-soft.mp3')} volume={0.2} />
       <Backdrop p={p} total={total} />
       <div style={{ display: 'flex', flexDirection: portrait ? 'column' : 'row', alignItems: portrait ? 'flex-start' : 'center', gap: portrait ? 36 : 64, position: 'relative' }}>
         <div style={{ flex: '0 0 auto', minWidth: portrait ? undefined : Math.round(width * 0.3) }}>
           <Label p={p} style={{ marginBottom: 22 }}>{label}</Label>
-          <Appear from={6} travel={24}>
-            <p style={text(T.displayXl, { color: p.light, fontSize: portrait ? 150 : 170, lineHeight: 1, fontWeight: 700, fontVariantNumeric: 'tabular-nums', letterSpacing: '-0.04em' })}>{countUp(hero, f, 6, 40)}</p>
+          <Appear from={tiktok ? -20 : 6} travel={24}>
+            <p style={text(T.displayXl, { color: p.light, fontSize: tiktok ? 132 : portrait ? 150 : 170, lineHeight: 1, fontWeight: 700, fontVariantNumeric: 'tabular-nums', letterSpacing: '-0.04em' })}>{tiktok ? hero : countUp(hero, f, t0, cLen)}</p>
           </Appear>
           <div style={{ display: 'flex', alignItems: 'center', gap: 20, marginTop: 28, flexWrap: 'wrap' }}>
             {delta && (
-              <Appear from={44} travel={10}>
+              <Appear from={dAt} travel={10}>
                 <span style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '12px 22px', borderRadius: 999, background: up === false ? 'rgba(253,255,252,0.1)' : p.accent, ...text(T.title, { color: up === false ? '#ffb4a8' : p.ink, fontSize: 28 }) }}>
                   {up === undefined ? '' : up ? '▲' : '▼'} {delta}
                 </span>
               </Appear>
             )}
           </div>
-          <Appear from={52} travel={8} style={{ marginTop: 22 }}><span style={text(T.bodySm, { color: p.lightMid })}>{source}</span></Appear>
+          <Appear from={sAt} travel={8} style={{ marginTop: 22 }}><span style={text(T.bodySm, { color: p.lightMid })}>{source}</span></Appear>
         </div>
         <div style={{ width: chartW, height: chartH, position: 'relative', opacity: enter(f, 4, 10) }}>
           {kind === 'line' && <Line p={p} series={series} unit={unit} w={chartW} h={chartH} f={f} />}

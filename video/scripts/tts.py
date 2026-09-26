@@ -6,7 +6,7 @@ Writes the mp3 and a JSON list of words [{"w": "Hello", "s": 0.05, "e": 0.31}] i
 from the start of the clip, from the service's own word boundaries. The renderer uses them
 for captions that light up with the voice.
 """
-import asyncio, json, sys
+import asyncio, json, os, sys
 import edge_tts
 
 voice, out_mp3, out_json = sys.argv[1], sys.argv[2], sys.argv[3]
@@ -15,7 +15,7 @@ text = sys.stdin.read().strip()
 async def run():
     words = []
     with open(out_mp3, "wb") as f:
-        async for chunk in edge_tts.Communicate(text, voice, rate="+4%", boundary="WordBoundary").stream():
+        async for chunk in edge_tts.Communicate(text, voice, rate=os.environ.get("TTS_RATE", "+4%"), boundary="WordBoundary").stream():
             if chunk["type"] == "audio":
                 f.write(chunk["data"])
             elif chunk["type"] == "WordBoundary":

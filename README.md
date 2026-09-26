@@ -59,6 +59,15 @@ To try it without installing anything, [`dev/`](dev/README.md) runs the whole Ga
 Docker and removes itself with one command. For the hosted, 1-click version (Plow phone
 line), see [`cloud/`](cloud/README.md).
 
+## The TikTok of your company
+
+The recap is cut like a TikTok, not like a slide deck: vertical, 30–45 s, the day's most
+surprising number on the first frame, a cut every two to four seconds, word-by-word captions,
+and everything kept inside the zone the app's interface leaves clear. `"style": "tiktok"` in
+any script turns it on; [`video/example/tiktok.json`](video/example/tiktok.json) is a full one.
+The rules come from TikTok's own creative guidance (hook in the first 3 s, faster scene
+changes, text on screen) and are encoded in the engine, so every company's recap follows them.
+
 ## Connect your numbers
 
 The recap is only as good as what it can read. Out of the box it reads the shared session,

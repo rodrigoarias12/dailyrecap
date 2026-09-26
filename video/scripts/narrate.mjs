@@ -28,7 +28,10 @@ const SCRIPT = process.argv[2];
 if (!SCRIPT) { console.error('usage: narrate.mjs <script.json>'); process.exit(1); }
 const KEY = process.env.ELEVENLABS_API_KEY;
 const DG = process.env.DEEPGRAM_API_KEY;
-const LUFS = -16, LEAD = 0.4, TAIL = 0.5;
+const LUFS = -16;
+// The short-form cut talks from the first frame and leaves no air at the end of a beat.
+const SHORT = JSON.parse(readFileSync(SCRIPT, 'utf8')).style === 'tiktok';
+const LEAD = SHORT ? 0.1 : 0.4, TAIL = SHORT ? 0.15 : 0.5;
 const ROOT = join(dirname(new URL(import.meta.url).pathname), '..');
 const PUBLIC = join(ROOT, 'public');
 
@@ -70,7 +73,7 @@ for (let k = 0; k < lines.length; k++) {
       if (!r.ok) { console.error(`  ✘ scene ${i + 1}: ${r.status} ${(await r.text()).slice(0, 200)}`); failures++; continue; }
       writeFileSync(raw, Buffer.from(await r.arrayBuffer()));
     } else {
-      execFileSync(PY, [join(ROOT, 'scripts/tts.py'), VOICE, raw, `${raw}.json`], { input: s.voice, stdio: ['pipe', 'ignore', 'inherit'] });
+      execFileSync(PY, [join(ROOT, 'scripts/tts.py'), VOICE, raw, `${raw}.json`], { input: s.voice, stdio: ['pipe', 'ignore', 'inherit'], env: { ...process.env, TTS_RATE: script.style === 'tiktok' ? '+12%' : '+4%' } });
       writeFileSync(`${abs}.words.json`, readFileSync(`${raw}.json`));
     }
     // Fixed loudness with a plain gain: one-pass loudnorm pumps on clips of a few seconds.

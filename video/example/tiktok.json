@@ -1,0 +1,202 @@
+{
+ "brand": {
+  "name": "YoRobot",
+  "url": "yorobot.ai",
+  "accent": "#a0e099",
+  "ink": "#20291f",
+  "bg": "#f8faf7"
+ },
+ "style": "tiktok",
+ "lang": "en",
+ "music": "audio/music-recap.mp3",
+ "credit": false,
+ "scenes": [
+  {
+   "type": "metric",
+   "label": "People who used us this week",
+   "value": "301",
+   "delta": "+15% in a week",
+   "up": true,
+   "source": "KPI sheet \u00b7 via Pilar",
+   "seconds": 2.6,
+   "voice": "Three hundred and one people used us this week."
+  },
+  {
+   "type": "title",
+   "label": "YoRobot \u00b7 Friday",
+   "text": "Our AI chief of staff asked the team what happened.",
+   "seconds": 2.9,
+   "voice": "Our AI chief of staff asked the team what happened."
+  },
+  {
+   "type": "chart",
+   "kind": "line",
+   "label": "Weekly active users",
+   "series": [
+    {
+     "x": "W32",
+     "y": 120
+    },
+    {
+     "x": "W33",
+     "y": 138
+    },
+    {
+     "x": "W34",
+     "y": 151
+    },
+    {
+     "x": "W35",
+     "y": 176
+    },
+    {
+     "x": "W36",
+     "y": 198
+    },
+    {
+     "x": "W37",
+     "y": 231
+    },
+    {
+     "x": "W38",
+     "y": 262
+    },
+    {
+     "x": "W39",
+     "y": 301
+    }
+   ],
+   "delta": "8 weeks up",
+   "up": true,
+   "source": "KPI sheet \u00b7 via Pilar",
+   "seconds": 2.8,
+   "voice": "Eight weeks in a row, up."
+  },
+  {
+   "type": "chart",
+   "kind": "bars",
+   "label": "Day-7 retention",
+   "unit": "%",
+   "series": [
+    {
+     "x": "W34",
+     "y": 31
+    },
+    {
+     "x": "W35",
+     "y": 34
+    },
+    {
+     "x": "W36",
+     "y": 33
+    },
+    {
+     "x": "W37",
+     "y": 38
+    },
+    {
+     "x": "W38",
+     "y": 42
+    },
+    {
+     "x": "W39",
+     "y": 46
+    }
+   ],
+   "delta": "best cohort yet",
+   "up": true,
+   "source": "KPI sheet \u00b7 via Pilar",
+   "seconds": 3.7,
+   "voice": "Retention: forty-six percent. Our best cohort yet."
+  },
+  {
+   "type": "chart",
+   "kind": "funnel",
+   "label": "Sign-up to first video",
+   "series": [
+    {
+     "x": "Signed up",
+     "y": 412
+    },
+    {
+     "x": "Connected",
+     "y": 286
+    },
+    {
+     "x": "First video",
+     "y": 241
+    }
+   ],
+   "value": "58%",
+   "source": "product analytics \u00b7 via Pilar",
+   "seconds": 3,
+   "voice": "Fifty-eight percent got their first video."
+  },
+  {
+   "type": "events",
+   "label": "Shipped today",
+   "items": [
+    {
+     "tag": "charts",
+     "text": "Chart scenes in the recap",
+     "who": "Theo"
+    },
+    {
+     "tag": "A2A",
+     "text": "Agents asking other agents",
+     "who": "Theo"
+    },
+    {
+     "tag": "#1",
+     "text": "KPI sheet as a source",
+     "who": "Pilar"
+    }
+   ],
+   "seconds": 3.6,
+   "voice": "Shipped today: charts, and agents asking agents."
+  },
+  {
+   "type": "events",
+   "label": "Engineering",
+   "items": [
+    {
+     "tag": "CI",
+     "text": "5 builds, all green",
+     "who": "Theo"
+    },
+    {
+     "tag": "bugs",
+     "text": "3 still open",
+     "who": "Theo"
+    }
+   ],
+   "seconds": 3,
+   "voice": "Five green builds. Three bugs still open."
+  },
+  {
+   "type": "quote",
+   "text": "A prospect wants a video they can forward to their board.",
+   "who": "Rodrigo, today's demo call",
+   "seconds": 3,
+   "voice": "A prospect wants one they can send their board."
+  },
+  {
+   "type": "agenda",
+   "label": "Monday",
+   "items": [
+    {
+     "when": "Mon",
+     "text": "Cohort W40 starts \u00b7 target 48%"
+    }
+   ],
+   "seconds": 2.4,
+   "voice": "Monday: we go for forty-eight."
+  },
+  {
+   "type": "closing",
+   "cta": "Tomorrow's number drops at 6 pm.",
+   "seconds": 2.6,
+   "voice": "Tomorrow's number drops at six."
+  }
+ ]
+}

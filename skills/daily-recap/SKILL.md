@@ -1,6 +1,6 @@
 ---
 name: daily-recap
-description: Every day, a 45–60 s internal video of what happened at the company (commits, PRs, meetings, numbers, what the team said) and, on request, a 20–30 s vertical "building in public" clip for outside. Runs from a cron; the recap ships on its own, the clip waits for the owner's approval.
+description: Every day, a 30–45 s vertical video of what happened at the company, cut like a TikTok (commits, PRs, meetings, numbers, what the team said) and, on request, a 20–30 s vertical "building in public" clip for outside. Runs from a cron; the recap ships on its own, the clip waits for the owner's approval.
 metadata:
   openclaw:
     requires:
@@ -116,6 +116,23 @@ judgement.
 
 ## 2. Pick what matters
 
+**The recap is a TikTok.** Vertical, 30–45 s, `"style": "tiktok"` in the script: the engine
+keeps everything inside the zone TikTok's interface leaves clear, cuts hard, punches in on
+numbers, and burns in word-by-word captions. Copy the shape of `<video>/example/tiktok.json`.
+The rules that make it read as a TikTok and not as a slide deck:
+
+- **The hook is the first frame.** Scene 1 is a `metric` or `chart` with the day's most
+  surprising number, already on screen at frame 0. No title card, no greeting, no logo first.
+- **One idea per beat, 2–4 s each, 8–12 beats.** A scene longer than 4 s is two scenes.
+- **Voice lines of 5–10 words, first person plural** ("we shipped", "our best cohort"). The
+  voice sets the pace; captions come from it, so the video works on mute.
+- **The payoff before 15 s**: the second or third beat already says why today mattered.
+- **End on tomorrow**: the `closing` CTA names the next recap ("Tomorrow's number drops at 6
+  pm."), so the last line leads back into the first.
+
+A landscape cut without `style` (the old board format) is only for when the owner asks for it.
+
+
 A recap is not a list. Five to seven scenes:
 
 | # | type | carries |
@@ -128,8 +145,8 @@ A recap is not a list. Five to seven scenes:
 | 6 | agenda | tomorrow: meetings, releases, deadlines |
 
 Write `<ws>/work/recap/<date>/recap.json` by **copying the shape of
-`<video>/example/recap.json`** (the `brand` block included, `credit: false`, format
-landscape, `lang` set to the team's language). The schema is `<video>/src/script.ts`.
+`<video>/example/tiktok.json`** (the `brand` block included, `credit: false`,
+`"style": "tiktok"`, `lang` set to the team's language). The schema is `<video>/src/script.ts`.
 Then check it, and fix until it passes, before anything else:
 
 ```

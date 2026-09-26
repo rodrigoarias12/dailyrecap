@@ -1,5 +1,5 @@
 import { AbsoluteFill, Audio, Easing, Sequence, interpolate, staticFile, useCurrentFrame } from 'remotion';
-import { Agenda, Captions, Chips, Closing, Cover, Events, Fonts, Metric, Numbers, Quote, Screen, Title } from './pieces';
+import { Agenda, Captions, Chips, Closing, Cover, Events, Fonts, Look, Metric, Numbers, Quote, Screen, Title } from './pieces';
 import { FPS, frames, sceneStarts, totalFrames, type Script } from './script';
 import { palette } from './style';
 import { Chart } from './charts';
@@ -21,14 +21,25 @@ function underVoice(f: number, windows: { from: number; to: number }[]): number 
  * 0.33 s and the incoming one arrives from below over 0.5 s, both eased. The motion is the
  * cut. The first scene has no entrance and the last has no exit.
  */
-function Shell({ len, first, last, children }: { len: number; first: boolean; last: boolean; children: React.ReactNode }) {
+function Shell({ len, first, last, punch, tiktok, children }: { len: number; first: boolean; last: boolean; punch?: boolean; tiktok?: boolean; children: React.ReactNode }) {
   const f = useCurrentFrame();
+  if (tiktok) {
+    // Short-form: a hard cut. The hook, the numbers and the call to action land with a punch-in
+    // (112% to 100% in four frames); everything else just cuts. If everything zooms, nothing does.
+    const k = punch ? interpolate(f, [0, 4], [1.12, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.out(Easing.exp) }) : 1;
+    return <AbsoluteFill style={{ transform: `scale(${k})` }}>{children}</AbsoluteFill>;
+  }
   const inK = first ? 1 : interpolate(f, [0, 15], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.out(Easing.cubic) });
   const outK = last ? 0 : interpolate(f, [len - 10, len], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.in(Easing.quad) });
   const y = (1 - inK) * 140 - outK * 140;
   const blur = (1 - inK) * 24 + outK * 24;
   return <AbsoluteFill style={{ transform: `translateY(${y}px)`, filter: blur > 0.5 ? `blur(${blur}px)` : undefined }}>{children}</AbsoluteFill>;
 }
+
+/** Scenes that carry their own entrance sound; the rest get a whoosh on the cut in the short-form cut. */
+const HAS_SOUND = new Set(['title', 'metric', 'chart', 'closing']);
+const WHOOSH = ['sfx/whoosh-fast.mp3', 'sfx/transition-soft.mp3', 'sfx/ui-select-modern.mp3'];
+const PUNCH = new Set(['title', 'metric', 'chart', 'closing']);
 
 /** One component for every video: the script decides the scenes, the composition decides the frame. */
 export function Video(script: Script) {
@@ -37,14 +48,17 @@ export function Video(script: Script) {
   const total = totalFrames(script);
   const narration = script.narration ?? [];
   const windows = narration.map((n) => ({ from: frames(n.at), to: frames(n.at + n.seconds) }));
+  const tiktok = script.style === 'tiktok';
   return (
+    <Look.Provider value={{ tiktok }}>
     <AbsoluteFill style={{ background: p.ink }}>
       <Fonts />
       {script.scenes.map((s, i) => {
         const len = frames(s.seconds);
         return (
           <Sequence key={i} from={starts[i]} durationInFrames={len} name={`${i + 1} ${s.type}`}>
-            <Shell len={len} first={i === 0} last={i === script.scenes.length - 1}>
+            {tiktok && i > 0 && !HAS_SOUND.has(s.type) && <Audio src={staticFile(WHOOSH[i % WHOOSH.length])} volume={0.12} />}
+            <Shell len={len} first={i === 0} last={i === script.scenes.length - 1} tiktok={tiktok} punch={i === 0 || PUNCH.has(s.type)}>
             {s.type === 'title' && <Title p={p} label={s.label} phrase={s.text} total={len} />}
             {s.type === 'cover' && <Cover p={p} image={s.image} label={s.label} phrase={s.text} total={len} />}
             {s.type === 'screen' && <Screen p={p} image={s.image} focus={s.focus} zoom={s.zoom} label={s.label} phrase={s.text} total={len} />}
@@ -63,7 +77,7 @@ export function Video(script: Script) {
       {narration.map((n) => (
         <Sequence key={n.file} from={frames(n.at)} layout="none"><Audio src={staticFile(n.file)} /></Sequence>
       ))}
-      {(script.captions ?? script.format === 'portrait') && (
+      {(script.captions ?? (script.format === 'portrait' || tiktok)) && (
         <Captions p={p} lines={narration.filter((n) => n.words?.length).map((n) => ({ at: n.at, words: n.words! }))} />
       )}
       {script.music && (
@@ -73,5 +87,6 @@ export function Video(script: Script) {
         />
       )}
     </AbsoluteFill>
+    </Look.Provider>
   );
 }
