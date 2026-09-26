@@ -59,6 +59,12 @@ export function useLayout() {
     frame: `0 ${pad}px`, frameBottom: undefined as string | undefined };
 }
 
+
+/** The line under a number: where it comes from, and whether DailyRecap could open that source. */
+export function sourceLine(source: string, verified?: boolean) {
+  return verified === true ? `✓ verified · ${source}` : verified === false ? `reported, not verified · ${source}` : source;
+}
+
 const clamp = { extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const };
 export const enter = (f: number, from = 0, len = 9) => interpolate(f, [from, from + len], [0, 1], { ...clamp, easing: Easing.out(Easing.cubic) });
 export const leave = (f: number, total: number, len = 8) => interpolate(f, [total - len, total], [1, 0], clamp);
@@ -259,7 +265,7 @@ export function Numbers({ p, label, items, total }: { p: Palette; label: string;
 }
 
 /** What happened: up to six rows, each with its tag, sliding in one by one. */
-export function Events({ p, label, items, total }: { p: Palette; label: string; items: { tag: string; text: string; who?: string }[]; total: number }) {
+export function Events({ p, label, items, total }: { p: Palette; label: string; items: { tag: string; text: string; who?: string; verified?: boolean }[]; total: number }) {
   const f = useCurrentFrame();
   const { pad, textMax } = useLayout();
   return (
@@ -276,7 +282,7 @@ export function Events({ p, label, items, total }: { p: Palette; label: string; 
               <div style={{ display: 'flex', alignItems: 'baseline', gap: 26, padding: '18px 0 18px 22px', borderBottom: `1px solid ${p.lightLow}`, borderLeft: `4px solid ${p.accent}`, opacity: e, transform: `translateX(${(1 - e) * -24}px)` }}>
                 <span style={text(T.label, { color: p.accent, fontSize: 18, whiteSpace: 'nowrap', minWidth: 130 })}>{it.tag}</span>
                 <span style={text(T.body, { color: p.light, fontSize: 36, fontWeight: 500, flex: 1 })}>{it.text}</span>
-                {it.who && <span style={text(T.bodySm, { color: p.lightMid, whiteSpace: 'nowrap' })}>{it.who}</span>}
+                {(it.who || it.verified !== undefined) && <span style={text(T.bodySm, { color: p.lightMid, whiteSpace: 'nowrap' })}>{it.verified === true ? '✓ ' : ''}{it.who}{it.verified === false ? ' · reported' : ''}</span>}
               </div>
             </div>
           );
@@ -301,7 +307,7 @@ export function countUp(value: string, f: number, from = 8, len = 34): string {
 }
 
 /** One number that moved, counted up, with its source. The delta is a chip: accent for up, error red text for down. */
-export function Metric({ p, label, value, delta, up, source, total }: { p: Palette; label: string; value: string; delta?: string; up?: boolean; source: string; total: number }) {
+export function Metric({ p, label, value, delta, up, source, verified, total }: { p: Palette; label: string; value: string; delta?: string; up?: boolean; source: string; verified?: boolean; total: number }) {
   const f = useCurrentFrame();
   const { pad, tiktok, textMax } = useLayout();
   // Short-form: the number lands in a third of a second and never runs past the safe zone.
@@ -323,7 +329,7 @@ export function Metric({ p, label, value, delta, up, source, total }: { p: Palet
             </span>
           </Appear>
         )}
-        <Appear from={sAt} travel={8}><span style={text(T.bodySm, { color: p.ink, opacity: 0.55 })}>{source}</span></Appear>
+        <Appear from={sAt} travel={8}><span style={text(T.bodySm, { color: p.ink, opacity: 0.55 })}>{sourceLine(source, verified)}</span></Appear>
       </div>
     </AbsoluteFill>
   );

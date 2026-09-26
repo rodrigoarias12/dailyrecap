@@ -1,6 +1,6 @@
 import { AbsoluteFill, Audio, Easing, interpolate, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
 import { T, text, type Palette } from './style';
-import { Appear, enter, leave, Backdrop, Label, useLayout, countUp } from './pieces';
+import { Appear, enter, leave, Backdrop, Label, useLayout, countUp, sourceLine } from './pieces';
 
 /**
  * A metric with its chart: the number that moved on the left, the shape of how it moved on
@@ -15,12 +15,12 @@ import { Appear, enter, leave, Backdrop, Label, useLayout, countUp } from './pie
  */
 export type ChartKind = 'line' | 'bars' | 'funnel';
 export type Point = { x: string; y: number };
-export type ChartProps = { p: Palette; kind: ChartKind; label: string; value?: string; delta?: string; up?: boolean; unit?: string; series: Point[]; source: string; total: number };
+export type ChartProps = { p: Palette; kind: ChartKind; label: string; value?: string; delta?: string; up?: boolean; unit?: string; series: Point[]; source: string; verified?: boolean; total: number };
 
 const clamp = { extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const };
 const fmt = (n: number, unit?: string) => (unit === '%' ? `${Math.round(n)}%` : unit === 'min' ? `${n} min` : n >= 1000 ? n.toLocaleString('en-US') : String(n));
 
-export function Chart({ p, kind, label, value, delta, up, unit, series, source, total }: ChartProps) {
+export function Chart({ p, kind, label, value, delta, up, unit, series, source, verified, total }: ChartProps) {
   const f = useCurrentFrame();
   const { pad, padR, portrait, width, height, tiktok } = useLayout();
   const t0 = tiktok ? 0 : 6, cLen = tiktok ? 16 : 40, dAt = tiktok ? 12 : 44, sAt = tiktok ? 16 : 52;
@@ -46,7 +46,7 @@ export function Chart({ p, kind, label, value, delta, up, unit, series, source, 
               </Appear>
             )}
           </div>
-          <Appear from={sAt} travel={8} style={{ marginTop: 22 }}><span style={text(T.bodySm, { color: p.lightMid })}>{source}</span></Appear>
+          <Appear from={sAt} travel={8} style={{ marginTop: 22 }}><span style={text(T.bodySm, { color: p.lightMid })}>{sourceLine(source, verified)}</span></Appear>
         </div>
         <div style={{ width: chartW, height: chartH, position: 'relative', opacity: enter(f, 4, 10) }}>
           {kind === 'line' && <Line p={p} series={series} unit={unit} w={chartW} h={chartH} f={f} />}

@@ -1,7 +1,7 @@
 {
  "brand": {
-  "name": "YoRobot",
-  "url": "yorobot.ai",
+  "name": "Acme Ops",
+  "url": "acmeops.dev",
   "accent": "#a0e099",
   "ink": "#20291f",
   "bg": "#f8faf7"
@@ -17,13 +17,14 @@
    "value": "301",
    "delta": "+15% in a week",
    "up": true,
-   "source": "KPI sheet \u00b7 via Pilar",
+   "source": "KPI sheet",
    "seconds": 2.6,
-   "voice": "Three hundred and one people used us this week."
+   "voice": "Three hundred and one people used us this week.",
+   "verified": true
   },
   {
    "type": "title",
-   "label": "YoRobot \u00b7 Friday",
+   "label": "Acme Ops \u00b7 Friday",
    "text": "Our AI chief of staff asked the team what happened.",
    "seconds": 2.9,
    "voice": "Our AI chief of staff asked the team what happened."
@@ -68,9 +69,10 @@
    ],
    "delta": "8 weeks up",
    "up": true,
-   "source": "KPI sheet \u00b7 via Pilar",
+   "source": "KPI sheet",
    "seconds": 2.8,
-   "voice": "Eight weeks in a row, up."
+   "voice": "Eight weeks in a row, up.",
+   "verified": true
   },
   {
    "type": "chart",
@@ -105,9 +107,10 @@
    ],
    "delta": "best cohort yet",
    "up": true,
-   "source": "KPI sheet \u00b7 via Pilar",
+   "source": "KPI sheet",
    "seconds": 3.7,
-   "voice": "Retention: forty-six percent. Our best cohort yet."
+   "voice": "Retention: forty-six percent. Our best cohort yet.",
+   "verified": true
   },
   {
    "type": "chart",
@@ -128,9 +131,10 @@
     }
    ],
    "value": "58%",
-   "source": "product analytics \u00b7 via Pilar",
+   "source": "product analytics, as the product lead reported it",
    "seconds": 3,
-   "voice": "Fifty-eight percent got their first video."
+   "voice": "Fifty-eight percent got their first video.",
+   "verified": false
   },
   {
    "type": "events",
@@ -139,17 +143,20 @@
     {
      "tag": "charts",
      "text": "Chart scenes in the recap",
-     "who": "Theo"
+     "who": "CTO assistant",
+     "verified": true
     },
     {
      "tag": "A2A",
      "text": "Agents asking other agents",
-     "who": "Theo"
+     "who": "CTO assistant",
+     "verified": true
     },
     {
      "tag": "#1",
      "text": "KPI sheet as a source",
-     "who": "Pilar"
+     "who": "Product assistant",
+     "verified": true
     }
    ],
    "seconds": 3.6,
@@ -162,12 +169,14 @@
     {
      "tag": "CI",
      "text": "5 builds, all green",
-     "who": "Theo"
+     "who": "CTO assistant",
+     "verified": true
     },
     {
      "tag": "bugs",
      "text": "3 still open",
-     "who": "Theo"
+     "who": "CTO assistant",
+     "verified": false
     }
    ],
    "seconds": 3,
@@ -175,10 +184,10 @@
   },
   {
    "type": "quote",
-   "text": "A prospect wants a video they can forward to their board.",
-   "who": "Rodrigo, today's demo call",
+   "text": "The Rosario warehouse ran a full day with zero manual picks. First time.",
+   "who": "Sof\u00eda, Customer Success",
    "seconds": 3,
-   "voice": "A prospect wants one they can send their board."
+   "voice": "Sof\u00eda: zero manual picks in Rosario, for the first time."
   },
   {
    "type": "agenda",

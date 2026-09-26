@@ -65,8 +65,8 @@ export function Video(script: Script) {
             {s.type === 'chips' && <Chips p={p} label={s.label} items={s.items} total={len} />}
             {s.type === 'numbers' && <Numbers p={p} label={s.label} items={s.items} total={len} />}
             {s.type === 'events' && <Events p={p} label={s.label} items={s.items} total={len} />}
-            {s.type === 'metric' && <Metric p={p} label={s.label} value={s.value} delta={s.delta} up={s.up} source={s.source} total={len} />}
-            {s.type === 'chart' && <Chart p={p} kind={s.kind} label={s.label} series={s.series} value={s.value} delta={s.delta} up={s.up} unit={s.unit} source={s.source} total={len} />}
+            {s.type === 'metric' && <Metric p={p} label={s.label} value={s.value} delta={s.delta} up={s.up} source={s.source} verified={s.verified} total={len} />}
+            {s.type === 'chart' && <Chart p={p} kind={s.kind} label={s.label} series={s.series} value={s.value} delta={s.delta} up={s.up} unit={s.unit} source={s.source} verified={s.verified} total={len} />}
             {s.type === 'quote' && <Quote p={p} quote={s.text} who={s.who} total={len} />}
             {s.type === 'agenda' && <Agenda p={p} label={s.label} items={s.items} total={len} />}
             {s.type === 'closing' && <Closing p={p} cta={s.cta} total={len} credit={script.credit !== false} />}

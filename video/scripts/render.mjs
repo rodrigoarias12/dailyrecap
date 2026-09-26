@@ -8,13 +8,22 @@
  *   node scripts/render.mjs <script.json> --check      # validate only
  */
 import { execFileSync, spawnSync } from 'node:child_process';
-import { existsSync, mkdirSync, readFileSync, renameSync, statSync, writeFileSync } from 'node:fs';
-import { basename, dirname, join } from 'node:path';
+import { cpSync, existsSync, mkdirSync, readFileSync, renameSync, statSync, writeFileSync } from 'node:fs';
+import { resolve, basename, dirname, join } from 'node:path';
 
 const SCRIPT = process.argv[2], OUT = process.argv[3];
 if (!SCRIPT || !OUT) { console.error('usage: render.mjs <script.json> <out.mp4 | --check>'); process.exit(1); }
 const ROOT = join(dirname(new URL(import.meta.url).pathname), '..');
 const script = JSON.parse(readFileSync(SCRIPT, 'utf8'));
+
+// ── The owner's assets ──────────────────────────────────────────────────────────────────
+// A logo and screenshots are the owner's, so they live in the workspace (<ws>/work/assets),
+// which survives an image update; the engine's own public/ does not. Before every render they
+// are copied to public/assets/, where a script refers to them as "assets/<file>".
+{
+  const wsAssets = process.env.DAILYRECAP_ASSETS || join(dirname(resolve(SCRIPT)), '..', '..', 'assets');
+  if (existsSync(wsAssets)) cpSync(wsAssets, join(ROOT, 'public', 'assets'), { recursive: true, force: true });
+}
 
 // ── Validation ──────────────────────────────────────────────────────────────────────────
 const SCENES = {
@@ -23,6 +32,9 @@ const SCENES = {
   agenda: ['label', 'items'], closing: ['cta'],
 };
 const errors = [];
+// The examples carry a made-up company. A real recap with its brand would put another company's
+// name on the owner's video; refuse it outside video/example/.
+if (script.brand?.url === 'acmeops.dev' && !resolve(SCRIPT).includes(`${join('video', 'example')}`)) errors.push('brand: this is the example company (Acme Ops). Use the owner\'s brand from MEMORY.md "Setup".');
 const isStr = (v) => typeof v === 'string' && v.trim().length > 0;
 if (!script.brand || typeof script.brand !== 'object') errors.push('brand: missing. Needs { name, url, accent, ink, bg }.');
 else {
@@ -45,14 +57,16 @@ else script.scenes.forEach((s, i) => {
     else s.series.forEach((pt, j) => { if (!isStr(pt.x) || typeof pt.y !== 'number') errors.push(`${at}.series[${j}]: needs a string x and a number y`); });
     if (s.type === 'chart' && Array.isArray(s.series) && s.series.length > 12) errors.push(`${at}.series: more than 12 points does not read in a video; aggregate`);
   }
+  if (s.verified !== undefined && typeof s.verified !== 'boolean') errors.push(`${at}.verified: true (its source was opened) or false (reported only)`);
   if (s.voice !== undefined && !isStr(s.voice)) errors.push(`${at}.voice: must be a non-empty string when present`);
   if ((s.type === 'screen' || s.type === 'cover') && isStr(s.image) && !existsSync(join(ROOT, 'public', s.image))) errors.push(`${at}.image: public/${s.image} does not exist`);
   if (s.type === 'screen' && s.focus) for (const k of ['x', 'y', 'w', 'h']) if (typeof s.focus[k] !== 'number') errors.push(`${at}.focus.${k}: must be a number in 0..1`);
 });
 const seconds = Array.isArray(script.scenes) ? script.scenes.reduce((a, s) => a + (Number(s.seconds) || 0), 0) : 0;
-if (seconds > 75) errors.push(`total length ${seconds.toFixed(1)}s: over 60 s (75 with voice slack). Cut a scene.`);
+const cap = script.style === 'tiktok' ? 50 : 75;
+if (seconds > cap) errors.push(`total length ${seconds.toFixed(1)}s: over ${script.style === 'tiktok' ? '45 s (50 with voice slack) for the TikTok cut' : '60 s (75 with voice slack)'}. Cut a scene.`);
 if (errors.length) {
-  console.error(`script ${SCRIPT} is not valid:\n  - ${errors.join('\n  - ')}\nSchema: video/src/script.ts · shape to copy: video/example/recap.json`);
+  console.error(`script ${SCRIPT} is not valid:\n  - ${errors.join('\n  - ')}\nSchema: video/src/script.ts · shape to copy: video/example/tiktok.json`);
   process.exit(2);
 }
 if (OUT === '--check') { console.log(`ok: ${script.scenes.length} scenes · ${seconds.toFixed(1)}s · ${script.style === 'tiktok' ? 'tiktok (portrait)' : script.format ?? 'landscape'}`); process.exit(0); }

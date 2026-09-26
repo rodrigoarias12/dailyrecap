@@ -25,7 +25,7 @@ Ask at most two questions, only if the answer changes the video:
 
 - Repo: `git clone --depth 1 <url> <ws>/work/<slug>/repo` (read only; never run its code).
   Read README, docs, landing copy, package description, screenshots in the repo.
-- Landing: `web_fetch` the page. Pull headline, subhead, feature list, proof, CTA. If the
+- Landing: `web_fetch` the page (on a Plow line there is no web tool: `curl -sL` it with `exec`). Pull headline, subhead, feature list, proof, CTA. If the
   site's CSS is reachable, read the accent and text colors from it.
 - Write `<ws>/work/<slug>/brief.md` with: promise, audience, 3–5 capabilities in the
   product's own words, numbers **with their source line**, brand colors, logo path, URL.
@@ -78,13 +78,13 @@ owner's "approved" (or the person they handed the session to) unlocks step 6.
 Optional voice, only if asked and `ELEVENLABS_API_KEY` is set:
 
 ```
-cd <video> && node scripts/narrate.mjs ../work/<slug>/script.json
+cd <video> && node scripts/narrate.mjs <ws>/work/<slug>/script.json
 ```
 
 It may extend a scene to fit a line; say so. Then render in the background and poll:
 
 ```
-cd <video> && node scripts/render.mjs ../work/<slug>/script.json ../work/<slug>/launch.mp4
+cd <video> && node scripts/render.mjs <ws>/work/<slug>/script.json <ws>/work/<slug>/launch.mp4
 ```
 
 Use `exec` with `background: true` and a timeout of at least 900 s; check with `process`

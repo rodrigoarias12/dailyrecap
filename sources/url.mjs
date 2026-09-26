@@ -15,7 +15,15 @@ const now = new Date();
 const r = await fetch(args.url, { headers: { Accept: 'application/json, text/csv, text/plain;q=0.9, */*;q=0.5' }, redirect: 'follow' });
 const type = (r.headers.get('content-type') ?? '').toLowerCase();
 const text = await r.text();
-const base = { name: args.name ?? args.url, url: args.url, as_of: now.toISOString(), http_status: r.status, content_type: type };
+// The URL can carry a read-only token in its query; it never goes into the output (which lands
+// in gathered.md), only the host and path.
+const shown = (() => { try { const u = new URL(args.url); return `${u.origin}${u.pathname}${u.search ? '?…' : ''}`; } catch { return '(url)'; } })();
+const base = { name: args.name ?? shown, url: shown, as_of: now.toISOString(), http_status: r.status, content_type: type };
+// A private sheet or a login wall answers 200 with a web page. That is not data.
+if (r.ok && (type.includes('html') || /^\s*<(!doctype|html)/i.test(text))) {
+  console.log(JSON.stringify({ ...base, available: false, note: 'the URL answered with a web page, not data (a private sheet or a login page). Publish the sheet to the web as CSV, or give an export link.' }, null, 2));
+  process.exit(0);
+}
 if (!r.ok) { console.log(JSON.stringify({ ...base, available: false, note: `the URL answered HTTP ${r.status}; nothing from it goes in the video`, body_start: text.slice(0, 300) }, null, 2)); process.exit(0); }
 
 let out;
@@ -32,8 +40,12 @@ if (type.includes('json') || /^\s*[\[{]/.test(text)) {
   // Columns that read as numbers but are labels (a year, an id, a code) are not summed.
   const label = /^(year|id|code|zip|phone|.*_id|.*code)$/i;
   const numeric = header.filter((h, i) => rows.length && !label.test(h.trim()) && rows.every(c => c[i] === undefined || c[i] === '' || !Number.isNaN(Number(String(c[i]).replace(/[,$]/g, '')))));
-  const sums = Object.fromEntries(numeric.map(h => [h, round(objects.reduce((s, o) => s + (Number(String(o[h]).replace(/[,$]/g, '')) || 0), 0))]));
-  out = { ...base, available: true, kind: 'csv', columns: header, count: objects.length, sums_over_all_rows: sums, rows: objects.slice(0, limit), truncated: objects.length > limit, note: objects.length > limit ? `showing ${limit} of ${objects.length}; \`count\` and \`sums_over_all_rows\` cover all rows` : 'complete' };
+  // A long-format sheet (one row per metric: metric, value, …) must not be summed across
+  // metrics: 301 users plus 46 % is not a number. Give the rows per metric instead.
+  const key = header.find(h => /^(metric|kpi|name|indicator)$/i.test(h.trim()));
+  const sums = key ? {} : Object.fromEntries(numeric.map(h => [h, round(objects.reduce((s, o) => s + (Number(String(o[h]).replace(/[,$]/g, '')) || 0), 0))]));
+  const by_metric = key ? objects.reduce((m, o) => { (m[o[key]] ??= []).push(o); return m; }, {}) : undefined;
+  out = { ...base, available: true, kind: key ? 'csv, one row per metric' : 'csv', columns: header, count: objects.length, ...(key ? { by_metric } : { sums_over_all_rows: sums }), rows: objects.slice(0, limit), truncated: objects.length > limit, note: objects.length > limit ? `showing ${limit} of ${objects.length}; \`count\` and \`sums_over_all_rows\` cover all rows` : 'complete' };
 }
 console.log(JSON.stringify(out, null, 2));
 

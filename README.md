@@ -4,7 +4,7 @@
 
 **Your startup's first chief of staff. The TikTok of your company.** Every evening it asks
 your team and your other agents what they did, verifies what it can, and hands you a
-one-minute video of the day. On day one it also makes your launch video from your repo,
+video of the day, under a minute, cut like a TikTok. On day one it also makes your launch video from your repo,
 and whenever you want, the "building in public" clip you never get around to posting.
 From the data, never from imagination. Rendered on your machine: no video API, no keys,
 no stock footage.
@@ -16,7 +16,7 @@ Built for the [OpenClaw 2.0 hackathon](https://luma.com/zhkhsnpa) (multiplayer m
 | | What goes in | What comes out | Who approves |
 |---|---|---|---|
 | **Launch video** (once) | a repo or landing URL, optional screenshots | 30–60 s, 16:9 | the team, in the shared session |
-| **Daily recap** (every day) | **what the other agents report** when asked, what the team wrote in the session; optionally repos, calendar, numbers | 45–60 s, 16:9, internal | nobody: it ships at the hour you set |
+| **Daily recap** (every weekday) | what the people and agents on its roster answer when asked, checked against the sources; the website and public repos; your numbers once connected | 30–45 s, vertical, cut like a TikTok | nobody: it ships at the hour you set |
 | **Public clip** (when you want) | the recap, filtered to what can be told outside | 20–30 s, 9:16 | the owner, before anyone posts |
 
 What it never does: invent a number, name a customer who is not public, publish anything,
@@ -86,13 +86,15 @@ address is the only thing that decides how the question travels:
 | **A phone number** | Yes: it texts the number over iMessage. A teammate or another agent on its own Plow line, it cannot tell and does not need to: whatever comes back in that thread is the answer. | Yes, if the Gateway has an SMS, iMessage or WhatsApp channel |
 | **An agent id on the same Gateway** | No: a Plow line holds one agent | Yes, with `sessions_send` |
 | **An Agent2Agent URL and a token** (another OpenClaw) | Yes | Yes |
-| **A YoRobot agent's channel and a token** | Yes | Yes |
+| **A YoRobot agent's channel and a token** (not yet run against a live channel) | Yes | Yes |
 
 So the two paths are simple. **On Plow, give it phone numbers**: your CTO, your CFO, your
 scheduling assistant's line. **On your own OpenClaw, give it agent ids** for the agents beside
 it, and URLs for the ones elsewhere. Answers by text arrive later than the others, so on those
 days the recap waits up to 20 minutes for them; whoever does not answer is a row that says so,
-and whatever anyone answers is marked verified only when DailyRecap could open its source.
+and whatever anyone answers is marked verified only when DailyRecap could open its source (a
+YoRobot agent's answer also carries YoRobot's own mark: approved by its verifier, or waiting for
+review).
 
 ## Connect your numbers
 
@@ -126,12 +128,13 @@ The video package stands on its own. A `script.json` in, an mp4 out:
 ```bash
 cd video
 npm run render -- example/launch.json out/launch.mp4    # 16:9 launch video
-npm run render -- example/recap.json  out/recap.mp4     # 16:9 daily recap
+npm run render -- example/tiktok.json out/tiktok.mp4    # the daily recap, TikTok cut
+npm run render -- example/recap.json  out/recap.mp4     # the old 16:9 board format
 npm run render -- example/clip.json   out/clip.mp4      # 9:16 public clip
 npm run studio                                          # live preview in Remotion Studio
 ```
 
-The script schema is [`video/src/script.ts`](video/src/script.ts). Nine scene types:
+The script schema is [`video/src/script.ts`](video/src/script.ts). Eleven scene types:
 `title`, `screen` (screenshot + focus), `chips`, `numbers`, `events`, `metric`, `quote`,
 `agenda`, `closing`. `format: "portrait"` switches to 9:16 with the same pieces. Colors
 come from `brand`; the accent is always a background with ink text on it, never text.
@@ -141,10 +144,10 @@ come from `brand`; the accent is always a background with ink text on it, never 
 ```
 AGENTS.md  SOUL.md  IDENTITY.md  USER.md  HEARTBEAT.md   the OpenClaw workspace
 skills/launch-video/SKILL.md                            the launch video, step by step
-skills/daily-recap/SKILL.md                             the recap and the public clip, cron included
+skills/daily-recap/SKILL.md                             the recap and the public clip, onboarding and settings
 video/                                                  Remotion package: script in, mp4 out
   src/script.ts                                         the contract between agent and renderer
-  src/pieces.tsx                                        the nine scenes, 16:9 and 9:16
+  src/pieces.tsx                                        the scenes, 16:9 and 9:16; charts in charts.tsx
   scripts/render.mjs · music.mjs · narrate.mjs
 cloud/                                                  Plow image for the Agent Index 1-click deploy
 docs/PLAN.md                                            the hackathon plan and the distribution list

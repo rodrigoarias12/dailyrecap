@@ -31,7 +31,15 @@ async function ask(p) {
     const raw = await r.text();
     let d = {}; try { d = JSON.parse(raw); } catch { /* not JSON: the raw text is the error */ }
     if (!r.ok || d.error) return { ...base, answered: false, state: `HTTP ${r.status}`, error: d.error?.message ?? raw.slice(0, 200), row: `${base.agent}: did not answer (${d.error?.message ?? 'HTTP ' + r.status})` };
-    const task = d.result?.task ?? d.result;
+    let task = d.result?.task ?? d.result;
+    // A peer may return while still working (its own reply timeout, or returnImmediately).
+    // Poll GetTask until it completes or our time runs out.
+    while (task?.status?.state === 'TASK_STATE_WORKING' && task?.id) {
+      await new Promise(res => setTimeout(res, 5000));
+      const g = await fetch(p.url, { method: 'POST', signal: ctl.signal, headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${p.token}` }, body: JSON.stringify({ jsonrpc: '2.0', id: `${id}-poll`, method: 'GetTask', params: { id: task.id } }) });
+      const gd = await g.json().catch(() => ({}));
+      task = gd.result?.task ?? gd.result ?? task;
+    }
     const state = task?.status?.state ?? 'unknown';
     const text = (task?.artifacts ?? []).flatMap(a => a.parts ?? []).map(x => x.text ?? (x.data ? JSON.stringify(x.data) : '')).join('\n').trim();
     if (state !== 'TASK_STATE_COMPLETED' || !text) return { ...base, answered: false, state, task_id: task?.id ?? null, row: `${base.agent}: did not answer in time (${state})` };

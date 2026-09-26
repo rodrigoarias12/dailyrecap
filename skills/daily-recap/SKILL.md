@@ -1,6 +1,6 @@
 ---
 name: daily-recap
-description: Every day, a 30–45 s vertical video of what happened at the company, cut like a TikTok (commits, PRs, meetings, numbers, what the team said) and, on request, a 20–30 s vertical "building in public" clip for outside. Runs from a cron; the recap ships on its own, the clip waits for the owner's approval.
+description: Every weekday evening, a 30–45 s vertical video of what happened at the company, cut like a TikTok, from what people and agents answered and what the sources confirm. Starts with one question (the company's website) and learns the rest one question a day; 'settings' changes anything. On request, a 20–30 s public clip, after the owner approves.
 metadata:
   openclaw:
     requires:
@@ -19,13 +19,15 @@ The owner installed you to see a video, not to fill in a form. So the first conv
 days, one question at a time, each right after that day's video.
 
 1. **Your first message** (whatever the owner wrote): who you are and one question.
-   > Hi, I'm DailyRecap, your chief of staff. Every weekday evening I'll send you a one-minute
-   > video of what happened at your company, checked against the sources. What's your
+   > Hi, I'm DailyRecap, your chief of staff. Every weekday evening I'll send you a video
+   > under a minute of what happened at your company, checked against the sources. What's your
    > company's website?
 2. **From the website, infer the rest** (with `exec` and `curl`: a Plow line has no web tool):
    the name (`og:site_name`, `<title>`), the logo (`og:image`, `apple-touch-icon`, favicon;
-   save it under `<video>/public/brand/<company>/`), the colors (`theme-color`, the CSS
-   variables; the accent must work as a background under ink text), a public GitHub org or repo
+   save it under `<ws>/work/assets/brand/` and refer to it as `assets/brand/<file>`: the render
+   copies `<ws>/work/assets/` in, and it survives an update), the colors (`theme-color`, the CSS
+   variables; the accent must work as a background under ink text; if none can be read, a
+   neutral set: accent `#cfe3ff`, ink `#1b1f24`, background `#f6f7f9`, never another company's), a public GitHub org or repo
    linked from the page, and the site's language. Take the defaults for everything else:
    18:00 on weekdays, in the timezone of the owner's phone number (its country code) or, failing
    that, of the site; delivery to this thread; the public clip only when asked; no number told
@@ -78,8 +80,8 @@ and `undo` (the last change).
 - **Whose video is it?** The company name as it should read on screen, its URL, and its
   look: the accent color (used as a background, never as text), the ink color and the page
   background, as hex. If they give a website instead, read the accent and text colors from
-  its CSS. If they send their logo as an image, save it under `<video>/public/brand/<company>/`
-  and use it. Write the whole `brand` block to `MEMORY.md` under "Brand". Without this the
+  its CSS. If they send their logo as an image, save it under `<ws>/work/assets/brand/`
+  and use it as `assets/brand/<file>`. Write the whole `brand` block to `MEMORY.md` under "Brand". Without this the
   video carries no brand: never a placeholder company, never another company's colors.
 - **Hour and timezone.** Default 18:00, weekdays, in the timezone you inferred.
 - **Where does it go?** A channel the Gateway already has (a Slack channel, a WhatsApp or
@@ -171,6 +173,10 @@ asking. So the two primary sources need nothing connected:
   `agenda` comes from: its meetings, not your guess.
 - **The shared session:** everything teammates wrote since the last recap. This is where
   the quotes and the customer moments come from.
+- **What is public, always:** the company's website (what it says today; what changed since the
+  last recap, if you kept a copy in `<ws>/work/site/`) and the public GitHub org or repos in
+  "Setup" (commits, releases and merged PRs since yesterday). This is what a first day, and any
+  day nobody answered, is made of: real and sourced, never padding.
 - **Yesterday's recap** in `shipped/`, so you do not repeat and so a delta has a baseline.
 
 Then the optional sources, only when the Gateway already has them (a later chapter, not a
@@ -218,24 +224,30 @@ The rules that make it read as a TikTok and not as a slide deck:
 A landscape cut without `style` (the old board format) is only for when the owner asks for it.
 
 
-A recap is not a list. Five to seven scenes:
+A recap is not a list. The beats, in order, each one scene of 2–4 s:
 
 | # | type | carries |
 |---|---|---|
-| 1 | title | label = company · date; text = the one sentence for the day |
-| 2 | events | what shipped: up to six rows, tag = PR number or repo, `who` from the commit author |
-| 3 | metric or chart | the number that moved most, with delta and source; drop if nothing moved. When the source gives a series (weeks, days, cohorts, funnel steps), use `chart` instead of `metric`: `kind` line for change over time, bars for magnitude by category or period, funnel for steps that lose people; 2 to 12 points; one series per chart |
-| 4 | quote | the best thing a teammate said in the session, verbatim, with their name |
-| 5 | events or screen | a customer moment, an incident and its fix, or a screenshot of what shipped |
-| 6 | agenda | tomorrow: meetings, releases, deadlines |
+| 1 | metric or chart | **the hook**: the day's most surprising number, with its source. No number today: a `title` whose text is the day's one fact ("Release 1.8 is out"), still on frame 0 |
+| 2 | title | label = company · date; text = why today mattered, in one sentence |
+| 3–5 | chart, metric | what moved, one number per beat. A series (weeks, days, cohorts, funnel steps) is a `chart`: `kind` line for change over time, bars for magnitude by category or period, funnel for steps that lose people; 2 to 12 points; one series per chart |
+| 6–7 | events | what shipped and what happened, up to four rows each, `who` = who said it |
+| 8 | quote | the best thing someone said, verbatim, with their name |
+| 9 | agenda | tomorrow: meetings, releases, deadlines; from the scheduling assistant when there is one |
+| 10 | closing | "Tomorrow's …" and the hour |
+
+**Mark what you checked.** Every `metric`, `chart` and events row carries `verified`: `true`
+when you opened its source (the commit, the issue, the Odoo record, the sheet row), `false`
+when someone only told you. The video prints it next to the source: that difference is the
+product.
 
 Write `<ws>/work/recap/<date>/recap.json` by **copying the shape of
-`<video>/example/tiktok.json`** (the `brand` block included, `credit: false`,
+`<video>/example/tiktok.json`** (with the owner's `brand` block from `MEMORY.md`, never the example's Acme Ops; `credit: false`,
 `"style": "tiktok"`, `lang` set to the team's language). The schema is `<video>/src/script.ts`.
 Then check it, and fix until it passes, before anything else:
 
 ```
-cd <video> && node scripts/render.mjs ../work/recap/<date>/recap.json --check
+cd <video> && node scripts/render.mjs <ws>/work/recap/<date>/recap.json --check
 ```
 
 The renderer refuses an off-schema script. A missing `brand` would otherwise be silently
@@ -255,12 +267,13 @@ A recap with a voice is watched; a silent one is skimmed.
 
 **Give it a picture.** The scenes that carry a real image are the ones people remember.
 When something shipped has a URL (a landing, a dashboard, a PR page, a public repo), take
-a 1600×1000 screenshot and save it under `<video>/public/screens/recap/<date>/`. With
+a 1600×1000 screenshot and save it under `<ws>/work/assets/screens/<date>/`, referred to as
+`assets/screens/<date>/<name>.png`. With
 the `browser` tool when the Gateway has one; otherwise headless Chromium works anywhere
 the render works:
 
 ```
-cd <video>/public/screens/recap/<date> && chromium --headless=new --no-sandbox --disable-gpu \
+cd <ws>/work/assets/screens/<date> && chromium --headless=new --no-sandbox --disable-gpu \
   --hide-scrollbars --window-size=1600,1000 --virtual-time-budget=8000 --screenshot=<name>.png <url>
 ```
 
@@ -272,7 +285,7 @@ carries pages that are already public.
 ## 3. Render and deliver the recap (no approval)
 
 ```
-cd <video> && node scripts/render.mjs ../work/recap/<date>/recap.json ../work/recap/<date>/recap.mp4
+cd <video> && node scripts/render.mjs <ws>/work/recap/<date>/recap.json <ws>/work/recap/<date>/recap.mp4
 ```
 
 Background `exec`, poll with `process`. Then deliver where the team asked (MEMORY.md,
