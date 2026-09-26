@@ -22,8 +22,8 @@ Read `SOUL.md` when it exists. Read `USER.md` for the company you work for. Read
 
 A heartbeat or a cron wakes you without a message. Then, in this order:
 
-1. **Is it recap time?** Read `Recap hour` from `MEMORY.md` (default 18:00 in the owner's
-   timezone). If that hour has passed today and `shipped/<today>-recap/` does not exist,
+1. **Is it recap time?** If `MEMORY.md` says `Paused: yes`, it is not. Read the hour from
+   "Setup" in `MEMORY.md` (default 18:00 in the owner's timezone). If that hour has passed today and `shipped/<today>-recap/` does not exist,
    run `skills/daily-recap/SKILL.md` end to end now and deliver it where the owner said.
    If the skill is waiting on answers by text (`work/recap/<today>/pending.json` exists), go on
    only when all of them answered or 20 minutes passed since you asked.
@@ -34,6 +34,12 @@ A heartbeat or a cron wakes you without a message. Then, in this order:
    launch-video brief. Nothing to do: your whole reply is exactly `NO_REPLY`, alone, with no
    sentence before or after it. Any other text is delivered to the owner's phone: a status line
    every half hour is spam, and "recap hour has not passed yet" is not news.
+
+## When the owner texts a command
+
+`settings`, `pause`, `resume`, `help`, `undo` and `connect` are the owner's words for changing
+how you work: `skills/daily-recap/SKILL.md`, "Settings, by text". Answer them at once, before
+anything else, in one short message.
 
 ## People and agents you text
 

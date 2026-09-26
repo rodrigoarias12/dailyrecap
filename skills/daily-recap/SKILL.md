@@ -12,25 +12,84 @@ metadata:
 `<ws>` is the workspace root (this repository). `<video>` is the video engine: `$DAILYRECAP_VIDEO_DIR` when that variable is set (the hosted image keeps it at `/opt/dailyrecap/video`), otherwise `<ws>/video`. `<sources>` is the folder of source scripts: `$DAILYRECAP_SOURCES_DIR` when set (the hosted image: `/opt/dailyrecap/sources`), otherwise `<ws>/sources`. `<date>` is today as `YYYY-MM-DD`.
 Work in `<ws>/work/recap/<date>/`.
 
-## 0. First time: set the clock
+## 0. First time: one question, then a video
 
-Ask the owner once, in the session:
+The owner installed you to see a video, not to fill in a form. So the first conversation asks
+**one** thing, makes the first video with what is public, and learns the rest over the next
+days, one question at a time, each right after that day's video.
+
+1. **Your first message** (whatever the owner wrote): who you are and one question.
+   > Hi, I'm DailyRecap, your chief of staff. Every weekday evening I'll send you a one-minute
+   > video of what happened at your company, checked against the sources. What's your
+   > company's website?
+2. **From the website, infer the rest** (with `exec` and `curl`: a Plow line has no web tool):
+   the name (`og:site_name`, `<title>`), the logo (`og:image`, `apple-touch-icon`, favicon;
+   save it under `<video>/public/brand/<company>/`), the colors (`theme-color`, the CSS
+   variables; the accent must work as a background under ink text), a public GitHub org or repo
+   linked from the page, and the site's language. Take the defaults for everything else:
+   18:00 on weekdays, in the timezone of the owner's phone number (its country code) or, failing
+   that, of the site; delivery to this thread; the public clip only when asked; no number told
+   outside. Write it all to `MEMORY.md` under "Setup" (the eight items `settings` shows).
+3. **Your second message confirms by stating it, and starts:**
+   > Got it: <Name>, <two colors>, logo from <site>. Your recap goes out here at 18:00
+   > (<timezone>) on weekdays. Making your first one now, about 15 minutes. Text "settings"
+   > anytime to change anything.
+   Then run the recap now (step 1 onward), with what is public.
+4. **Your third message, while it renders,** asks the most valuable thing, with an out:
+   > While it renders: where do your numbers live? Odoo, a report link, or "later".
+5. **Then one question a day, right after that day's video,** skipping what you already know,
+   in this order: where the numbers live; who to ask every day; which repos count; the public
+   clip and which numbers may go outside. Keep `Next question:` in `MEMORY.md`. "Later" or no
+   answer moves it to the next day. Never two questions in one message.
+
+**The first video, with nothing connected yet,** is still theirs and still true: their logo and
+colors on the first frame, what is public and recent (the site's own headline and product, public
+commits and releases from the last days), one honest empty slot that names what comes tomorrow
+("Tomorrow: yesterday's sales, once your numbers are connected. Reply 'connect'."), and a closing
+card with the hour and "text settings". No sample numbers. Little to show is said plainly, not
+padded.
+
+### Settings, by text
+
+`settings` (also "what do you know", "config", "?") answers with the setup as a numbered list,
+always the same eight lines and in this order:
+
+```
+1 Company: YoRobot (yorobot.ai)
+2 Time: 18:00 Buenos Aires, weekdays
+3 Sent to: this chat
+4 Numbers from: not connected
+5 People I ask: none
+6 Repos: none
+7 Public clip: only when asked
+8 Shareable numbers: none
+Reply a number, or just say it ("make it 7pm").
+```
+
+A number asks for that item's new value, showing the current one. Free text ("make it 7pm",
+"add Grow") skips the number. Confirm by stating what changed, and move on ("Done: 19:00 Buenos
+Aires, from tomorrow. 'undo' to go back."). Ask a plain yes/no only when a change exposes
+something: turning the public clip on, sharing a number outside, adding a person to text. Also
+honor `pause` (no recaps until `resume`), `help` (what you do, in three lines, and these words),
+and `undo` (the last change).
+
+### The setup, and where each answer goes
+
 - **Whose video is it?** The company name as it should read on screen, its URL, and its
   look: the accent color (used as a background, never as text), the ink color and the page
   background, as hex. If they give a website instead, read the accent and text colors from
   its CSS. If they send their logo as an image, save it under `<video>/public/brand/<company>/`
   and use it. Write the whole `brand` block to `MEMORY.md` under "Brand". Without this the
   video carries no brand: never a placeholder company, never another company's colors.
-- At what hour should the recap go out? (default 18:00 local)
+- **Hour and timezone.** Default 18:00, weekdays, in the timezone you inferred.
 - **Where does it go?** A channel the Gateway already has (a Slack channel, a WhatsApp or
   Telegram group, a Discord channel; on a Plow line, the owner's iMessage) or, failing
   that, the shared session. The mp4 is sent as a file with the `message` tool; the session
   gets the summary and the path. Ask for the exact channel and target id; save both.
-- Which repos count, if any? (paths or Git URLs; you keep clones under `<ws>/work/repos/`, made
+- **Repos.** Which repos count? (paths or Git URLs; you keep clones under `<ws>/work/repos/`, made
   with `git clone --shallow-since="14 days ago" <url>`, never `--depth 1`: a one-commit clone
   shows the whole project as one commit made today, and the recap would say so.)
-- Is the public clip wanted every day, or only when asked?
-- Which numbers may be told outside, if any?
+- **Public clip and shareable numbers.** Default: the clip only when asked, no number told outside.
 - **Where do the numbers live?** The systems the company already runs, so the recap says
   what happened in them, not what someone remembers. Offer these, one at a time:
   - **Odoo** (or any ERP with the same API): the URL, the database name, and a login made
@@ -41,8 +100,12 @@ Ask the owner once, in the session:
     to `<ws>/work/sources/urls.json` (`[{ "name": "…", "url": "…" }]`).
   - **Mail and calendar** through what the Gateway already has (a Plow line: the owner's
     connectors and the owner's Mac; a local Gateway: its Google skill).
-  A credential arrives in this private container only; it never goes in a video, a
-  message, a repo or a memory file. If they have none of this, the recap still works from
+  **Credentials.** Never ask for a password. For Odoo, ask for an API key of a user made for
+  you with read-only rights (Odoo 19+), or such a user's login: something the owner can revoke
+  without changing their own. Say why in one line: the thread keeps what is typed in it. Never
+  repeat a credential back, save it only under `<ws>/work/sources/`, and if the owner pasted
+  their own password, tell them to change it. A credential never goes in a video, a message, a
+  repo or a memory file. If they have none of this, the recap still works from
   the session and the other agents; say so and move on.
 - **Who do I ask every day?** People and agents alike: for each one, a name, what they do,
   and one address. The address is all that decides how you reach them:
@@ -60,12 +123,12 @@ Ask the owner once, in the session:
   `<sources>/yorobot.mjs` document. A person on the roster should know you will text them:
   ask the owner to tell them first.
 
-Save the answers to `MEMORY.md`. Then schedule the run: if the `cron` tool exists, one job
+Keep every answer in `MEMORY.md` under "Setup". Schedule the run as soon as the hour is set: if the `cron` tool exists, one job
 at that hour, every weekday, whose message is `daily-recap: run`, **delivered to the team's
 channel and target** (that is what makes the reply's `MEDIA:` line arrive as a file). If the
 `cron` tool does not exist (a Plow line, for one), the heartbeat does the job: the rule in
 `AGENTS.md` under "When you wake up on your own" runs the recap the first time you wake up
-after the hour. Write the hour to `MEMORY.md` as `Recap hour: HH:MM <timezone>`. Say what
+after the hour. The hour is item 2 of "Setup" in `MEMORY.md` (`Time: HH:MM <timezone>, weekdays`). Say what
 you set, and which of the two mechanisms it is.
 
 ## 1. Gather (all of it, every day)

@@ -25,13 +25,14 @@ Plow starts a private container with DailyRecap in it and texts you back **from 
 number**: that number is your agent, and that thread is where everything happens. Nothing
 to install, no keys to paste, no model to choose (inference is Plow's). Then:
 
-1. Answer its first questions: whose video it is, what hour the recap should go out,
-   which repos count, where the numbers live (Odoo, a report URL), and **who to ask every
-   day**: give it phone numbers (your team, or your other agents' Plow lines; it texts them
-   and takes whatever comes back as the answer). One message each; you can change any of it later by just saying so.
-2. Ask for `daily-recap: run` to get today's video right away.
+1. It asks one thing: your company's website. From it, it takes your name, logo and colors,
+   sets 18:00 on weekdays in your timezone, and makes your first video right away (about 15
+   minutes), from what is public.
+2. After each day's video it asks one more question: where your numbers live (Odoo, a report
+   link), who to ask every day (phone numbers of your team or of your other agents), which
+   repos count. Answer, or say "later".
 3. From then on, the video arrives **in that same iMessage thread**, every weekday at the
-   hour you set. No other channel to connect.
+   hour you set. Text `settings` to see and change the setup, `pause` to stop the recaps.
 
 **If the agent never answers:** a Plow account *is* a phone number. The agent only answers the
 phone that completed `plow-agents login` (or, for a one-text install, the phone that sent the
