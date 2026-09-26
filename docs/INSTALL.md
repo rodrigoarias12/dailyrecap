@@ -49,6 +49,10 @@ repository, packaged as the image `ghcr.io/rodrigoarias12/dailyrecap`.
 For a company that already runs OpenClaw, or wants the recap on Telegram, Slack, WhatsApp
 or Discord, with its own model.
 
+> **This path is for using and adapting DailyRecap, not for the hackathon ranking.** An install
+> on your own Gateway does not report its usage to the AI Worth Using Agent Index, so it does not
+> show up there. To try it and be counted, use the one-text install above, from your iPhone.
+
 ```bash
 git clone https://github.com/rodrigoarias12/dailyrecap ~/dailyrecap
 cd ~/dailyrecap/video && npm install          # the video engine; first render fetches a headless Chrome
