@@ -149,6 +149,7 @@ y el digest se lee del registro (está anotado en el Dockerfile cuando se pineó
 | 26/9 | `f1311499…` | c4b1dc7 | preguntar a agentes de otras líneas de Plow |
 | 26/9 | `0f557e76…` | cb1e49d | una sola lista de a quién preguntar (número, agente, A2A, YoRobot) |
 | 26/9 | `dc9bb80f…` | 997aa12 | onboarding de una pregunta, settings, auditoría (verified en pantalla, sin fin de semana, STOP) |
+| 26/9 | `6bb28203…` | 56f0957 | primer video estandarizado desde el research del sitio; menú de qué conectar después del primer video |
 
 Las instalaciones que ya corren conservan su imagen: Plow no las actualiza. Se promueve con la
 cuenta dueña: `plow-agents --token-file ~/.config/plow/token-owner-a05c7a47 image promote dailyrecap ghcr.io/…@sha256:…`.
