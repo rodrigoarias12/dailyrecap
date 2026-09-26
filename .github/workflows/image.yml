@@ -5,7 +5,7 @@ name: image
 on:
   push:
     branches: [main]
-    paths: ['cloud/**', 'video/**', 'skills/**', 'AGENTS.md', 'HEARTBEAT.md', '.github/workflows/image.yml']
+    paths: ['cloud/**', 'video/**', 'skills/**', 'sources/**', 'AGENTS.md', 'HEARTBEAT.md', '.github/workflows/image.yml']
   workflow_dispatch: {}
 permissions:
   contents: read
