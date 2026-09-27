@@ -16,7 +16,9 @@ if (!args.url) { console.error('usage: node sources/site.mjs --url <website> [--
 const days = Number(args.days ?? 30);
 const now = new Date();
 const since = new Date(now.getTime() - days * 86400e3);
-const origin = new URL(/^https?:/.test(args.url) ? args.url : `https://${args.url}`).origin;
+const start = new URL(/^https?:/.test(args.url) ? args.url : `https://${args.url}`);
+// The page the owner sent (a language path like /en included); feeds and the sitemap live at the origin.
+const origin = start.origin;
 const host = new URL(origin).hostname.replace(/^www\./, '');
 const domainRoot = host.split('.').slice(-2, -1)[0] ?? host;
 const UA = { 'User-Agent': 'Mozilla/5.0 (DailyRecap; +https://github.com/rodrigoarias12/dailyrecap)' };
@@ -34,7 +36,7 @@ const inWindow = (d) => { const t = Date.parse(d); return Number.isFinite(t) && 
 const norm = (s) => (s ?? '').toLowerCase().replace(/[^a-z0-9]/g, '');
 
 // ── The home page ─────────────────────────────────────────────────────────────────────────
-const home = await get(origin, 'text/html');
+const home = await get(start.href, 'text/html');
 const h = home.text;
 const titleName = meta(h, /<title[^>]*>([^<]+)/i)?.split(/\s[|–—:·]\s|\s-\s/)[0]?.trim();
 const siteName = meta(h, /<meta[^>]+property=["']og:site_name["'][^>]+content=["']([^"']+)/i) ?? meta(h, /<meta[^>]+name=["']application-name["'][^>]+content=["']([^"']+)/i);
@@ -54,7 +56,7 @@ const company = {
   logo: abs(icons[0] ?? '/apple-touch-icon.png'),
   logo_fallback: abs(meta(h, /<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)/i) ?? '/favicon.ico'),
   lang: meta(h, /<html[^>]+lang=["']([^"']+)/i),
-  screenshot: `chromium --headless=new --no-sandbox --disable-gpu --hide-scrollbars --window-size=1440,900 --virtual-time-budget=8000 --screenshot=<ws>/work/assets/screens/<date>/home.png ${origin}`,
+  screenshot: `chromium --headless=new --no-sandbox --disable-gpu --hide-scrollbars --window-size=1440,900 --virtual-time-budget=8000 --screenshot=<ws>/work/assets/screens/<date>/home.png ${start.href}`,
   source: origin,
 };
 
