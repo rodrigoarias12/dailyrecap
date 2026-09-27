@@ -238,14 +238,15 @@ judgement.
 
 **The recap is a TikTok.** Vertical, 30–45 s, `"style": "tiktok"` in the script: the engine
 keeps everything inside the zone TikTok's interface leaves clear, cuts hard, punches in on
-numbers, and burns in word-by-word captions. Copy the shape of `<video>/example/tiktok.json`.
+numbers, and shows one idea per screen: `events`, `chips` and `agenda` go one item per screen,
+as big as a headline, so give them 1.2 s per item and at most four items. No captions. Copy the shape of `<video>/example/tiktok.json`.
 The rules that make it read as a TikTok and not as a slide deck:
 
 - **The hook is the first frame.** Scene 1 is a `metric` or `chart` with the day's most
   surprising number, already on screen at frame 0. No title card, no greeting, no logo first.
 - **One idea per beat, 2–4 s each, 8–12 beats.** A scene longer than 4 s is two scenes.
 - **Voice lines of 5–10 words, first person plural** ("we shipped", "our best cohort"). The
-  voice sets the pace; captions come from it, so the video works on mute.
+  voice sets the pace; the text on screen carries the idea, so the video works on mute.
 - **The payoff before 15 s**: the second or third beat already says why today mattered.
 - **End on tomorrow**: the `closing` CTA names the next recap ("Tomorrow's number drops at 6
   pm."), so the last line leads back into the first.

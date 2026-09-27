@@ -70,7 +70,7 @@ assistants what happened and cut it in 30 seconds. [Watch it with sound](docs/ti
 The product numbers come from a demo KPI sheet.*
 
 The recap is cut like a TikTok, not like a slide deck: vertical, 30–45 s, the day's most
-surprising number on the first frame, a cut every two to four seconds, word-by-word captions,
+surprising number on the first frame, a cut every two to four seconds, one idea per screen in type that fills it,
 and everything kept inside the zone the app's interface leaves clear. `"style": "tiktok"` in
 any script turns it on; [`video/example/tiktok.json`](video/example/tiktok.json) is a full one.
 The rules come from TikTok's own creative guidance (hook in the first 3 s, faster scene

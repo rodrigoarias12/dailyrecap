@@ -54,7 +54,7 @@ export type Script = {
   brand: Brand;
   /** 16:9 for the launch video and the internal recap, 9:16 for the public clip. Default landscape. */
   format?: 'landscape' | 'portrait';
-  /** 'tiktok': the short-form cut (vertical, safe zone, hook on frame 0, hard cuts, big captions). Implies portrait. */
+  /** 'tiktok': the short-form cut (vertical, safe zone, hook on frame 0, hard cuts, one idea per screen). Implies portrait. */
   style?: 'tiktok';
   /** Language of the voice lines, e.g. "en" or "es". Picks the default voice. */
   lang?: string;
@@ -68,9 +68,8 @@ export type Script = {
   /** Set to false to drop the small "made with DailyRecap" line on the closing card. */
   credit?: boolean;
   /**
-   * Captions that light up with the voice. Default: on for portrait (watched on a phone,
-   * usually muted), off for landscape (the scenes already carry their text; a caption under
-   * a headline is two texts competing). Set explicitly to override.
+   * Captions that light up with the voice. Off unless set to true: the scenes carry their own
+   * text, big, and a caption under a headline is two texts competing for the same eye.
    */
   captions?: boolean;
 };

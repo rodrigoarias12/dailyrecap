@@ -3,6 +3,7 @@ import { Agenda, Captions, Chips, Closing, Cover, Events, Fonts, Look, Metric, N
 import { FPS, frames, sceneStarts, totalFrames, type Script } from './script';
 import { palette } from './style';
 import { Chart } from './charts';
+import { ShortAgenda, ShortChips, ShortClosing, ShortEvents } from './short';
 
 const BED = 0.3, BED_UNDER_VOICE = 0.1;
 
@@ -79,14 +80,14 @@ export function Video(script: Script) {
             {s.type === 'title' && <Title p={p} label={s.label} phrase={s.text} total={len} />}
             {s.type === 'cover' && <Cover p={p} image={s.image} label={s.label} phrase={s.text} total={len} />}
             {s.type === 'screen' && <Screen p={p} image={s.image} focus={s.focus} zoom={s.zoom} label={s.label} phrase={s.text} total={len} />}
-            {s.type === 'chips' && <Chips p={p} label={s.label} items={s.items} total={len} />}
+            {s.type === 'chips' && (tiktok ? <ShortChips p={p} label={s.label} items={s.items} total={len} /> : <Chips p={p} label={s.label} items={s.items} total={len} />)}
             {s.type === 'numbers' && <Numbers p={p} label={s.label} items={s.items} total={len} />}
-            {s.type === 'events' && <Events p={p} label={s.label} items={s.items} total={len} />}
+            {s.type === 'events' && (tiktok ? <ShortEvents p={p} label={s.label} items={s.items} total={len} /> : <Events p={p} label={s.label} items={s.items} total={len} />)}
             {s.type === 'metric' && <Metric p={p} label={s.label} value={s.value} delta={s.delta} up={s.up} source={s.source} verified={s.verified} total={len} />}
             {s.type === 'chart' && <Chart p={p} kind={s.kind} label={s.label} series={s.series} value={s.value} delta={s.delta} up={s.up} unit={s.unit} source={s.source} verified={s.verified} total={len} />}
             {s.type === 'quote' && <Quote p={p} quote={s.text} who={s.who} total={len} />}
-            {s.type === 'agenda' && <Agenda p={p} label={s.label} items={s.items} total={len} />}
-            {s.type === 'closing' && <Closing p={p} cta={s.cta} total={len} credit={script.credit !== false} />}
+            {s.type === 'agenda' && (tiktok ? <ShortAgenda p={p} label={s.label} items={s.items} total={len} /> : <Agenda p={p} label={s.label} items={s.items} total={len} />)}
+            {s.type === 'closing' && (tiktok ? <ShortClosing p={p} cta={s.cta} total={len} credit={script.credit !== false} /> : <Closing p={p} cta={s.cta} total={len} credit={script.credit !== false} />)}
             </Shell>
             </SceneInfo.Provider>
           </Sequence>
@@ -96,7 +97,7 @@ export function Video(script: Script) {
       {narration.map((n) => (
         <Sequence key={n.file} from={frames(n.at)} layout="none"><Audio src={staticFile(n.file)} /></Sequence>
       ))}
-      {(script.captions ?? (script.format === 'portrait' || tiktok)) && (
+      {script.captions === true && (
         <Captions p={p} lines={narration.filter((n) => n.words?.length).map((n) => ({ at: n.at, words: n.words! }))} />
       )}
       {script.music && (

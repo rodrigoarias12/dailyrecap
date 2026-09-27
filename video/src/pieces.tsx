@@ -47,10 +47,10 @@ export function useLayout() {
   const { tiktok } = useContext(Look);
   if (tiktok) {
     // TikTok on 1080×1920 covers the top ~130 px (tabs), the right ~140 px (the action rail)
-    // and the bottom ~480 px (handle, caption, sound). Content lives in the box that is left,
-    // above a band reserved for the captions (centered at ~66% of the height).
+    // and the bottom ~480 px (handle, caption, sound). Content lives in the box that is left.
+    // There are no burned-in captions by default, so nothing else is reserved.
     const pad = Math.round(width * 0.067), padR = Math.round(width * 0.139);
-    const top = Math.round(height * 0.13), bottom = Math.round(height * 0.385);
+    const top = Math.round(height * 0.13), bottom = Math.round(height * 0.26);
     return { width, height, portrait: true, tiktok, pad, padR, top, bottom, textMax: width - pad - padR,
       frame: `${top}px ${padR}px ${bottom}px ${pad}px`, frameBottom: `0 ${padR}px ${bottom}px ${pad}px` as string | undefined };
   }
@@ -186,11 +186,14 @@ export function Title({ p, label, phrase, total }: { p: Palette; label?: string;
       <Audio src={staticFile('sfx/whoosh-fast.mp3')} volume={0.18} />
       <div style={{ padding: useLayout().frameBottom ?? `0 ${pad}px ${portrait ? Math.round(height * 0.36) : 150}px`, position: 'relative' }}>
         {label && <Label p={p} from={useLayout().tiktok ? -9 : 6} style={{ marginBottom: 22 }}>{label}</Label>}
-        <Words from={useLayout().tiktok ? (useContext(SceneInfo).first ? -40 : 0) : 10} style={text(portrait ? T.displayLg : T.displayXl, { color: p.light, maxWidth: Math.min(1500, textMax) })}>{phrase}</Words>
+        <Words from={useLayout().tiktok ? (useContext(SceneInfo).first ? -40 : 0) : 10} style={text(portrait ? T.displayLg : T.displayXl, { color: p.light, maxWidth: Math.min(1500, textMax), ...(useLayout().tiktok ? { fontSize: fit(phrase.length), fontWeight: 600, lineHeight: 1.04, letterSpacing: '-0.03em' } : {}) })}>{phrase}</Words>
       </div>
     </AbsoluteFill>
   );
 }
+
+/** Headline size for a line of `n` characters in the short-form content box (858 px wide). */
+export const fit = (n: number) => (n <= 18 ? 160 : n <= 30 ? 136 : n <= 48 ? 112 : n <= 70 ? 92 : 76);
 
 /**
  * A full-bleed image with the statement over it: a slow push in, a gradient from the bottom
@@ -427,7 +430,7 @@ export function Quote({ p, quote, who, total }: { p: Palette; quote: string; who
       <Backdrop p={p} total={total} />
       <div style={{ position: 'relative' }}>
         <Appear from={2} travel={0}><span style={text(T.displayXl, { color: p.accent, fontSize: 160, lineHeight: 0.6, display: 'block', marginBottom: 30 })}>“</span></Appear>
-        <Words from={8} gap={2} style={text(portrait ? T.displayMd : T.displayLg, { color: p.light, maxWidth: Math.min(1500, textMax) })}>{quote}</Words>
+        <Words from={8} gap={2} style={text(portrait ? T.displayMd : T.displayLg, { color: p.light, maxWidth: Math.min(1500, textMax), ...(useLayout().tiktok ? { fontSize: Math.min(96, fit(quote.length)), fontWeight: 600, lineHeight: 1.08 } : {}) })}>{quote}</Words>
         <Appear from={8 + quote.split(' ').length * 2 + 6} travel={10}>
           <p style={text(T.title, { color: p.lightMid, marginTop: 40, fontWeight: 500 })}>— {who}</p>
         </Appear>
