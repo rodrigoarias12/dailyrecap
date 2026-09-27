@@ -157,8 +157,26 @@ export function Title({ p, label, phrase, total }: { p: Palette; label?: string;
  */
 export function Cover({ p, image, label, phrase, total }: { p: Palette; image: string; label?: string; phrase: string; total: number }) {
   const f = useCurrentFrame();
-  const { pad, textMax, portrait, height } = useLayout();
+  const { pad, padR, top, textMax, portrait, height, width, tiktok } = useLayout();
   const scale = interpolate(f, [0, total], [1.0, 1.08], clamp);
+  if (tiktok) {
+    // Short-form: a landscape screenshot does not fill a vertical frame without its own text
+    // colliding with ours. Show it whole, as a card at the top, and the headline under it.
+    const w = width - pad - padR;
+    return (
+      <AbsoluteFill style={{ background: p.ink, opacity: leave(f, total) }}>
+        <Audio src={staticFile('sfx/impact-transition.mp3')} volume={0.16} />
+        <Backdrop p={p} total={total} />
+        <div style={{ position: 'absolute', left: pad, top, width: w, borderRadius: 18, overflow: 'hidden', boxShadow: p.shadowCard, transform: `scale(${1 + 0.03 * interpolate(f, [0, total], [0, 1], clamp)})`, transformOrigin: 'top center' }}>
+          <Img src={staticFile(image)} style={{ display: 'block', width: '100%', height: 'auto' }} />
+        </div>
+        <div style={{ position: 'absolute', left: pad, right: padR, top: top + Math.round(w * 0.625) + 56 }}>
+          {label && <Label p={p} style={{ marginBottom: 18 }}>{label}</Label>}
+          <p style={text(T.displayLg, { color: p.light, maxWidth: textMax, fontSize: 64, lineHeight: 1.08 })}>{phrase}</p>
+        </div>
+      </AbsoluteFill>
+    );
+  }
   return (
     <AbsoluteFill style={{ background: p.ink, justifyContent: 'flex-end', opacity: enter(f, 0, 10) * leave(f, total) }}>
       <Audio src={staticFile('sfx/impact-transition.mp3')} volume={0.16} />
