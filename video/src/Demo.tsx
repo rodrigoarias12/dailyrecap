@@ -12,15 +12,28 @@ import { C, End, Grain, Mark, Phone, Question, Sources, Wipe, Words, clamp, t, t
  *   first-after.mp4 the first video, made from yorobot.ai alone
  *   home.png       yorobot.ai, the page the first video was made from
  */
-const S = { founder: 0, recap: 126, question: 456, install: 606, first: 786, sources: 1116, connect: 1296, beats: 1476, ways: 1576, end: 1756 };
-export const DEMO_FRAMES = 1906;
+const S = { founder: 0, recap: 126, question: 456, install: 606, first: 786, sources: 1116, connect: 1296, beats: 1476, ways: 1596, end: 1776 };
+export const DEMO_FRAMES = 1926;
+
+/** The voice: one line per scene (edge-tts, en-US-AndrewNeural, +6%), in public/audio/narration/demo3/, not committed. Start and length in seconds. */
+const VOICE: Array<[string, number, number]> = [
+  ['v01', 0.5, 2.98], ['v02', 4.6, 6.43], ['v03', 15.5, 3.31], ['v04', 20.5, 4.25], ['v05', 26.5, 7.97], ['v06', 37.3, 5.78],
+  ['v07', 43.5, 5.11], ['v08', 49.25, 0.96], ['v09', 50.35, 0.96], ['v10', 51.45, 2.09], ['v11', 53.4, 4.9], ['v12', 59.4, 3.19],
+];
+/** The music ducks under every line and comes back between them. */
+function bed(f: number) {
+  let k = 1;
+  for (const [, at, len] of VOICE) k = Math.min(k, interpolate(f, [at * 30 - 8, at * 30, (at + len) * 30, (at + len) * 30 + 12], [1, 0.3, 0.3, 1], clamp));
+  return k;
+}
 const CUTS = [S.recap, S.question, S.install, S.first, S.sources, S.connect, S.ways, S.end];
 
 export function Demo() {
   return (
     <AbsoluteFill style={{ background: C.ink }}>
       <Fonts />
-      <Audio src={staticFile('audio/music-demo3.mp3')} volume={(f) => interpolate(f, [0, S.recap - 10, S.recap + 10, DEMO_FRAMES - 60, DEMO_FRAMES], [0, 0.15, 0.9, 0.9, 0], clamp)} />
+      <Audio src={staticFile('audio/music-demo3.mp3')} volume={(f) => 0.9 * bed(f) * interpolate(f, [0, 12, DEMO_FRAMES - 60, DEMO_FRAMES], [0, 1, 1, 0], clamp)} />
+      {VOICE.map(([file, at]) => <Sequence key={file} from={Math.round(at * 30)} layout="none"><Audio src={staticFile(`audio/narration/demo3/${file}.mp3`)} volume={1} /></Sequence>)}
       <Sequence durationInFrames={S.recap}><Founder /></Sequence>
       <Sequence from={S.recap} durationInFrames={S.question - S.recap}><HerRecap /></Sequence>
       <Sequence from={S.question} durationInFrames={S.install - S.question}><Question /></Sequence>
@@ -62,7 +75,10 @@ function Founder() {
   const f = useCurrentFrame();
   return (
     <AbsoluteFill>
-      <OffthreadVideo src={staticFile('demo3/founder.mp4')} style={{ width: '100%', height: '100%', objectFit: 'cover', transform: `scale(${1 + 0.05 * t(f, 0, 126)})` }} />
+      {/* Her phone lights up: the recap arrives. The shot's own sound is off, the music runs from frame 0. */}
+      <Sequence from={10} durationInFrames={24}><Audio src={staticFile('sfx/ui-message-pop.mp3')} volume={0.7} /></Sequence>
+      <Sequence from={96} durationInFrames={40}><Audio src={staticFile('sfx/impact-transition.mp3')} volume={0.4} /></Sequence>
+      <OffthreadVideo src={staticFile('demo3/founder.mp4')} muted style={{ width: '100%', height: '100%', objectFit: 'cover', transform: `scale(${1 + 0.05 * t(f, 0, 126)})` }} />
       <div style={{ position: 'absolute', left: 120, bottom: 110, opacity: t(f, 20, 36) }}>
         <p style={type(30, 600, { color: C.accent, letterSpacing: '0.2em', textTransform: 'uppercase' })}>6:00 pm</p>
         <Reveal f={f} at={26} size={90} color={C.light}>Her company's day</Reveal>
