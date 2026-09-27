@@ -76,7 +76,7 @@ index, a Dane Delattre) con este mensaje:
 > slug: `dailyrecap`
 > image: `ghcr.io/rodrigoarias12/dailyrecap@sha256:…`
 > repo: https://github.com/rodrigoarias12/dailyrecap (MIT)
-> demo: https://youtu.be/X6Si_ppg69s
+> demo: https://youtu.be/df0eH5G8qZU
 > Your startup's first chief of staff: every evening it asks your team and your other
 > agents what happened, verifies it, and hands you a one-minute video of the day.
 
