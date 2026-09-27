@@ -11,13 +11,13 @@ import { FONT } from './style';
  *   npx remotion render src/index.ts Promo out/promo.mp4 --scale=2 --crf=14
  */
 export const PROMO_FRAMES = 1050;
-const URL = 'aiworthusing.com/agent-index/dailyrecap';
+export const URL = 'aiworthusing.com/agent-index/dailyrecap';
 
-const C = { accent: '#a0e099', ink: '#20291f', bg: '#f8faf7', light: '#fdfffc', mid: '#647063', line: '#dde5dc', blue: '#2f7bf6', ok: '#2c5227' };
-const clamp = { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' } as const;
-const ease = Easing.bezier(0.22, 1, 0.36, 1);
-const t = (f: number, a: number, b: number, from = 0, to = 1) => interpolate(f, [a, b], [from, to], { ...clamp, easing: ease });
-const type = (size: number, weight = 500, extra?: CSSProperties): CSSProperties => ({ fontFamily: FONT, fontSize: size, fontWeight: weight, letterSpacing: size > 60 ? '-0.035em' : '-0.01em', lineHeight: 1.02, margin: 0, ...extra });
+export const C = { accent: '#a0e099', ink: '#20291f', bg: '#f8faf7', light: '#fdfffc', mid: '#647063', line: '#dde5dc', blue: '#2f7bf6', ok: '#2c5227' };
+export const clamp = { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' } as const;
+export const ease = Easing.bezier(0.22, 1, 0.36, 1);
+export const t = (f: number, a: number, b: number, from = 0, to = 1) => interpolate(f, [a, b], [from, to], { ...clamp, easing: ease });
+export const type = (size: number, weight = 500, extra?: CSSProperties): CSSProperties => ({ fontFamily: FONT, fontSize: size, fontWeight: weight, letterSpacing: size > 60 ? '-0.035em' : '-0.01em', lineHeight: 1.02, margin: 0, ...extra });
 
 /** Scene boundaries, in frames. */
 const S = { logo: 0, question: 90, phone: 240, sources: 420, recap: 600, words: 800, end: 900 };
@@ -44,7 +44,7 @@ export function Promo() {
 }
 
 /** A green band that sweeps across on every cut: the brand's one gesture. */
-function Wipe({ at }: { at: number }) {
+export function Wipe({ at }: { at: number }) {
   const f = useCurrentFrame() - at;
   if (f < -10 || f > 10) return null;
   const x = interpolate(f, [-10, 10], [-120, 120], { ...clamp, easing: Easing.inOut(Easing.cubic) });
@@ -55,12 +55,12 @@ function Wipe({ at }: { at: number }) {
   );
 }
 
-function Grain() {
+export function Grain() {
   return <AbsoluteFill style={{ backgroundImage: `url(${staticFile('fx/grain.png')})`, opacity: 0.05, mixBlendMode: 'overlay', pointerEvents: 'none' }} />;
 }
 
 /** The mark: the day is a line that ends in its period. */
-function Mark({ size, color, bar = 1, dot = 1 }: { size: number; color: string; bar?: number; dot?: number }) {
+export function Mark({ size, color, bar = 1, dot = 1 }: { size: number; color: string; bar?: number; dot?: number }) {
   return (
     <svg viewBox="0 0 24 24" width={size} height={size} style={{ overflow: 'visible' }}>
       <rect x="1" y="10" width={12 * bar} height="4" rx="2" fill={color} />
@@ -100,7 +100,7 @@ function Line({ f, at, children, style }: { f: number; at: number; children: Rea
     </div>
   );
 }
-function Question() {
+export function Question() {
   const f = useCurrentFrame();
   const big = f >= 72;
   const k = t(f, 72, 90);
@@ -128,7 +128,7 @@ function Question() {
 }
 
 // ── 3 · One text ─────────────────────────────────────────────────────────────────────────
-function Bubble({ f, at, out, children }: { f: number; at: number; out?: boolean; children: ReactNode }) {
+export function Bubble({ f, at, out, children }: { f: number; at: number; out?: boolean; children: ReactNode }) {
   const { fps } = useVideoConfig();
   const s = spring({ frame: f - at, fps, config: { damping: 14, stiffness: 200 } });
   if (f < at) return null;
@@ -138,11 +138,11 @@ function Bubble({ f, at, out, children }: { f: number; at: number; out?: boolean
     </div>
   );
 }
-function Typed({ f, at, text: s, speed = 1.6 }: { f: number; at: number; text: string; speed?: number }) {
+export function Typed({ f, at, text: s, speed = 1.6 }: { f: number; at: number; text: string; speed?: number }) {
   const n = Math.max(0, Math.min(s.length, Math.floor((f - at) * speed)));
   return <>{s.slice(0, n)}{n < s.length && <span style={{ opacity: 0.6 }}>|</span>}</>;
 }
-function Phone() {
+export function Phone({ site = 'acme.com' }: { site?: string } = {}) {
   const f = useCurrentFrame();
   const { fps } = useVideoConfig();
   const rise = spring({ frame: f, fps, config: { damping: 18, stiffness: 90 } });
@@ -172,7 +172,7 @@ function Phone() {
           <div style={{ flex: 1, padding: 24, display: 'flex', flexDirection: 'column', gap: 14, justifyContent: 'flex-end', paddingBottom: 40 }}>
             <Bubble f={f} at={16} out><Typed f={f} at={16} text={install} /></Bubble>
             <Bubble f={f} at={70}>Hi! I'm DailyRecap, your chief of staff. What's your company's website?</Bubble>
-            <Bubble f={f} at={118} out>acme.com</Bubble>
+            <Bubble f={f} at={118} out>{site}</Bubble>
             <Bubble f={f} at={150}>On it. Your first video, in 15 minutes.</Bubble>
           </div>
         </div>
@@ -191,7 +191,7 @@ const NODES = [
   { label: 'Your website', x: 1360, y: 880 },
 ];
 const CX = 960, CY = 560;
-function Sources() {
+export function Sources() {
   const f = useCurrentFrame();
   const { fps } = useVideoConfig();
   const core = spring({ frame: f - 4, fps, config: { damping: 12, stiffness: 140 } });
@@ -289,7 +289,7 @@ function Recap() {
 
 // ── 6 · Three words, on the beat ─────────────────────────────────────────────────────────
 const WORDS: Array<[string, string, string]> = [['It asks.', C.accent, C.ink], ['It checks.', C.ink, C.light], ['It cuts the video.', C.bg, C.ink]];
-function Words() {
+export function Words() {
   const f = useCurrentFrame();
   const i = Math.min(2, Math.floor(f / 33));
   const local = f - i * 33;
@@ -303,7 +303,7 @@ function Words() {
 }
 
 // ── 7 · End card ─────────────────────────────────────────────────────────────────────────
-function End() {
+export function End() {
   const f = useCurrentFrame();
   const { fps } = useVideoConfig();
   const mark = spring({ frame: f - 2, fps, config: { damping: 10, stiffness: 150 } });
