@@ -1,5 +1,5 @@
 import { AbsoluteFill, Audio, Easing, Sequence, interpolate, staticFile, useCurrentFrame } from 'remotion';
-import { Agenda, Captions, Chips, Closing, Cover, Events, Fonts, Look, Metric, Numbers, Quote, Screen, Title } from './pieces';
+import { Agenda, Captions, Chips, Closing, Cover, Events, Fonts, Look, Metric, Numbers, Quote, SceneInfo, Screen, Title } from './pieces';
 import { FPS, frames, sceneStarts, totalFrames, type Script } from './script';
 import { palette } from './style';
 import { Chart } from './charts';
@@ -36,6 +36,22 @@ function Shell({ len, first, last, punch, tiktok, children }: { len: number; fir
   return <AbsoluteFill style={{ transform: `translateY(${y}px)`, filter: blur > 0.5 ? `blur(${blur}px)` : undefined }}>{children}</AbsoluteFill>;
 }
 
+/**
+ * Short-form: a band of the brand's accent sweeps across the cut into a scene that lands a
+ * point (a title, a number, a chart, the closing). One gesture, repeated, is what reads as a
+ * brand; on every cut it would read as noise, so the other scenes keep the hard cut.
+ */
+function Wipe({ at, color }: { at: number; color: string }) {
+  const f = useCurrentFrame() - at;
+  if (f < -8 || f > 8) return null;
+  const x = interpolate(f, [-8, 8], [-130, 130], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.inOut(Easing.cubic) });
+  return (
+    <AbsoluteFill style={{ pointerEvents: 'none', overflow: 'hidden' }}>
+      <div style={{ position: 'absolute', top: '-20%', bottom: '-20%', left: '15%', width: '70%', background: color, transform: `translateX(${x}%) skewX(-12deg)` }} />
+    </AbsoluteFill>
+  );
+}
+
 /** Scenes that carry their own entrance sound; the rest get a whoosh on the cut in the short-form cut. */
 const HAS_SOUND = new Set(['title', 'metric', 'chart', 'closing']);
 const WHOOSH = ['sfx/whoosh-fast.mp3', 'sfx/transition-soft.mp3', 'sfx/ui-select-modern.mp3'];
@@ -57,6 +73,7 @@ export function Video(script: Script) {
         const len = frames(s.seconds);
         return (
           <Sequence key={i} from={starts[i]} durationInFrames={len} name={`${i + 1} ${s.type}`}>
+            <SceneInfo.Provider value={{ first: i === 0 }}>
             {tiktok && i > 0 && !HAS_SOUND.has(s.type) && <Audio src={staticFile(WHOOSH[i % WHOOSH.length])} volume={0.12} />}
             <Shell len={len} first={i === 0} last={i === script.scenes.length - 1} tiktok={tiktok} punch={i === 0 || PUNCH.has(s.type)}>
             {s.type === 'title' && <Title p={p} label={s.label} phrase={s.text} total={len} />}
@@ -71,9 +88,11 @@ export function Video(script: Script) {
             {s.type === 'agenda' && <Agenda p={p} label={s.label} items={s.items} total={len} />}
             {s.type === 'closing' && <Closing p={p} cta={s.cta} total={len} credit={script.credit !== false} />}
             </Shell>
+            </SceneInfo.Provider>
           </Sequence>
         );
       })}
+      {tiktok && script.scenes.map((s, i) => (i > 0 && PUNCH.has(s.type) ? <Wipe key={`w${i}`} at={starts[i]} color={p.accent} /> : null))}
       {narration.map((n) => (
         <Sequence key={n.file} from={frames(n.at)} layout="none"><Audio src={staticFile(n.file)} /></Sequence>
       ))}

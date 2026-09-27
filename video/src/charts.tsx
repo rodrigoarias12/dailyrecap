@@ -1,6 +1,6 @@
 import { AbsoluteFill, Audio, Easing, interpolate, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
 import { T, text, type Palette } from './style';
-import { Appear, enter, leave, Backdrop, Label, useLayout, countUp, sourceLine } from './pieces';
+import { Appear, enter, leave, Backdrop, Label, Mark, useLayout, countUp, sourceLine } from './pieces';
 
 /**
  * A metric with its chart: the number that moved on the left, the shape of how it moved on
@@ -46,7 +46,11 @@ export function Chart({ p, kind, label, value, delta, up, unit, series, source, 
               </Appear>
             )}
           </div>
-          <Appear from={sAt} travel={8} style={{ marginTop: 22 }}><span style={text(T.bodySm, { color: p.lightMid })}>{sourceLine(source, verified)}</span></Appear>
+          <Appear from={sAt} travel={8} style={{ marginTop: 22 }}>
+            {tiktok
+              ? <span style={{ display: 'inline-flex', alignItems: 'center', gap: 14, flexWrap: 'wrap' }}><Mark p={p} verified={verified} /><span style={text(T.bodySm, { color: p.lightMid })}>{source}</span></span>
+              : <span style={text(T.bodySm, { color: p.lightMid })}>{sourceLine(source, verified)}</span>}
+          </Appear>
         </div>
         <div style={{ width: chartW, height: chartH, position: 'relative', opacity: enter(f, 4, 10) }}>
           {kind === 'line' && <Line p={p} series={series} unit={unit} w={chartW} h={chartH} f={f} />}
