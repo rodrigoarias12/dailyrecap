@@ -153,6 +153,7 @@ y el digest se lee del registro (está anotado en el Dockerfile cuando se pineó
 | 26/9 | `f6f23b1a…` | 8c29f2f | segunda auditoría: research sin repos ajenos ni números inflados; primer video con captura, cuenta como recap del día; contraste; textos |
 | 28/9 | `acacb552…` | 1a87aa5 | recaps como el promo: una idea por pantalla, letra grande, barrida de marca, verificación en pastilla, sin subtítulos; site.mjs lee /en |
 | 28/9 | `c60f9e25…` | 0ad21c3 | entrega: videos de menos de 2 MB (el primero de Willow falló en Plow) y nada de «te lo mandé» sin confirmación |
+| 28/9 | `7f387052…` | e0fa494 | aviso al aparato del escritorio (el peón): una frase por ntfy cuando el recap está entregado |
 
 Las instalaciones que ya corren conservan su imagen: Plow no las actualiza. Se promueve con la
 cuenta dueña: `plow-agents --token-file ~/.config/plow/token-owner-a05c7a47 image promote dailyrecap ghcr.io/…@sha256:…`.
