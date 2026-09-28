@@ -151,6 +151,7 @@ y el digest se lee del registro (está anotado en el Dockerfile cuando se pineó
 | 26/9 | `dc9bb80f…` | 997aa12 | onboarding de una pregunta, settings, auditoría (verified en pantalla, sin fin de semana, STOP) |
 | 26/9 | `6bb28203…` | 56f0957 | primer video estandarizado desde el research del sitio; menú de qué conectar después del primer video |
 | 26/9 | `f6f23b1a…` | 8c29f2f | segunda auditoría: research sin repos ajenos ni números inflados; primer video con captura, cuenta como recap del día; contraste; textos |
+| 28/9 | `acacb552…` | 1a87aa5 | recaps como el promo: una idea por pantalla, letra grande, barrida de marca, verificación en pastilla, sin subtítulos; site.mjs lee /en |
 
 Las instalaciones que ya corren conservan su imagen: Plow no las actualiza. Se promueve con la
 cuenta dueña: `plow-agents --token-file ~/.config/plow/token-owner-a05c7a47 image promote dailyrecap ghcr.io/…@sha256:…`.
