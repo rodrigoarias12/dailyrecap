@@ -106,12 +106,14 @@ const chrome = process.env.DAILYRECAP_CHROME ? [`--browser-executable=${process.
 execFileSync('npx', ['remotion', 'render', 'src/index.ts', composition, OUT, `--props=${SCRIPT}`, '--codec=h264', '--crf=23', '--log=error', ...chrome], { cwd: ROOT, stdio: 'inherit' });
 
 // Chat channels choke on big files well before their documented limits (a 7.6 MB recap
-// failed on Telegram, 4.9 MB went through). Over 6 MB, re-encode to a bitrate that fits.
-const MAX = 6 * 1024 * 1024;
+// failed on Telegram, 4.9 MB went through; on Plow's iMessage the first video failed on
+// 28/9 and went through at 0.8 MB). Over 2 MB, re-encode to a bitrate that fits: the scenes
+// are flat color and type, and they hold at a few hundred kbps.
+const MAX = 2 * 1024 * 1024;
 if (statSync(OUT).size > MAX) {
-  const kbps = Math.max(600, Math.floor((MAX * 8) / 1024 / total * 0.85) - 128);
+  const kbps = Math.max(350, Math.floor((MAX * 8) / 1024 / total * 0.85) - 96);
   const tmp = `${OUT}.fit.mp4`;
-  execFileSync('ffmpeg', ['-v', 'error', '-y', '-i', OUT, '-c:v', 'libx264', '-b:v', `${kbps}k`, '-maxrate', `${kbps}k`, '-bufsize', `${kbps * 2}k`, '-preset', 'medium', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '128k', '-movflags', '+faststart', tmp]);
+  execFileSync('ffmpeg', ['-v', 'error', '-y', '-i', OUT, '-c:v', 'libx264', '-b:v', `${kbps}k`, '-maxrate', `${kbps}k`, '-bufsize', `${kbps * 2}k`, '-preset', 'medium', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '96k', '-movflags', '+faststart', tmp]);
   renameSync(tmp, OUT);
   console.log(`fit: re-encoded at ${kbps} kbps → ${(statSync(OUT).size / 1024 / 1024).toFixed(1)} MB`);
 }

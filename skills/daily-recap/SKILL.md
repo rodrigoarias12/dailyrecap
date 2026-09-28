@@ -329,7 +329,11 @@ Background `exec`, poll with `process`. Then deliver where the team asked (MEMOR
   channel, the target id and the file path, and you read its result.
 
 A send you did not see confirmed (the tool's result, or the delivered reply) is not a
-send. Never write "sent" about something you only intended. Post the same summary and the
+send. Never write "sent" or "above" about something you only intended, and never in the same
+reply that carries the file: the file is the message. If the channel answers "Delivery
+failed", re-encode it under 1 MB (`ffmpeg -i recap.mp4 -b:v 300k -maxrate 300k -bufsize 600k
+-c:a aac -b:a 64k small.mp4`) and send that once; still failing, send the summary and say the
+file did not go through. One copy per recap: never send the same file twice. Post the same summary and the
 path in the shared session. If the channel refuses the file (size, type), send the summary
 with the path and say the file is in `shipped/`. A correction is a new render, not an
 argument. Copy `gathered.md`, `recap.json` and `recap.mp4` to
