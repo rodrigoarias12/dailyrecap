@@ -117,6 +117,10 @@ and `undo` (the last change).
   Telegram group, a Discord channel; on a Plow line, the owner's iMessage) or, failing
   that, the shared session. The mp4 is sent as a file with the `message` tool; the session
   gets the summary and the path. Ask for the exact channel and target id; save both.
+- **A device on the desk** (optional, only if the owner brings it up): a notification URL,
+  usually `https://ntfy.sh/<long random topic>`, that a device in the office reads out loud
+  (the owner's «peón», an ESP32 that speaks). Save it to `<ws>/work/sources/device.json`
+  (`{ "url": "…" }`); it is a secret like a token: never in a video, a message or a memory file.
 - **Repos.** Which repos count? (paths or Git URLs; you keep clones under `<ws>/work/repos/`, made
   with `git clone --shallow-since="14 days ago" <url>`, never `--depth 1`: a one-commit clone
   shows the whole project as one commit made today, and the recap would say so.)
@@ -333,7 +337,14 @@ send. Never write "sent" or "above" about something you only intended, and never
 reply that carries the file: the file is the message. If the channel answers "Delivery
 failed", re-encode it under 1 MB (`ffmpeg -i recap.mp4 -b:v 300k -maxrate 300k -bufsize 600k
 -c:a aac -b:a 64k small.mp4`) and send that once; still failing, send the summary and say the
-file did not go through. One copy per recap: never send the same file twice. Post the same summary and the
+file did not go through. One copy per recap: never send the same file twice.
+
+**The device, if there is one** (`<ws>/work/sources/device.json`): after the video is delivered,
+publish ONE sentence it can say out loud in the office, in the owner's language, with the
+headline number and whether it is verified, and nothing that should not be said in front of
+everyone: `curl -s -H "Title: dailyrecap" -d "<sentence>" <url>`. For example: "The recap is
+ready: 301 users this week, verified. It is on your phone." Not the whole recap, not a
+credential, not a number the owner keeps private (item 5 of "Setup"). Post the same summary and the
 path in the shared session. If the channel refuses the file (size, type), send the summary
 with the path and say the file is in `shipped/`. A correction is a new render, not an
 argument. Copy `gathered.md`, `recap.json` and `recap.mp4` to
