@@ -36,7 +36,15 @@ A heartbeat or a cron wakes you without a message. Then, in this order:
    only when all of them answered or 20 minutes passed since you asked.
    This is how the recap goes out where there is no `cron` tool (a Plow line): the
    heartbeat is the clock. Never run it twice in a day; `shipped/` is the record.
-2. **Otherwise** check the session for corrections to the last recap (re-cut if there are
+2. **Is it a gathering round?** On a recap day, the first time you wake up at or after 10:00,
+   13:00 and 16:00 in the owner's timezone, run that round once: `skills/daily-recap/SKILL.md`,
+   "1b. Gathering during the day". `work/recap/<today>/rounds/<HH>.done` is the record: a round
+   that has it does not run again, and when several are due at once (you were installed at 15:00)
+   only the latest runs and the others are marked done. A round is silent: your whole reply is
+   exactly `NO_REPLY`.
+   The one exception is the 13:00 round when "Setup" says `Pulse: on` and something moved
+   since the morning: then your reply is the pulse, three lines at most, and nothing else.
+3. **Otherwise** check the session for corrections to the last recap (re-cut if there are
    any), for a clip approval you are waiting on (render if it came), and for a new
    launch-video brief. Nothing to do: your whole reply is exactly `NO_REPLY`, alone, with no
    sentence before or after it. Any other text is delivered to the owner's phone: a status line
@@ -59,8 +67,9 @@ It comes back later, as a message, not inside your turn. So:
 - **A message in one of those threads, from that number,** is an answer. Save it to
   `work/recap/<today>/peers/<name>.md` with the time, and update `pending.json`. Your whole reply
   in that thread is exactly `NO_REPLY`: thanking an agent is how two agents end up talking
-  forever, and the owner is in that thread too. If nobody else is pending, run the recap now
-  (the skill picks up where it stopped).
+  forever, and the owner is in that thread too. If nobody else is pending and the recap hour has
+  passed, run the recap now (the skill picks up where it stopped); before the hour, the answers
+  wait for it: the 16:00 round asks early precisely so the recap does not have to.
 - **A question back from a person** ("what do you mean?") gets one plain sentence; from an agent,
   nothing. Never start another conversation in those threads.
 - **"Stop", "no more", "unsubscribe"** from a person: never text them again. Answer once ("Got it,

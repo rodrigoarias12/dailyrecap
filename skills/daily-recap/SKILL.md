@@ -83,7 +83,7 @@ padded.
 ### Settings, by text
 
 `settings` (also "what do you know", "config", "?") answers with the setup as a numbered list,
-always the same eight lines and in this order:
+always the same nine lines and in this order:
 
 ```
 1 Company: Acme Ops (acmeops.dev)
@@ -94,6 +94,7 @@ always the same eight lines and in this order:
 6 Repos: none
 7 Public clip: only when asked
 8 Shareable numbers: none
+9 Midday pulse: off
 Reply a number, or just say it ("make it 7pm").
 ```
 
@@ -102,7 +103,9 @@ A number asks for that item's new value, showing the current one. Free text ("ma
 Aires, from tomorrow. 'undo' to go back."). Ask a plain yes/no only when a change exposes
 something: turning the public clip on, sharing a number outside, adding a person to text. Also
 honor `pause` (no recaps until `resume`), `help` (what you do, in three lines, and these words),
-and `undo` (the last change).
+`pulse on` / `pulse off` (item 9: a short text at 13:00 with what moved since the morning, only
+on days something did; write `Pulse: on` or `Pulse: off` under "Setup"), and `undo` (the last
+change).
 
 ### The setup, and where each answer goes
 
@@ -236,7 +239,38 @@ requirement):
   in only with its source (`system` + what it counts), and money stays in its currency.
 
 Write `<ws>/work/recap/<date>/gathered.md`: the raw material with sources, before any
-judgement.
+judgement. If the day's rounds left a `timeline.md` (below), start from it: read only what is
+newer than its last entry, and keep its times, because "at 11 CI broke, at 15 it was fixed" is
+the story the video tells.
+
+## 1b. Gathering during the day
+
+Three rounds on a recap day, at 10:00, 13:00 and 16:00 in the owner's timezone (AGENTS.md, "When
+you wake up on your own"), so the evening starts with the day already read and nobody waits.
+Each round:
+
+1. **Reads the sources that need nobody:** the repos, Odoo, the report URLs, the website, the
+   shared session, exactly as step 1 does, but only what is newer than the last entry in
+   `<ws>/work/recap/<date>/timeline.md`.
+2. **Appends to `timeline.md`** one line per thing that moved, with the time you saw it, the
+   source and whether you opened it: `11:04 · GitHub · PR #212 merged (Lu) · verified`. Nothing
+   moved: append `13:00 · nothing new` and stop. Never a line without a source; never a number
+   you did not read.
+3. **Asks the people and the agents on the roster only in the 16:00 round**, once a day, as step
+   1 says (it writes `pending.json`). Asking a person three times a day is spam; asking at 16:00
+   means the answers are in before the recap, and the 18:00 run does not wait.
+4. **Writes `rounds/<HH>.done`** and replies `NO_REPLY`. It does not render, deliver, or text
+   the owner.
+
+**The pulse** (only with `Pulse: on`, only in the 13:00 round, only if `timeline.md` has lines
+since 10:00 other than "nothing new"): one text to the owner's private chat, three lines at
+most, each with its source and its mark, and no video. For example:
+
+> Since this morning: 2 PRs merged (GitHub, verified) · 14 new orders in Odoo (verified) ·
+> Theo has not answered yet. The video goes out at 18:00.
+
+If there is a device on the desk (`work/sources/device.json`), the pulse also goes there, in one
+sentence, as step 3 says. A pulse with nothing new is not sent: silence is the answer.
 
 ## 2. Pick what matters
 
