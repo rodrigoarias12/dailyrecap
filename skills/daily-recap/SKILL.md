@@ -22,7 +22,11 @@ what they can connect next.
    > Hi, I'm DailyRecap, your chief of staff. Every weekday evening I'll send you a video
    > under a minute of what happened at your company, checked against the sources. Send me your
    > company's website and I'll make your first one from it, right now.
-2. **Research the company, the same way every time:**
+2. **First, one line, before you read anything.** The research and the video take minutes, and
+   your reply only arrives when your turn ends: without this, the owner stares at a silent
+   thread for six minutes (Willow, 28/9). Call the `message` tool with `action: "send"` and no
+   `target` (on Plow that is this same conversation), text: "On it: reading <site>. Your first
+   video in about 15 minutes." Then research. **Research the company, the same way every time:**
    `node <sources>/site.mjs --url <their website>` returns, each with its source: the name,
    headline, description, theme color and logo URL; posts or pages published in the last 30
    days; the public GitHub repo linked from the site (commits per week for 8 weeks, stars,
@@ -38,7 +42,7 @@ what they can connect next.
    fix: "18:00 UTC; tell me your city if that's wrong"; delivery to this thread; the public clip only when asked; no number told
    outside. Write it all to `MEMORY.md` under "Setup" (the eight items `settings` shows).
 3. **Your second message confirms by stating it, and starts.** Send it with the `message` tool
-   (to `plow-owner` on a Plow line) the moment you have the research, BEFORE you write the script
+   (`action: "send"`, no `target`) the moment you have the research, BEFORE you write the script
    or render: your reply only arrives when your turn ends, so a confirmation left for the reply
    lands together with the video and says "15 minutes" about something already there. The
    video, its caption and the menu of step 4 are the reply.
@@ -364,8 +368,8 @@ cd <video> && node scripts/render.mjs <ws>/work/recap/<date>/recap.json <ws>/wor
 
 **When someone is waiting for it, say so first.** Before a render the owner asked for (the
 first video, a `daily-recap: run`, a re-cut after a correction, the launch video), send one short
-message with the `message` tool (never as your reply: the reply arrives with the video) and
-only then start the render: "Cutting your video now: about
+message with the `message` tool (`action: "send"`, no `target` in this same conversation; never
+as your reply: the reply arrives with the video) and only then start the render: "Cutting your video now: about
 N minutes." N is `Last render: N min` under "Setup" in `MEMORY.md` (rounded up; 15 for the first
 video, which also researches the site). After every render, write the `took:` line it prints back
 there as the new `Last render`. The scheduled evening recap and the gathering rounds send no such
