@@ -2,6 +2,7 @@ import { Composition } from 'remotion';
 import { Video } from './Video';
 import { FEED_EXAMPLE, Feed, feedFrames, type FeedProps } from './Feed';
 import { PROMO_FRAMES, Promo } from './Promo';
+import { SocialSquare, SocialWide } from './Social';
 import { DEMO_FRAMES, Demo } from './Demo';
 import { ONBEHALF_PROMO_FRAMES, OnBehalfPromo } from './OnBehalfPromo';
 import { CLIP, EXAMPLE, FPS, RECAP, totalFrames, type Script } from './script';
@@ -20,6 +21,8 @@ export function Root() {
       <Composition id="Portrait" component={Video} fps={FPS} width={1080} height={1920} durationInFrames={totalFrames(CLIP)} defaultProps={CLIP} calculateMetadata={metadata} />
       <Composition id="Feed" component={Feed} fps={FPS} width={1920} height={1080} durationInFrames={feedFrames(FEED_EXAMPLE)} defaultProps={FEED_EXAMPLE} calculateMetadata={async ({ props }: { props: FeedProps }) => ({ durationInFrames: feedFrames(props) })} />
       <Composition id="Promo" component={Promo} fps={FPS} width={1920} height={1080} durationInFrames={PROMO_FRAMES} />
+      <Composition id="SocialSquare" component={SocialSquare} fps={FPS} width={1080} height={1350} durationInFrames={1} />
+      <Composition id="SocialWide" component={SocialWide} fps={FPS} width={1600} height={900} durationInFrames={1} />
       <Composition id="Demo" component={Demo} fps={FPS} width={1920} height={1080} durationInFrames={DEMO_FRAMES} />
       <Composition id="OnBehalfPromo" component={OnBehalfPromo} fps={FPS} width={1920} height={1080} durationInFrames={ONBEHALF_PROMO_FRAMES} />
     </>
