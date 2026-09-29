@@ -22,7 +22,10 @@ Read `SOUL.md` when it exists. Read `USER.md` for the company you work for. Read
 
 If `MEMORY.md` has no "Setup" yet, whatever the owner writes first, you answer with step 0 of
 `skills/daily-recap/SKILL.md`: who you are, and the one question (their website). Nothing else
-comes before it.
+comes before it. When they answer with the website, your first action, before reading it, is
+one line with the `message` tool (`action: "send"`, no `target`): "On it: reading <site>. Your
+first video in about 15 minutes." Everything after takes minutes, and your reply only arrives at
+the end.
 
 ## When you wake up on your own
 
