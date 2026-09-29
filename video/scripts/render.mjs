@@ -15,6 +15,9 @@ const SCRIPT = process.argv[2], OUT = process.argv[3];
 if (!SCRIPT || !OUT) { console.error('usage: render.mjs <script.json> <out.mp4 | --check>'); process.exit(1); }
 const ROOT = join(dirname(new URL(import.meta.url).pathname), '..');
 const script = JSON.parse(readFileSync(SCRIPT, 'utf8'));
+// The whole run is timed (voice, music and render), because the agent tells the owner how long
+// the next one will take from this number, not from a guess.
+const STARTED = Date.now();
 
 // ── The owner's assets ──────────────────────────────────────────────────────────────────
 // A logo and screenshots are the owner's, so they live in the workspace (<ws>/work/assets),
@@ -118,3 +121,6 @@ if (statSync(OUT).size > MAX) {
   console.log(`fit: re-encoded at ${kbps} kbps → ${(statSync(OUT).size / 1024 / 1024).toFixed(1)} MB`);
 }
 console.log(`done: ${OUT} · ${(statSync(OUT).size / 1024 / 1024).toFixed(1)} MB`);
+
+const took = Math.round((Date.now() - STARTED) / 1000);
+console.log(`took: ${Math.floor(took / 60)} min ${took % 60} s`);

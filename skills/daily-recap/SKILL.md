@@ -356,6 +356,14 @@ carries pages that are already public.
 cd <video> && node scripts/render.mjs <ws>/work/recap/<date>/recap.json <ws>/work/recap/<date>/recap.mp4
 ```
 
+**When someone is waiting for it, say so first.** Before a render the owner asked for (the
+first video, a `daily-recap: run`, a re-cut after a correction, the launch video), send one short
+message with the `message` tool and only then start the render: "Cutting your video now: about
+N minutes." N is `Last render: N min` under "Setup" in `MEMORY.md` (rounded up; 15 for the first
+video, which also researches the site). After every render, write the `took:` line it prints back
+there as the new `Last render`. The scheduled evening recap and the gathering rounds send no such
+message: nobody asked, and the video is the message.
+
 Background `exec`, poll with `process`. Then deliver where the team asked (MEMORY.md,
 "Setup", item 3). Two ways, and only these two count as sending:
 
