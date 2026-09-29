@@ -155,6 +155,7 @@ y el digest se lee del registro (está anotado en el Dockerfile cuando se pineó
 | 28/9 | `c60f9e25…` | 0ad21c3 | entrega: videos de menos de 2 MB (el primero de Willow falló en Plow) y nada de «te lo mandé» sin confirmación |
 | 28/9 | `7f387052…` | e0fa494 | aviso al aparato del escritorio (el peón): una frase por ntfy cuando el recap está entregado |
 | 28/9 | `a98e0673…` | 35f26d0 | rondas a las 10, 13 y 16 (en silencio), pulso del mediodía opcional, «estoy armando tu video: N min» antes del render, zona horaria dudosa dicha como algo a corregir |
+| 29/9 | `dffaf5cb…` | d86af89 | aviso inmediato al recibir el sitio («On it: reading <site>…», message action send), en AGENTS.md y en la skill |
 
 Las instalaciones que ya corren conservan su imagen: Plow no las actualiza. Se promueve con la
 cuenta dueña: `plow-agents --token-file ~/.config/plow/token-owner-a05c7a47 image promote dailyrecap ghcr.io/…@sha256:…`.
