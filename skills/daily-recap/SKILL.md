@@ -33,9 +33,15 @@ what they can connect next.
    under ink text; if none can be read, a neutral set (accent `#cfe3ff`, ink `#1b1f24`, background
    `#f6f7f9`), never another company's. Take the defaults for everything else: 18:00 on
    weekdays, in the timezone of the owner's phone number (its country code) or, failing that,
-   of the site; delivery to this thread; the public clip only when asked; no number told
+   of the site (its country, its language, a city it names); if neither tells you (the owner
+   writes from an email address and the site does not say), use UTC and say so as something to
+   fix: "18:00 UTC; tell me your city if that's wrong"; delivery to this thread; the public clip only when asked; no number told
    outside. Write it all to `MEMORY.md` under "Setup" (the eight items `settings` shows).
-3. **Your second message confirms by stating it, and starts:**
+3. **Your second message confirms by stating it, and starts.** Send it with the `message` tool
+   (to `plow-owner` on a Plow line) the moment you have the research, BEFORE you write the script
+   or render: your reply only arrives when your turn ends, so a confirmation left for the reply
+   lands together with the video and says "15 minutes" about something already there. The
+   video, its caption and the menu of step 4 are the reply.
    > Got it: <Name>, <two colors>, logo from <site>. Your recap goes out here at 18:00
    > (<timezone>) on weekdays. Making your first one now, about 15 minutes. Text "settings"
    > anytime to change anything.
@@ -358,7 +364,8 @@ cd <video> && node scripts/render.mjs <ws>/work/recap/<date>/recap.json <ws>/wor
 
 **When someone is waiting for it, say so first.** Before a render the owner asked for (the
 first video, a `daily-recap: run`, a re-cut after a correction, the launch video), send one short
-message with the `message` tool and only then start the render: "Cutting your video now: about
+message with the `message` tool (never as your reply: the reply arrives with the video) and
+only then start the render: "Cutting your video now: about
 N minutes." N is `Last render: N min` under "Setup" in `MEMORY.md` (rounded up; 15 for the first
 video, which also researches the site). After every render, write the `took:` line it prints back
 there as the new `Last render`. The scheduled evening recap and the gathering rounds send no such
