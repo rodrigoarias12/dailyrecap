@@ -32,6 +32,16 @@ const STEPS = {
   es: ['Mandá un mensaje desde tu iPhone', 'Pasale el sitio web de tu empresa', 'Recibí el día de tu empresa en 30 segundos'],
 };
 
+/** YoRobot's mark as its kit draws it: the three-piece «y» in ink on the rounded green square. */
+function YoRobot({ size }: { size: number }) {
+  return (
+    <svg viewBox="116.16 103.77 847.68 847.68" width={size} height={size} style={{ display: 'block', flex: '0 0 auto' }}>
+      <rect x="116.16" y="103.77" width="847.68" height="847.68" rx="164.07" fill={C.accent} />
+      <path fill={C.ink} d="M761.24,306.36h0s-221.24,0-221.24,0h-221.24c0,122.19,99.05,221.24,221.24,221.24h-221.24v221.24h0c122.19,0,221.24-99.05,221.24-221.24v221.24h221.24c0-122.19-99.05-221.24-221.24-221.24,122.19,0,221.24-99.05,221.24-221.24Z" />
+    </svg>
+  );
+}
+
 function Steps({ wide, es }: { wide: boolean; es?: boolean }) {
   const steps = STEPS[es ? 'es' : 'en'];
   return (
@@ -55,7 +65,15 @@ function Card({ wide, es }: { wide: boolean; es?: boolean }) {
       <div style={{ display: 'flex', alignItems: 'center', gap: 18, position: 'relative' }}>
         <Mark size={54} color={C.accent} />
         <p style={type(40, 600, { color: C.light })}>DailyRecap</p>
-        <p style={type(24, 600, { color: 'rgba(253,255,252,.55)', marginLeft: 'auto', letterSpacing: '0.16em', textTransform: 'uppercase' })}>{es ? 'Hackathon OpenClaw 2.0' : 'OpenClaw 2.0 hackathon'}</p>
+        {es ? (
+          <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 14 }}>
+            <p style={type(26, 500, { color: 'rgba(253,255,252,.6)' })}>hecho por</p>
+            <YoRobot size={46} />
+            <p style={type(34, 600, { color: C.light })}>YoRobot</p>
+          </div>
+        ) : (
+          <p style={type(24, 600, { color: 'rgba(253,255,252,.55)', marginLeft: 'auto', letterSpacing: '0.16em', textTransform: 'uppercase' })}>OpenClaw 2.0 hackathon</p>
+        )}
       </div>
       <div style={{ position: 'relative', display: 'flex', flexDirection: wide ? 'row' : 'column', flex: 1, marginTop: wide ? 40 : 50, gap: wide ? 40 : 0 }}>
         <div style={{ flex: wide ? '0 0 58%' : undefined }}>
@@ -84,7 +102,7 @@ function Card({ wide, es }: { wide: boolean; es?: boolean }) {
         <div style={{ padding: '20px 34px', borderRadius: 999, background: C.accent }}>
           <p style={type(34, 600, { color: C.ink })}>{URL}</p>
         </div>
-        <p style={type(24, 500, { color: 'rgba(253,255,252,.6)', lineHeight: 1.3 })}>{es ? <>Cierra el 30/9 a las 23:59<br />(hora del Pacífico).</> : <>One text from your iPhone.<br />Standings close Sep 30, 11:59 pm PT.</>}</p>
+        <p style={type(24, 500, { color: 'rgba(253,255,252,.6)', lineHeight: 1.3 })}>{es ? <>Hackathon OpenClaw 2.0 · cierra el 30/9<br />a las 23:59 (hora del Pacífico) · yorobot.ai</> : <>One text from your iPhone.<br />Standings close Sep 30, 11:59 pm PT.</>}</p>
       </div>
       <div style={{ position: 'absolute', inset: 0, backgroundImage: `url(${staticFile('fx/grain.png')})`, opacity: 0.06, mixBlendMode: 'overlay' }} />
     </AbsoluteFill>
