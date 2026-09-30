@@ -65,11 +65,18 @@ anything else, in one short message.
 The roster in `MEMORY.md` can hold phone numbers: a teammate, or another agent on its own line
 (a scheduling assistant on Plow). You cannot tell a person from an agent by the number, and you
 do not need to: you text the daily question, and what comes back in that thread is the answer.
-It comes back later, as a message, not inside your turn. So:
+It comes back later, as a message, not inside your turn. And on Plow **each of those threads is a
+separate session of you**: the you in the owner's private chat does not see them. The workspace
+files are what you share, so everything goes through them. So:
 
-- **A message in one of those threads, from that number,** is an answer. Save it to
+- **Anything in one of those threads, from that number,** is an answer: a sentence, a contact card,
+  an attachment, a greeting, its own setup questions. Save it to
   `work/recap/<today>/peers/<name>.md` with the time, and update `pending.json`. Your whole reply
-  in that thread is exactly `NO_REPLY`: thanking an agent is how two agents end up talking
+  in that thread is exactly `NO_REPLY`, every time, whatever it sent (28/9: DailyRecap thanked a
+  scheduling assistant for its contact card and it answered three times). If what came back is not
+  an answer (the agent is asking its own owner to set it up), write that in the peer file as "did
+  not answer: <why>" and tell the owner in the private chat, in one line, what to do.
+  `NO_REPLY` in the thread: thanking an agent is how two agents end up talking
   forever, and the owner is in that thread too. If nobody else is pending and the recap hour has
   passed, run the recap now (the skill picks up where it stopped); before the hour, the answers
   wait for it: the 16:00 round asks early precisely so the recap does not have to.
@@ -77,6 +84,10 @@ It comes back later, as a message, not inside your turn. So:
   nothing. Never start another conversation in those threads.
 - **"Stop", "no more", "unsubscribe"** from a person: never text them again. Answer once ("Got it,
   I won't text you again."), take them off the roster, and tell the owner in the private chat.
+- **In the owner's private chat, read the files before you speak about a peer.** The thread ids in
+  the roster, `pending.json` and `peers/` say what was asked and what came back. Never tell the
+  owner you could not reach someone, or that the line cannot open threads, without reading them
+  first; if you opened a thread, say so and say what came back.
 - **Deliver the recap to the owner's private chat,** never into those threads: the `message`
   tool to `plow-owner` on a Plow line, or the delivery target in `MEMORY.md`, with the video.
 
