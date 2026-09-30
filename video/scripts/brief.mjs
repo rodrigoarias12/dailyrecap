@@ -46,6 +46,8 @@ for (const s of script.scenes) {
   else if (s.type === 'agenda') blocks.push(`<section><p class="lb">${esc(s.label || L.tomorrow)}</p>${s.items.map((it) => `<div class="row"><span class="tag">${esc(it.when)}</span> ${esc(it.text)}</div>`).join('')}</section>`);
   else if (s.type === 'quote') blocks.push(`<section><blockquote>“${esc(s.text)}”<br><span class="src">— ${esc(s.who)}</span></blockquote></section>`);
   else if (s.type === 'chips') blocks.push(`<section><p class="lb">${esc(s.label)}</p><div class="row">${s.items.map(esc).join(' · ')}</div></section>`);
+  // The video's picture of this brief is not part of the brief.
+  else if (s.type === 'cover' && /(^|\/)brief\.png$/.test(s.image ?? '')) continue;
   else if (s.type === 'title' || s.type === 'cover') blocks.push(`<section><p class="lb">${esc(s.label ?? '')}</p><p class="head">${esc(s.text)}</p></section>`);
 }
 
@@ -76,18 +78,18 @@ ${gathered ? `<section><p class="lb">${L.raw}</p><pre>${link(gathered.slice(0, 1
 </body></html>`;
 
 // The card: the brief's front, big enough to read on a phone inside the video.
-const lines = (Array.isArray(script.analysis) ? script.analysis : []).slice(0, 3);
+const lines = (Array.isArray(script.analysis) ? script.analysis : []).slice(0, 2);
 const card = `<!doctype html><html><head><meta charset="utf-8"><style>
 @font-face{font-family:R;src:url('file://${join(dirname(new URL(import.meta.url).pathname), '../public/fonts/RethinkSans-Regular.ttf')}')}
 @font-face{font-family:R;font-weight:600;src:url('file://${join(dirname(new URL(import.meta.url).pathname), '../public/fonts/RethinkSans-SemiBold.ttf')}')}
 html,body{margin:0;width:1600px;height:1000px;background:#fff;font-family:R,system-ui,sans-serif;color:${b.ink}}
 .w{padding:70px 90px;height:100%;box-sizing:border-box;display:flex;flex-direction:column}
 .top{display:flex;justify-content:space-between;align-items:baseline;border-bottom:6px solid ${b.accent};padding-bottom:22px}
-.top b{font-size:44px;font-weight:600}.top span{font-size:30px;opacity:.6}
-.lb{margin:36px 0 10px;text-transform:uppercase;letter-spacing:.14em;font-size:24px;font-weight:600;opacity:.65}
-.l{font-size:44px;line-height:1.25;margin:14px 0;font-weight:600}.l small{display:block;font-size:24px;font-weight:400;opacity:.6;margin-top:4px}
-.ft{margin-top:auto;display:flex;align-items:center;gap:18px;font-size:30px}
-.pdf{background:${b.accent};color:${b.ink};font-weight:600;border-radius:12px;padding:10px 20px;font-size:28px}
+.top b{font-size:52px;font-weight:600}.top span{font-size:34px;opacity:.6}
+.lb{margin:34px 0 6px;text-transform:uppercase;letter-spacing:.14em;font-size:30px;font-weight:600;opacity:.65}
+.l{font-size:62px;line-height:1.15;margin:18px 0;font-weight:600;letter-spacing:-.01em}.l small{display:block;font-size:30px;font-weight:400;opacity:.6;margin-top:6px}
+.ft{margin-top:auto;display:flex;align-items:center;gap:20px;font-size:36px}
+.pdf{background:${b.accent};color:${b.ink};font-weight:600;border-radius:14px;padding:12px 24px;font-size:34px}
 </style></head><body><div class="w">
 <div class="top"><b>${esc(b.name)} · ${L.title}</b><span>${esc(opt('date') ?? new Date().toISOString().slice(0, 10))}</span></div>
 <p class="lb">${L.read}</p>
