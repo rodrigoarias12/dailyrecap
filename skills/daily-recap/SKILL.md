@@ -366,8 +366,9 @@ carries pages that are already public.
 cd <video> && node scripts/render.mjs <ws>/work/recap/<date>/recap.json <ws>/work/recap/<date>/recap.mp4
 ```
 
-**When someone is waiting for it, say so first.** Before a render the owner asked for (the
-first video, a `daily-recap: run`, a re-cut after a correction, the launch video), send one short
+**When someone is waiting for it, say so first.** Before a render the owner asked for (a
+`daily-recap: run`, a re-cut after a correction, the launch video; not the first video, whose
+step 3 message already said it), send one short
 message with the `message` tool (`action: "send"`, no `target` in this same conversation; never
 as your reply: the reply arrives with the video) and only then start the render: "Cutting your video now: about
 N minutes." N is `Last render: N min` under "Setup" in `MEMORY.md` (rounded up; 15 for the first
