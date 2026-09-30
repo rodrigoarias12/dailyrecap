@@ -11,9 +11,10 @@
 # UNVERIFIED (2026-09-23): Plow publishes no CPU/RAM/disk limits for hosted agents. A Remotion
 # render needs headless Chrome and ~2 GB RAM. If renders fail in the cloud, the fallback is
 # documented in README: the agent runs on Plow and renders on the owner's Mac through Latch.
-# 771198a9 counts usage correctly (7ce757a1 dropped compressed events). On 29/9 an agent on it
-# hung on the first video's render; 30/9 it is being tested again on Willow before promotion.
-FROM public.ecr.aws/e1h7x4a2/plow-cloud-agents:base-771198a9609dcef54d44843e7da5329c17fa51b4@sha256:f1e7c421b97a80f1bd17015f96daceb965f350a241f7edc7e4d856a0e3a6f8f5
+# On 7ce757a1 until Plow gives agent machines more memory: on 771198a9 the base takes ~440 MB more
+# at idle (Plow, 30/9), and the video render runs out of memory and hangs the agent, even at
+# concurrency 1 (tested on Willow 30/9). 771198a9 counts usage better; move once Plow says so.
+FROM public.ecr.aws/e1h7x4a2/plow-cloud-agents:base-7ce757a1745de286dd180c5c5182aca31eba8a75@sha256:6e5e1a11a8c6e2ef6ecaa5e7b429e778a9a3befaf416a09922aaaa4a5b21d647
 
 # Which agent this reports as on the Agent Index. Without it nothing is reported.
 ENV AGENT_ID=dailyrecap
