@@ -10,6 +10,7 @@
 import { execFileSync, spawnSync } from 'node:child_process';
 import { cpSync, existsSync, mkdirSync, readFileSync, renameSync, statSync, writeFileSync } from 'node:fs';
 import { resolve, basename, dirname, join } from 'node:path';
+import { totalmem } from 'node:os';
 
 const SCRIPT = process.argv[2], OUT = process.argv[3];
 if (!SCRIPT || !OUT) { console.error('usage: render.mjs <script.json> <out.mp4 | --check>'); process.exit(1); }
@@ -106,7 +107,13 @@ mkdirSync(dirname(OUT), { recursive: true });
 console.log(`render: ${composition} · ${current.scenes.length} scenes · ${total.toFixed(1)}s · ${current.narration?.length ?? 0} voice lines → ${OUT}`);
 // In a container (dev/Dockerfile) Remotion uses the system Chromium instead of downloading one.
 const chrome = process.env.DAILYRECAP_CHROME ? [`--browser-executable=${process.env.DAILYRECAP_CHROME}`] : [];
-execFileSync('npx', ['remotion', 'render', 'src/index.ts', composition, OUT, `--props=${SCRIPT}`, '--codec=h264', '--crf=23', '--log=error', ...chrome], { cwd: ROOT, stdio: 'inherit' });
+// On a small machine, one frame at a time. Remotion renders a frame per core in parallel and each
+// tab costs memory; a Plow agent machine has 2 GB and, on base 771198a9, only ~740 MB left for the
+// agent (Plow, 30/9). Slower, but it finishes instead of running out of memory.
+const small = totalmem() < 3 * 1024 ** 3 || process.env.DAILYRECAP_LOW_MEMORY === '1';
+const lean = small ? ['--concurrency=1', '--offthreadvideo-cache-size-in-bytes=67108864'] : [];
+if (small) console.log(`render: small machine (${(totalmem() / 1024 ** 3).toFixed(1)} GB), one frame at a time`);
+execFileSync('npx', ['remotion', 'render', 'src/index.ts', composition, OUT, `--props=${SCRIPT}`, '--codec=h264', '--crf=23', '--log=error', ...lean, ...chrome], { cwd: ROOT, stdio: 'inherit' });
 
 // Chat channels choke on big files well before their documented limits (a 7.6 MB recap
 // failed on Telegram, 4.9 MB went through; on Plow's iMessage the first video failed on
