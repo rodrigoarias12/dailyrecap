@@ -27,8 +27,13 @@ function MacMini({ size }: { size: number }) {
   );
 }
 
-function Steps({ wide }: { wide: boolean }) {
-  const steps = ['Text your website', "Get your company's day as a 30-second video", 'Every weekday at 6 pm, ✓ verified'];
+const STEPS = {
+  en: ['Text your website', "Get your company's day as a 30-second video", 'Every weekday at 6 pm, ✓ verified'],
+  es: ['Mandá un mensaje desde tu iPhone', 'Pasale el sitio web de tu empresa', 'Recibí el día de tu empresa en 30 segundos'],
+};
+
+function Steps({ wide, es }: { wide: boolean; es?: boolean }) {
+  const steps = STEPS[es ? 'es' : 'en'];
   return (
     <div style={{ display: 'flex', flexDirection: wide ? 'column' : 'column', gap: 14 }}>
       {steps.map((s, i) => (
@@ -41,7 +46,7 @@ function Steps({ wide }: { wide: boolean }) {
   );
 }
 
-function Card({ wide }: { wide: boolean }) {
+function Card({ wide, es }: { wide: boolean; es?: boolean }) {
   const pad = wide ? 90 : 80;
   return (
     <AbsoluteFill style={{ background: C.ink, padding: pad }}>
@@ -50,26 +55,36 @@ function Card({ wide }: { wide: boolean }) {
       <div style={{ display: 'flex', alignItems: 'center', gap: 18, position: 'relative' }}>
         <Mark size={54} color={C.accent} />
         <p style={type(40, 600, { color: C.light })}>DailyRecap</p>
-        <p style={type(24, 600, { color: 'rgba(253,255,252,.55)', marginLeft: 'auto', letterSpacing: '0.16em', textTransform: 'uppercase' })}>OpenClaw 2.0 hackathon</p>
+        <p style={type(24, 600, { color: 'rgba(253,255,252,.55)', marginLeft: 'auto', letterSpacing: '0.16em', textTransform: 'uppercase' })}>{es ? 'Hackathon OpenClaw 2.0' : 'OpenClaw 2.0 hackathon'}</p>
       </div>
       <div style={{ position: 'relative', display: 'flex', flexDirection: wide ? 'row' : 'column', flex: 1, marginTop: wide ? 40 : 50, gap: wide ? 40 : 0 }}>
         <div style={{ flex: wide ? '0 0 58%' : undefined }}>
-          <p style={type(wide ? 76 : 96, 600, { color: C.light, lineHeight: wide ? 1.24 : 1.1, letterSpacing: '-0.035em' })}>
-            Try it. If we win, our top user takes home an engraved{' '}
-            <span style={{ background: C.accent, color: C.ink, borderRadius: 18, padding: '0 16px', whiteSpace: 'nowrap' }}>Mac mini.</span>
-          </p>
+          {es ? (
+            <>
+              <p style={type(112, 600, { color: C.light, lineHeight: 1.1, letterSpacing: '-0.04em' })}>
+                ¿Querés ganarte una{' '}
+                <span style={{ background: C.accent, color: C.ink, borderRadius: 20, padding: '0 18px', whiteSpace: 'nowrap' }}>Mac mini?</span>
+              </p>
+              <p style={type(40, 500, { color: 'rgba(253,255,252,.8)', lineHeight: 1.3, marginTop: 28 })}>Si DailyRecap gana el hackathon, su usuario más activo se lleva una, grabada.</p>
+            </>
+          ) : (
+            <p style={type(wide ? 76 : 96, 600, { color: C.light, lineHeight: wide ? 1.24 : 1.1, letterSpacing: '-0.035em' })}>
+              Try it. If we win, our top user takes home an engraved{' '}
+              <span style={{ background: C.accent, color: C.ink, borderRadius: 18, padding: '0 16px', whiteSpace: 'nowrap' }}>Mac mini.</span>
+            </p>
+          )}
           {wide && <div style={{ marginTop: 44 }}><Steps wide /></div>}
         </div>
         <div style={{ flex: 1, display: 'grid', placeItems: 'center', marginTop: wide ? 0 : -30, marginBottom: wide ? 0 : 40 }}>
           <MacMini size={wide ? 400 : 320} />
         </div>
       </div>
-      {!wide && <div style={{ position: 'relative', marginBottom: 40 }}><Steps wide={false} /></div>}
+      {!wide && <div style={{ position: 'relative', marginBottom: 40 }}><Steps wide={false} es={es} /></div>}
       <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 24, flexWrap: 'wrap', marginTop: wide ? 30 : 0 }}>
         <div style={{ padding: '20px 34px', borderRadius: 999, background: C.accent }}>
           <p style={type(34, 600, { color: C.ink })}>{URL}</p>
         </div>
-        <p style={type(24, 500, { color: 'rgba(253,255,252,.6)', lineHeight: 1.3 })}>One text from your iPhone.<br />Standings close Sep 30, 11:59 pm PT.</p>
+        <p style={type(24, 500, { color: 'rgba(253,255,252,.6)', lineHeight: 1.3 })}>{es ? <>Cierra el 30/9 a las 23:59<br />(hora del Pacífico).</> : <>One text from your iPhone.<br />Standings close Sep 30, 11:59 pm PT.</>}</p>
       </div>
       <div style={{ position: 'absolute', inset: 0, backgroundImage: `url(${staticFile('fx/grain.png')})`, opacity: 0.06, mixBlendMode: 'overlay' }} />
     </AbsoluteFill>
@@ -78,3 +93,4 @@ function Card({ wide }: { wide: boolean }) {
 
 export const SocialSquare = () => <Card wide={false} />;
 export const SocialWide = () => <Card wide />;
+export const SocialEs = () => <Card wide={false} es />;
