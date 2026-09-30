@@ -381,10 +381,18 @@ Background `exec`, poll with `process`. Then deliver where the team asked (MEMOR
 
 - **The run is delivered to the channel** (the daily cron is created with delivery to the
   team's channel and target; a turn started from that chat replies there). Then your reply
-  IS the delivery: put `MEDIA:<absolute path to recap.mp4>` on its own line, then the
+  IS the delivery: put `MEDIA:<absolute path to recap.mp4>` on its own line, then
+  `MEDIA:<absolute path to brief.pdf>` on the next (the written brief, below), then the
   one-sentence summary as the caption, then "reply with a correction and I re-cut".
 - **Any other target** (a second group, someone who asked): the `message` tool with the
   channel, the target id and the file path, and you read its result.
+
+**The written brief goes with every recap** (not with the first video, which has no data of
+its own yet): the same recap as a PDF, every number and row with its source and its mark, and
+the day's raw material with its links at the end, for someone who wants to read it or forward it.
+It is built by code from the video's script, so it says nothing the video does not:
+`node <video>/scripts/brief.mjs <ws>/work/recap/<date>/recap.json <ws>/work/recap/<date>/brief.pdf --gathered <ws>/work/recap/<date>/gathered.md --date "<weekday, date>"`.
+If it fails, the video still goes out; say the brief did not build.
 
 A send you did not see confirmed (the tool's result, or the delivered reply) is not a
 send. Never write "sent" or "above" about something you only intended, and never in the same
