@@ -157,6 +157,8 @@ y el digest se lee del registro (está anotado en el Dockerfile cuando se pineó
 | 28/9 | `a98e0673…` | 35f26d0 | rondas a las 10, 13 y 16 (en silencio), pulso del mediodía opcional, «estoy armando tu video: N min» antes del render, zona horaria dudosa dicha como algo a corregir |
 | 29/9 | `dffaf5cb…` | d86af89 | aviso inmediato al recibir el sitio («On it: reading <site>…», message action send), en AGENTS.md y en la skill |
 | 29/9 | `623229fd…` | 3a25a5b | base de Plow 771198a9 (PR #9 de Plow): cuenta bien los tokens de los eventos comprimidos; OpenClaw 2026.9.6 |
+| 30/9 | `623229fd…` → `dffaf5cb…` | — | ROLLBACK: sobre la base 771198a9 Willow se colgó en el render del primer video (7 h sin responder) |
+| 30/9 | `4de44c79…` | bbffd94 | de vuelta en la base 7ce757a1 (OpenClaw 2026.9.4); el primer video lleva un aviso menos |
 
 Las instalaciones que ya corren conservan su imagen: Plow no las actualiza. Se promueve con la
 cuenta dueña: `plow-agents --token-file ~/.config/plow/token-owner-a05c7a47 image promote dailyrecap ghcr.io/…@sha256:…`.
