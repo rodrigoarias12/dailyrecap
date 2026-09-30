@@ -7,22 +7,29 @@
  * the HTML, the same browser the video uses.
  *
  *   node scripts/brief.mjs <recap.json> <out.pdf> [--gathered gathered.md] [--date "Tuesday, Sep 30"]
+ *   node scripts/brief.mjs <recap.json> --card <out.png> [--date …]
+ *
+ * --card draws the brief's front as a 1600×1000 picture for the video: the agent's reading of the
+ * day and where the rest is. The video shows the brief itself, not a slide about it.
  */
 import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync, writeFileSync, mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 
-const [SCRIPT, OUT, ...rest] = process.argv.slice(2);
-if (!SCRIPT || !OUT) { console.error('usage: brief.mjs <recap.json> <out.pdf> [--gathered file] [--date text]'); process.exit(2); }
+const [SCRIPT, OUT0, ...rest0] = process.argv.slice(2);
+const CARD = OUT0 === '--card' ? rest0[0] : undefined;
+const OUT = CARD ? undefined : OUT0;
+const rest = CARD ? rest0.slice(1) : rest0;
+if (!SCRIPT || (!OUT && !CARD)) { console.error('usage: brief.mjs <recap.json> <out.pdf> [--gathered file] [--date text]'); process.exit(2); }
 const opt = (k) => { const i = rest.indexOf(`--${k}`); return i >= 0 ? rest[i + 1] : undefined; };
 const script = JSON.parse(readFileSync(SCRIPT, 'utf8'));
 const gathered = opt('gathered') && existsSync(opt('gathered')) ? readFileSync(opt('gathered'), 'utf8') : '';
 const b = script.brand;
 const es = String(script.lang ?? 'en').startsWith('es');
 const L = es
-  ? { title: 'Resumen del día', analysis: 'Análisis del agente (su lectura, no un dato)', basedOn: 'se apoya en', verified: '✓ verificado', reported: 'reportado', source: 'Fuente', tomorrow: 'Mañana', raw: 'Material del día, con sus fuentes', made: 'Hecho por DailyRecap a partir de los datos: cada fila dice de dónde sale.' }
-  : { title: 'Daily brief', analysis: "The agent's analysis (its reading, not a fact)", basedOn: 'based on', verified: '✓ verified', reported: 'reported', source: 'Source', tomorrow: 'Tomorrow', raw: "The day's material, with its sources", made: 'Made by DailyRecap from the data: every row says where it comes from.' };
+  ? { read: 'Mi lectura del día', more: 'El resumen completo, con cada fuente, está en el PDF.', title: 'Resumen del día', analysis: 'Análisis del agente (su lectura, no un dato)', basedOn: 'se apoya en', verified: '✓ verificado', reported: 'reportado', source: 'Fuente', tomorrow: 'Mañana', raw: 'Material del día, con sus fuentes', made: 'Hecho por DailyRecap a partir de los datos: cada fila dice de dónde sale.' }
+  : { read: 'My read of the day', more: 'The full brief, with every source, is in the PDF.', title: 'Daily brief', analysis: "The agent's analysis (its reading, not a fact)", basedOn: 'based on', verified: '✓ verified', reported: 'reported', source: 'Source', tomorrow: 'Tomorrow', raw: "The day's material, with its sources", made: 'Made by DailyRecap from the data: every row says where it comes from.' };
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 const mark = (v) => (v === true ? `<span class="mk ok">${L.verified}</span>` : v === false ? `<span class="mk rep">${L.reported}</span>` : '');
 const link = (s) => esc(s).replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1">$1</a>');
@@ -68,12 +75,35 @@ ${gathered ? `<section><p class="lb">${L.raw}</p><pre>${link(gathered.slice(0, 1
 <footer>${L.made}</footer>
 </body></html>`;
 
+// The card: the brief's front, big enough to read on a phone inside the video.
+const lines = (Array.isArray(script.analysis) ? script.analysis : []).slice(0, 3);
+const card = `<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:R;src:url('file://${join(dirname(new URL(import.meta.url).pathname), '../public/fonts/RethinkSans-Regular.ttf')}')}
+@font-face{font-family:R;font-weight:600;src:url('file://${join(dirname(new URL(import.meta.url).pathname), '../public/fonts/RethinkSans-SemiBold.ttf')}')}
+html,body{margin:0;width:1600px;height:1000px;background:#fff;font-family:R,system-ui,sans-serif;color:${b.ink}}
+.w{padding:70px 90px;height:100%;box-sizing:border-box;display:flex;flex-direction:column}
+.top{display:flex;justify-content:space-between;align-items:baseline;border-bottom:6px solid ${b.accent};padding-bottom:22px}
+.top b{font-size:44px;font-weight:600}.top span{font-size:30px;opacity:.6}
+.lb{margin:36px 0 10px;text-transform:uppercase;letter-spacing:.14em;font-size:24px;font-weight:600;opacity:.65}
+.l{font-size:44px;line-height:1.25;margin:14px 0;font-weight:600}.l small{display:block;font-size:24px;font-weight:400;opacity:.6;margin-top:4px}
+.ft{margin-top:auto;display:flex;align-items:center;gap:18px;font-size:30px}
+.pdf{background:${b.accent};color:${b.ink};font-weight:600;border-radius:12px;padding:10px 20px;font-size:28px}
+</style></head><body><div class="w">
+<div class="top"><b>${esc(b.name)} · ${L.title}</b><span>${esc(opt('date') ?? new Date().toISOString().slice(0, 10))}</span></div>
+<p class="lb">${L.read}</p>
+${lines.map((a) => `<p class="l">${esc(a.text)}${a.basedOn ? `<small>${L.basedOn}: ${esc(a.basedOn)}</small>` : ''}</p>`).join('')}
+<div class="ft"><span class="pdf">PDF</span><span>${L.more}</span></div>
+</div></body></html>`;
+
 const dir = mkdtempSync(join(tmpdir(), 'brief-'));
 const page = join(dir, 'brief.html');
-writeFileSync(page, html);
+writeFileSync(page, CARD ? card : html);
 const chrome = process.env.DAILYRECAP_CHROME
   ?? ['/usr/bin/chromium', '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'].find((p) => existsSync(p));
 if (!chrome) { console.error('brief: no Chromium found (set DAILYRECAP_CHROME)'); process.exit(1); }
-execFileSync(chrome, ['--headless=new', '--disable-gpu', '--no-sandbox', '--no-pdf-header-footer', `--print-to-pdf=${OUT}`, `file://${page}`], { stdio: 'ignore', timeout: 120000 });
+const target = CARD
+  ? ['--hide-scrollbars', '--window-size=1600,1000', `--screenshot=${CARD}`]
+  : ['--no-pdf-header-footer', `--print-to-pdf=${OUT}`];
+execFileSync(chrome, ['--headless=new', '--disable-gpu', '--no-sandbox', ...target, `file://${page}`], { stdio: 'ignore', timeout: 120000 });
 rmSync(dir, { recursive: true, force: true });
-console.log(`brief: ${OUT}`);
+console.log(`brief: ${CARD ?? OUT}`);

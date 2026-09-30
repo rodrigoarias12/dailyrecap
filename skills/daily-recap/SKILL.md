@@ -341,11 +341,18 @@ it stands on. They go in `recap.json` as `"analysis": [{ "text": "…", "basedOn
 source>" }]`: the brief prints them under their own heading, apart from the facts. No number in
 the analysis that is not already in a row.
 
-**The video carries one of them, and points at the brief.** Just before the closing, one `title`
-scene with the sharpest line (the risk, or tomorrow's question), labeled so nobody takes it for a
-fact: `"label": "My read"` (in Spanish, `"Mi lectura"`). And the `closing` CTA says the rest is
-in writing: "The full brief, with every source, is in the PDF." (in Spanish, "El resumen completo,
-con cada fuente, está en el PDF."). The first video has no brief yet, so it skips both.
+**The video shows the brief itself.** Before rendering, draw the brief's front, a 1600×1000
+picture with your reading of the day and where the rest is, and put it in the video as one
+`cover` scene just before the closing:
+
+```
+node <video>/scripts/brief.mjs <ws>/work/recap/<date>/recap.json --card <ws>/work/assets/screens/<date>/brief.png --date "<weekday, date>"
+```
+
+The scene: `{ "type": "cover", "image": "assets/screens/<date>/brief.png", "label": "My read",
+"text": "The full brief, with every source, is in the PDF.", "voice": "<your sharpest line>" }`
+(in Spanish, "Mi lectura" and "El resumen completo, con cada fuente, está en el PDF."). The
+label says it is your reading, not a fact. The first video has no brief yet, so it skips it.
 
 Write `<ws>/work/recap/<date>/recap.json` by **copying the shape of
 `<video>/example/tiktok.json`** (with the owner's `brand` block from `MEMORY.md`, never the example's Acme Ops; `credit: false`,
