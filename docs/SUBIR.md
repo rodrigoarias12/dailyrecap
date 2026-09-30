@@ -160,6 +160,7 @@ y el digest se lee del registro (está anotado en el Dockerfile cuando se pineó
 | 30/9 | `623229fd…` → `dffaf5cb…` | — | ROLLBACK: sobre la base 771198a9 Willow se colgó en el render del primer video (7 h sin responder) |
 | 30/9 | `4de44c79…` | bbffd94 | de vuelta en la base 7ce757a1 (OpenClaw 2026.9.4); el primer video lleva un aviso menos |
 | 30/9 | `cbc59cb0…` | 26ce733 | hilos con otros agentes: NO_REPLY a todo; el chat privado lee pending.json y peers/ antes de hablar de ellos |
+| 30/9 | `110b2e11…` | b910501 | Claude Sonnet 5 (GLM de respaldo), verificación a fondo, análisis del agente, la portada del resumen en el video y el PDF con cada fuente; render liviano en máquinas chicas |
 
 Las instalaciones que ya corren conservan su imagen: Plow no las actualiza. Se promueve con la
 cuenta dueña: `plow-agents --token-file ~/.config/plow/token-owner-a05c7a47 image promote dailyrecap ghcr.io/…@sha256:…`.
