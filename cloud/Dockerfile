@@ -30,6 +30,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
  && python3 -m venv /opt/edge-tts && /opt/edge-tts/bin/pip install -q edge-tts
 ENV PATH=/opt/edge-tts/bin:$PATH
 
+# Boot regenerates openclaw.json on every start: wrap the base's renderConfig with ours (the
+# model). Fail the build if the base renames the function, so an update cannot drop it silently.
+COPY cloud/dailyrecap-config.js /tmp/dailyrecap-config.js
+RUN grep -q '^export function renderConfig(' /opt/plow/boot/config.js \
+    && sed -i 's/^export function renderConfig(/function renderConfigBase(/' /opt/plow/boot/config.js \
+    && cat /tmp/dailyrecap-config.js >> /opt/plow/boot/config.js \
+    && rm /tmp/dailyrecap-config.js
 COPY AGENTS.md /opt/plow/prompt/AGENTS.md
 COPY skills/ /opt/plow/skills/
 COPY sources/ /opt/dailyrecap/sources/
