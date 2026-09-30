@@ -72,6 +72,8 @@ export type Script = {
    * text, big, and a caption under a headline is two texts competing for the same eye.
    */
   captions?: boolean;
+  /** The agent's reading of the day, for the written brief only (never on screen): what changed, a risk, tomorrow's question, each naming the row it stands on. */
+  analysis?: { text: string; basedOn?: string }[];
 };
 
 export const frames = (seconds: number) => Math.round(seconds * FPS);

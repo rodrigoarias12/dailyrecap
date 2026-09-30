@@ -45,7 +45,7 @@ else {
   for (const k of ['name', 'accent', 'ink', 'bg']) if (!isStr(script.brand[k])) errors.push(`brand.${k}: missing`);
   if (typeof script.brand.url !== 'string') errors.push('brand.url: must be a string (may be empty)');
 }
-for (const k of Object.keys(script)) if (!['brand', 'format', 'style', 'lang', 'voiceId', 'scenes', 'narration', 'music', 'credit', 'captions'].includes(k)) errors.push(`${k}: unknown top-level field`);
+for (const k of Object.keys(script)) if (!['brand', 'format', 'style', 'lang', 'voiceId', 'scenes', 'narration', 'music', 'credit', 'captions', 'analysis'].includes(k)) errors.push(`${k}: unknown top-level field`);
 if (script.style !== undefined && script.style !== 'tiktok') errors.push('style: the only style is "tiktok" (or leave it out)');
 // Ink on the accent (the closing card, the pills) and ink on the background must be readable.
 function lum(hex) { const m = /^#?([0-9a-f]{6})$/i.exec(hex ?? ''); if (!m) return null; const c = [0, 2, 4].map(i => parseInt(m[1].slice(i, i + 2), 16) / 255).map(v => v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; }

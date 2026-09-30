@@ -73,7 +73,8 @@ what they can connect next.
    > · numbers: connect Odoo or a report link
    > · team: add who I ask every day (your team, or your other agents)
    > · repos: add your repos
-   > Reply one of those words, or "later". "settings" shows everything I know.
+   > Reply one of those words, or "later". "settings" shows everything I know. And you can ask
+   > me anything about what I found: "why did orders drop?", "what's still unverified?"
    A word starts that item's questions (words, not numbers, so it never mixes with the numbered
    `settings` list). `connect` shows this list again, any day (the setup below says what each needs). They can pick
    more than one, now or any day.
@@ -314,10 +315,37 @@ A recap is not a list. The beats, in order, each one scene of 2–4 s:
 | 9 | agenda | tomorrow: meetings, releases, deadlines; from the scheduling assistant when there is one |
 | 10 | closing | "Tomorrow's …" and the hour |
 
-**Mark what you checked.** Every `metric`, `chart` and events row carries `verified`: `true`
-when you opened its source (the commit, the issue, the Odoo record, the sheet row), `false`
-when someone only told you. The video prints it next to the source: that difference is the
-product.
+**Mark what you checked, and check it for real.** Every `metric`, `chart` and events row carries
+`verified`: `true` when you opened its source and it says what the row says, `false` when someone
+only told you. The video and the brief print it next to the source: that difference is the
+product, so the ✓ has to be earned, row by row:
+
+1. **Open the page of each one.** Every row that points at something you can open, you open
+   before you mark it: the PR or the commit (`curl -s https://api.github.com/repos/<owner>/<repo>/pulls/<n>`:
+   is it merged, when, by whom, what it changes), the release, the Odoo record (`odoo.mjs` already
+   read it: find it in its output), the sheet row, the URL someone gave you (`curl -sL`, read the
+   text). An agent's or a person's answer that names something ("PR #212", "the Northwind demo")
+   is checked against that thing, not against the answer.
+2. **Compare, don't skim.** The row says what the source says, in its words and its numbers. A
+   PR "merged" that is still open, a number that differs, a date that is another day: fix the
+   row to what the source says and note the difference, or mark it `false` if you cannot tell.
+3. **Write what you read** in `gathered.md`, one line per row: `checked: <what you opened> ·
+   <what it says>`. It goes in the brief's appendix, so anyone can follow the ✓ back to the page.
+
+Nothing you could not open gets a ✓, however sure the person who told you sounded.
+
+**Write the analysis, marked as analysis.** After the facts, three or four sentences only you
+can write because you read everything today: what changed against yesterday's recap in
+`shipped/`, one risk you see, and the question you would ask tomorrow. Each one names the row
+it stands on. They go in `recap.json` as `"analysis": [{ "text": "…", "basedOn": "<the row or
+source>" }]`: the brief prints them under their own heading, apart from the facts. No number in
+the analysis that is not already in a row.
+
+**The video carries one of them, and points at the brief.** Just before the closing, one `title`
+scene with the sharpest line (the risk, or tomorrow's question), labeled so nobody takes it for a
+fact: `"label": "My read"` (in Spanish, `"Mi lectura"`). And the `closing` CTA says the rest is
+in writing: "The full brief, with every source, is in the PDF." (in Spanish, "El resumen completo,
+con cada fuente, está en el PDF."). The first video has no brief yet, so it skips both.
 
 Write `<ws>/work/recap/<date>/recap.json` by **copying the shape of
 `<video>/example/tiktok.json`** (with the owner's `brand` block from `MEMORY.md`, never the example's Acme Ops; `credit: false`,

@@ -21,8 +21,8 @@ const gathered = opt('gathered') && existsSync(opt('gathered')) ? readFileSync(o
 const b = script.brand;
 const es = String(script.lang ?? 'en').startsWith('es');
 const L = es
-  ? { title: 'Resumen del día', verified: '✓ verificado', reported: 'reportado', source: 'Fuente', tomorrow: 'Mañana', raw: 'Material del día, con sus fuentes', made: 'Hecho por DailyRecap a partir de los datos: cada fila dice de dónde sale.' }
-  : { title: 'Daily brief', verified: '✓ verified', reported: 'reported', source: 'Source', tomorrow: 'Tomorrow', raw: "The day's material, with its sources", made: 'Made by DailyRecap from the data: every row says where it comes from.' };
+  ? { title: 'Resumen del día', analysis: 'Análisis del agente (su lectura, no un dato)', basedOn: 'se apoya en', verified: '✓ verificado', reported: 'reportado', source: 'Fuente', tomorrow: 'Mañana', raw: 'Material del día, con sus fuentes', made: 'Hecho por DailyRecap a partir de los datos: cada fila dice de dónde sale.' }
+  : { title: 'Daily brief', analysis: "The agent's analysis (its reading, not a fact)", basedOn: 'based on', verified: '✓ verified', reported: 'reported', source: 'Source', tomorrow: 'Tomorrow', raw: "The day's material, with its sources", made: 'Made by DailyRecap from the data: every row says where it comes from.' };
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 const mark = (v) => (v === true ? `<span class="mk ok">${L.verified}</span>` : v === false ? `<span class="mk rep">${L.reported}</span>` : '');
 const link = (s) => esc(s).replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1">$1</a>');
@@ -55,7 +55,7 @@ section{margin:0 0 14px;page-break-inside:avoid}
 .meta,.src{opacity:.75;font-size:9.5pt}.row{padding:5px 0;border-bottom:1px solid #0001}
 .tag{display:inline-block;min-width:64px;font-weight:600;font-size:9pt;opacity:.75}
 .mk{font-size:8.5pt;font-weight:600;border-radius:99px;padding:1px 8px;white-space:nowrap}
-.ok{background:${b.accent};color:${b.ink}}.rep{border:1px solid #0004}
+.ok{background:${b.accent};color:${b.ink}}.an{background:#0000000a;border-radius:8px;padding:10px 12px}.rep{border:1px solid #0004}
 table.ser{border-collapse:collapse;margin:6px 0}table.ser td{font-size:8.5pt;padding:2px 10px 2px 0;opacity:.85}
 blockquote{margin:0;font-size:12pt;border-left:3px solid ${b.accent};padding-left:12px}
 pre{white-space:pre-wrap;font-family:inherit;font-size:8.5pt;opacity:.8;border-top:1px solid #0002;padding-top:8px}
@@ -63,6 +63,7 @@ a{color:inherit}footer{margin-top:18px;font-size:8.5pt;opacity:.6}
 </style></head><body>
 <header><div><h1>${esc(b.name)} · ${L.title}</h1><div class="date">${esc(opt('date') ?? new Date().toISOString().slice(0, 10))}</div></div><div class="date">${esc(b.url ?? '')}</div></header>
 ${blocks.join('\n')}
+${Array.isArray(script.analysis) && script.analysis.length ? `<section class="an"><p class="lb">${L.analysis}</p>${script.analysis.map((a) => `<div class="row">${esc(a.text)}${a.basedOn ? ` <span class="src">· ${L.basedOn}: ${link(a.basedOn)}</span>` : ''}</div>`).join('')}</section>` : ''}
 ${gathered ? `<section><p class="lb">${L.raw}</p><pre>${link(gathered.slice(0, 12000))}</pre></section>` : ''}
 <footer>${L.made}</footer>
 </body></html>`;
