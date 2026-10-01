@@ -109,6 +109,49 @@ What we hit between Sept 26 and Oct 1, from the builder's side and the installer
     link it is off. We
     already work with the WhatsApp Business API at YoRobot.
 
+## From our session logs: smaller things, each one seen
+
+Compiled by Claude, the coding agent we built with, from the session transcripts of Sept 24 to
+Oct 1; dates are when we saw them. Items we could not tell apart from our own bugs are left out.
+
+18. **No way to replace an agent on a line.** `deploy` answers 409 until you revoke, and if the
+    new deploy then fails (a bad reference, a rate-limited pull), the line is left with no agent.
+    A `deploy --replace` that retires the old agent only once the new one is `running` (24/9–28/9).
+19. **`teardown` can hang for hours, silently.** An agent sat in `teardown` from 13:35 to 18:42
+    UTC on Sept 29, polled every 20 s, until a second revoke; the same number had an agent on our
+    other account. A timeout that ends in `failed` with a reason.
+20. **The base image is rate-limited on public.ecr.aws.** Seven builds failed with
+    `toomanyrequests: Data limit exceeded`, most of them right after you asked everyone to rebuild
+    on 771198a9. A mirror on ghcr.io or Docker Hub would avoid it.
+21. **The usage fix shipped together with a memory regression.** 771198a9 counts usage correctly
+    but leaves less memory; we had to choose between counted usage and a working agent, and every
+    install on the older base under-counts for good. Shipping reporting fixes as their own patch
+    on the current base would avoid that choice.
+22. **A message to a non-iMessage contact stays `sent` forever.** It never becomes `delivered`
+    or `failed` and the agent is not told; our scheduling agent believed it had sent a message
+    nobody received (27/9). An `undeliverable` status after N minutes, reported to the agent.
+23. **An SMS install succeeds but cannot talk.** Reception accepts SMS, the agent's line is
+    iMessage-only, and the Index counts the install as succeeded (27/9, and 7 of 8 "succeeded" with
+    no reason for the eighth). Say it in the reply when the install arrives by SMS, count an install
+    once the first exchange happens, and tell the builder why one failed.
+24. **The attachment size limit is not documented.** A 1.4 MB video went through, a larger one
+    came back as "Delivery failed" in the owner's thread only; the agent's tool was not told.
+25. **Agent-to-agent threads include the owner and a contact card.** `plow_start_thread` makes
+    a group with the owner in it, and a `.vcf` card arrives first; the other agent answered the card
+    and its welcome landed in the group three times (30/9). A thread mode for agent-to-agent, or at
+    least marking the sender as an agent.
+26. **Ownership is tied to one account, and the CLI keeps one token.** Logging in with the second
+    handle overwrote the token and `promote` answered "you do not own dailyrecap"; there is no
+    transfer. Latch, the Mac connection, is also per account, and its error ("Device is not
+    connected") does not say which. Named CLI profiles and `listing transfer`.
+27. **The builder's own installs count as users.** With two handles the builder appears twice in
+    the agent's top users, once as "Anonymous builder". A "builder test install" flag that does not
+    count, and a public note when usage numbers are corrected, would keep the board readable.
+28. **Small things in the first hour.** `plow-agents` needs Python 3.11+ (`tomllib`) and says
+    nothing on macOS's 3.9; the listing is edited with two tools, and `agent_index_client.py
+    --register` tells a hosted agent to "run it every 5 minutes"; the listing page keeps only the
+    largest group of stories open, so a story with another tag is hidden.
+
 ## Onboarding v2: the same proof, one tap
 
 Why the user texts first: Apple does not let a business open an iMessage thread with a
