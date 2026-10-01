@@ -58,6 +58,40 @@ places where Plow could say something, ordered by how much time each would have 
     checks; either shape works. Without it, a builder's only fix for a live bug is asking
     every user to reinstall.
 
+## After the hackathon: six things we would fix first
+
+What we hit between Sept 26 and Oct 1, from the builder's side and the installer's.
+
+12. **Relaunch, and tell people.** A fix reaches nobody already installed (item 11). We had a
+    bug that texted owners every half hour; the fix was live in minutes and the people already
+    using the agent kept getting the texts. We need a way to move running installs to the new
+    image, and one line to each installer saying it happened.
+13. **Updates are invisible.** Neither the installer nor the listing ever hears that an agent
+    improved. We shipped a written brief, deep verification and a better model on Sept 30, and
+    the only people who know are us. A short changelog per promotion (`promote --note`), shown on
+    the listing and sent once to installers who opt in, would turn every release into a reason to
+    come back.
+14. **The listing does not say what Plow is.** A developer landing on an Agent Index page sees
+    "Text this agent" and a number, but nothing explains that the agent runs on Plow, in a private
+    container per person, reached by iMessage, with inference included. A short block on every
+    listing ("Runs on Plow: what it is, what you need (an iPhone or a Mac with iMessage), what
+    happens to your data, how to run it yourself") would answer the first three questions every
+    developer asks us.
+15. **Updating loses everything.** Today the only way to move an install to a new image is
+    revoke and deploy, which retires the chats and the state volume: the owner's setup, memory,
+    connected sources and history are gone, and the owner has to start again. A redeploy that
+    keeps `/var/lib/plow` and the chats (`plow-agents redeploy <line>`) is what makes updating safe.
+16. **A base bump can break an image without a word.** Base `771198a9` uses ~440 MB more at idle
+    on the same 2 GB machine (you confirmed it on Sept 30); our video render, which fit before, ran
+    out of memory and the agent hung for hours with no error to the owner or to us. Ideas: state
+    each base's idle memory in its release notes; let an image declare what it needs
+    (`plow.memory: 3GB`) or pick a larger machine; have the admission check measure peak memory of
+    a real run; and surface out-of-memory kills to the builder.
+17. **iMessage is a wall for Latin America.** Most people there use WhatsApp, even on iPhones;
+    most of the people we invited could not install. Maybe it is not your market today, but we
+    would be glad to help build a WhatsApp channel, for the fun of it or as a collaboration: we
+    already run WhatsApp for agents at YoRobot.
+
 ## Onboarding v2: the same proof, one tap
 
 Why the user texts first: Apple does not let a business open an iMessage thread with a
