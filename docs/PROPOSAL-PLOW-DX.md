@@ -91,6 +91,10 @@ What we hit between Sept 26 and Oct 1, from the builder's side and the installer
     each base's idle memory in its release notes; let an image declare what it needs
     (`plow.memory: 3GB`) or pick a larger machine; have the admission check measure peak memory of
     a real run; and surface out-of-memory kills to the builder.
+    OpenClaw already has part of this: `cron.failureAlert` routes failed scheduled jobs to a
+    destination, and `tools.exec.notifyOnExit` wakes the agent when a background process ends
+    (dead-man alerts for a stuck agent are still an open request upstream, openclaw#161049). On
+    Plow the cron tool is off, so `failureAlert` never applies, and nothing reaches the builder.
     More broadly, **a place where the builder hears about their agents' problems**: a health
     feed per listing (out-of-memory kills, crashes, turns stuck for more than N minutes, failed
     deliveries), across every install, without showing anyone's conversations, and one text to the
@@ -99,7 +103,10 @@ What we hit between Sept 26 and Oct 1, from the builder's side and the installer
     test agent hung for seven hours and we found out because the owner asked "and the video?".
 17. **iMessage is a wall for Latin America.** Most people there use WhatsApp, even on iPhones;
     most of the people we invited could not install. Maybe it is not your market today, but we
-    would be glad to help build a WhatsApp channel, for the fun of it or as a collaboration: we
+    would be glad to help, for the fun of it or as a collaboration. OpenClaw already ships a
+    production WhatsApp channel (WhatsApp Web, QR login, https://docs.openclaw.ai/channels/whatsapp);
+    the gap is that the Plow image does not include it and the Control UI where an owner would
+    link it is off. We
     already work with the WhatsApp Business API at YoRobot.
 
 ## Onboarding v2: the same proof, one tap
