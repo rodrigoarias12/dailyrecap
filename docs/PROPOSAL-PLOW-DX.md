@@ -90,7 +90,7 @@ What we hit between Sept 26 and Oct 1, from the builder's side and the installer
 17. **iMessage is a wall for Latin America.** Most people there use WhatsApp, even on iPhones;
     most of the people we invited could not install. Maybe it is not your market today, but we
     would be glad to help build a WhatsApp channel, for the fun of it or as a collaboration: we
-    already run WhatsApp for agents at YoRobot.
+    already work with the WhatsApp Business API at YoRobot.
 
 ## Onboarding v2: the same proof, one tap
 
