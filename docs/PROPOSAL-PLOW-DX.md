@@ -76,7 +76,11 @@ What we hit between Sept 26 and Oct 1, from the builder's side and the installer
     container per person, reached by iMessage, with inference included. A short block on every
     listing ("Runs on Plow: what it is, what you need (an iPhone or a Mac with iMessage), what
     happens to your data, how to run it yourself") would answer the first three questions every
-    developer asks us.
+    developer asks us. It happened to us: we came from the OpenClaw Discord, where the hackathon
+    was announced, and read it as "launch OpenClaw agents". Only on the video call with the Plow
+    team did we understand that Plow is the product that wraps an OpenClaw agent in a container
+    and launches it from a phone, by text. The Index promoting Plow makes sense; it just needs to
+    say what Plow is, for the developers it is meant to win.
 15. **Updating loses everything.** Today the only way to move an install to a new image is
     revoke and deploy, which retires the chats and the state volume: the owner's setup, memory,
     connected sources and history are gone, and the owner has to start again. A redeploy that
