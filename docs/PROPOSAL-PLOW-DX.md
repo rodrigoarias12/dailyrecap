@@ -131,6 +131,13 @@ side.
     secret is pasted anyway; deletion on revoke; and a short doc on where agent data lives and for
     how long. It is the rule we build YoRobot on: the credential never enters the model's context.
 
+17c. **The installer can't see or stop their agent outside the chat.** On Oct 1–2 people who had
+    installed DailyRecap asked it to stop in their own words and it kept texting them; it only
+    stopped when they typed "pause" (our bug, being fixed). But they had no other way out: nothing
+    outside the chat shows that they have an agent running, and they cannot remove it from the
+    phone. A simple page or app view per installer ("your agents: DailyRecap, running, [pause]
+    [remove]"), and a "remove" word the agent or reception always honors, would give them control.
+
 ## From our session logs: smaller things, each one seen
 
 Compiled by Claude, the coding agent we built with, from the session transcripts of Sept 24 to
