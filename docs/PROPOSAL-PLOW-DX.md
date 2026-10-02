@@ -62,6 +62,18 @@ places where Plow could say something, ordered by how much time each would have 
 
 What we hit between Sept 26 and Oct 1, from the builder's side and the installer's.
 
+**Overall, the area we would prioritize is onboarding.** Today it is not polished, neither for
+the person installing an agent nor for the developer building one, and most of the points below
+are symptoms of that. For the installer: texting from the Apple ID instead of the number, or by
+SMS instead of iMessage, means the agent never answers and nothing says why, and nobody explains
+that the agent lives on its own line and in its own container. For the developer: what Plow is,
+accounts vs. handles vs. lines, what the base overwrites at boot, which tools the agent gets,
+where the logs are, and how the listing is edited took us days across READMEs, the publish page
+and Discord. A guided first run for each side (a "you're set up, here's how it works" reply for
+installers; one "Hosting an agent on Plow" page and a `plow-agents doctor` for developers, items 4
+and 10) would remove most of it. "Onboarding v2", below, is a concrete shape for the installer's
+side.
+
 12. **Relaunch, and tell people.** A fix reaches nobody already installed (item 11). We had a
     bug that texted owners every half hour; the fix was live in minutes and the people already
     using the agent kept getting the texts. We need a way to move running installs to the new
