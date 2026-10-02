@@ -109,6 +109,16 @@ What we hit between Sept 26 and Oct 1, from the builder's side and the installer
     link it is off. We
     already work with the WhatsApp Business API at YoRobot.
 
+17b. **Secrets the owner gives the agent.** OpenClaw's SecretRefs keep the gateway's own
+    credentials out of plaintext (store, file, exec, HashiCorp Vault), and Latch keeps browser
+    credentials in the Mac's Keychain. But a password the owner texts to the agent, an Odoo key for
+    example, ends up in four places: the chat history, the session transcript, the model's context
+    and a plaintext file in the workspace. Proposed: a one-time link (or Latch) to hand over a
+    credential outside the chat; the agent holds only a reference that its tool resolves at run
+    time, so the value never reaches the conversation or the model; automatic redaction when a
+    secret is pasted anyway; deletion on revoke; and a short doc on where agent data lives and for
+    how long. It is the rule we build YoRobot on: the credential never enters the model's context.
+
 ## From our session logs: smaller things, each one seen
 
 Compiled by Claude, the coding agent we built with, from the session transcripts of Sept 24 to
